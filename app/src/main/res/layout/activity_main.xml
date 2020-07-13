@@ -19,5 +19,26 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
+    <Spinner
+        android:id="@+id/station_spinner1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/main_text"
+        />
+    <Spinner
+        android:id="@+id/station_spinner2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/station_spinner1"
+        />
+    <Button
+        android:id="@+id/station_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_text"
+        app:layout_constraintTop_toBottomOf="@id/station_spinner2"
+        app:layout_constrainedWidth="true"
+        android:layout_centerInParent="true"
+        android:gravity="center_horizontal" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

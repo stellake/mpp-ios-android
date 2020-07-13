@@ -1,3 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="stations_array">
+        <item>Harrow and Wealdstone</item>
+        <item>London Euston</item>
+        <item>Canley</item>
+        <item>Coventry</item>
+        <item>Birmingham New Street</item>
+    </string-array>
+
 </resources>
