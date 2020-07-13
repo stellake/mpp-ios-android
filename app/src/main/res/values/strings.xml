@@ -8,4 +8,6 @@
         <item>LDB</item>
         <item>CHX</item>
     </string-array>
+
+    <string name="get_times_button_name">Get Journeys</string>
 </resources>
