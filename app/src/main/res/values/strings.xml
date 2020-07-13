@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">KotlinMPP</string>
+    <string-array name="departing_stations_array">
+    <item>Canada Water</item>
+    <item>Stratford</item>
+    <item>Kings Cross</item>
+    <item>London Bridge</item>
+    <item>Waterloo</item>
+    </string-array>
+    <string-array name="departing_stations_codes">
+    <item>ZCW</item>
+    <item>SRA</item>
+    <item>KGX</item>
+    <item>LBG</item>
+    <item>WAT</item>
+    </string-array>
+
 </resources>
