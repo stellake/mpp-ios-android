@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.Spinner
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -20,17 +19,7 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
 
         presenter.onViewTaken(this)
 
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter(
-            this,
-//            R.array.stations_array,
-            android.R.layout.simple_spinner_item,
-            presenter.getStationNames().sorted()
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            departure_station_spinner.adapter = adapter
-            destination_station_spinner.adapter = adapter
-        }
+        updateDropDowns()
     }
 
     override fun setLabel(text: String) {
