@@ -5,6 +5,8 @@ import kotlinx.coroutines.CoroutineScope
 interface ApplicationContract {
     interface View {
         fun setLabel(text: String)
+        fun openURL(url:String)
+        fun getArrivalDepartureStations():Pair<String,String>
     }
 
     abstract class Presenter: CoroutineScope {
