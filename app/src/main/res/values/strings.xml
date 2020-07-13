@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">KotlinMPP</string>
+    <string name="departure_station">Departure Station</string>
+    <string name="arrival_station">Arrival Station</string>
 </resources>
