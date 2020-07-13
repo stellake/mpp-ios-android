@@ -55,7 +55,6 @@ extension ViewController: ApplicationContractView {
     }
     
     func openURL(url: String) {
-        print(url)
         UIApplication.shared.open(URL(string: url)!)
     }
     
