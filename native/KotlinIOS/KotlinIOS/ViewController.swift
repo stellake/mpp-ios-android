@@ -9,6 +9,8 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
     @IBOutlet private var departure_picker: UIPickerView!
     @IBOutlet private var arrival_picker: UIPickerView!
     
+    @IBOutlet private var arrival_departure_button: UIButton!
+    
     var stations=["Edinburgh Waverly","King's Cross","York","Durham","Cambridge"]
     private let presenter: ApplicationContractPresenter = ApplicationPresenter()
     override func viewDidLoad() {
@@ -32,16 +34,29 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return stations[row]
     }
+    
+    @IBAction func button_press(_ sender: Any) {
+        presenter.onDoneButtonPressed()
+    }
+    
 }
+
+
 
 extension ViewController: ApplicationContractView {
     
     func getArrivalDepartureStations() -> KotlinPair {
-        return KotlinPair(first:"King's Cross",second:"King's Cross")
+        
+        let departureStation = stations[departure_picker.selectedRow(inComponent: 0)]
+        
+        let arrivalStation = stations[arrival_picker.selectedRow(inComponent: 0)]
+        
+        return KotlinPair(first: arrivalStation  ,second:departureStation)
     }
     
     func openURL(url: String) {
-        
+        print(url)
+        UIApplication.shared.open(URL(string: url)!)
     }
     
     func setLabel(text: String) {

@@ -25,7 +25,7 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         view.setLabel(createApplicationScreenMessage())
     }
 
-    fun onDoneButtonPressed() {
+    override fun onDoneButtonPressed() {
         val arriveDepart = view?.getArrivalDepartureStations()
         if (arriveDepart!=null) {
             val arriveCRS = stationToCRS(arriveDepart.first)
@@ -34,7 +34,7 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         }
     }
 
-    fun stationToCRS(station: String): String {
+    override fun stationToCRS(station: String): String {
         return DIRTY_CRS_HACK[station] ?: "KGX" //the world is king's cross
     }
 }

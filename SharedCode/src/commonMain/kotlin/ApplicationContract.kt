@@ -9,7 +9,11 @@ interface ApplicationContract {
         fun getArrivalDepartureStations():Pair<String,String>
     }
 
+
+
     abstract class Presenter: CoroutineScope {
         abstract fun onViewTaken(view: View)
+        abstract fun onDoneButtonPressed()
+        abstract fun stationToCRS(station: String): String
     }
 }
