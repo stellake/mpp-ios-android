@@ -6,7 +6,6 @@ import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.request.get
 import io.ktor.http.Url
 import kotlinx.coroutines.*
-import kotlinx.serialization.Serializable
 import kotlin.coroutines.CoroutineContext
 
 class ApplicationPresenter: ApplicationContract.Presenter() {
@@ -14,20 +13,6 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
     private val dispatchers = AppDispatchersImpl()
     private var view: ApplicationContract.View? = null
     private val job: Job = SupervisorJob()
-
-    @Serializable
-    data class Station(
-        val id: Int,
-        val name: String,
-        val aliases: List<String> = listOf(),
-        val crs: String? = null,
-        val nlc: String = "",
-        val latitude: Double? = null,
-        val longitude: Double? = null,
-        val isGroupStation: Boolean = false)
-
-    @Serializable
-    data class StationList(val stations: List<Station>)
 
     private var stationList = StationList(listOf())
     private val stationMap = mutableMapOf<String, String>()
