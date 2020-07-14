@@ -96,7 +96,7 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
                 label = label + DisplayJourney(journey)
             }
 
-            view.setLabel(label)
+            print(label)
         }
     }
 }

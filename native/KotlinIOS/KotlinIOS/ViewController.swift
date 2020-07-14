@@ -22,13 +22,9 @@ class ViewController: UIViewController {
     }
     
     @IBAction func ButtonPress(_ sender: Any) {
-        let depart = presenter.getStationCode(name: data[pickerdeparture.selectedRow(inComponent: 0)])
-        let dest = presenter.getStationCode(name: data[pickerdestination.selectedRow(inComponent: 0)])
-        
-        let string = presenter.getTimesRequest(departure: depart, destination: dest)
-        if let url = URL(string: string) {
-            UIApplication.shared.open(url)
-        }
+        let depart = data[pickerdeparture.selectedRow(inComponent: 0)]
+        let dest = data[pickerdestination.selectedRow(inComponent: 0)]
+        presenter.loadJourneys(view: self, departure: depart, destination: dest)
     }
 }
 
@@ -64,12 +60,17 @@ extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 }
 
 extension ViewController: ApplicationContractView {
+    func setButtonAvailability(state: Bool) {
+        //Do nothing
+    }
+    
+    
     func setLabel(text: String) {
         // TODO: nothing
     }
     
-    func updateDropDowns() {
-        data = presenter.getStationNames().sorted()
+    func updateDropDowns(stationNames: [String]) {
+        data = stationNames
         pickerdeparture.reloadAllComponents()
         pickerdestination.reloadAllComponents()
     }
