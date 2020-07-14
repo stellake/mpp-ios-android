@@ -8,6 +8,8 @@ import io.ktor.http.Url
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
+
+
 class ApplicationPresenter: ApplicationContract.Presenter() {
 
     private val dispatchers = AppDispatchersImpl()
@@ -43,6 +45,14 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
 
     private fun getStationCode(name: String): String {
         return stationMap[name] ?: throw Exception("Station cannot be found in system.")
+    }
+
+    private fun DisplayJourney(journeyOption: JourneyOption):String{
+        var label = ""
+        for(ticket in journeyOption.tickets) {
+            label = label + ("The price is £" + ticket.priceInPennies.toDouble() / 100 + "\n")
+        }
+        return label
     }
 
     override val coroutineContext: CoroutineContext
@@ -81,8 +91,12 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
             client.close()
 
             view.setButtonAvailability(true)
+            var label = ""
+            for(journey in fares.outboundJourneys){
+                label = label + DisplayJourney(journey)
+            }
 
-            println(fares)
+            view.setLabel(label)
         }
     }
 }
