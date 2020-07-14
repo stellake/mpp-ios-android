@@ -49,10 +49,6 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         TODO("Not yet implemented")
     }
 
-//    override fun showData(data: List<Triple<GMTDate, GMTDate, Int>>) {
-//        TODO("Not yet implemented")
-//    }
-
     override fun setLabel(text: String) {
         findViewById<TextView>(R.id.main_text).text = text
     }
