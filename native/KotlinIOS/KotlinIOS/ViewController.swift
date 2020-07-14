@@ -3,15 +3,10 @@ import SharedCode
 
 class ViewController: UIViewController {
 
-    @IBOutlet private var label: UILabel!
-    var data = ["HLB", "TON", "CHX", "SEV", "LDB"]
+    private var data: [String] = []
 
     @IBOutlet private var pickerdeparture: UIPickerView!
     @IBOutlet private var pickerdestination: UIPickerView!
-    
-    //var departureStation = data[0]
-    //var destinationStation = data[0]
-
 
     private let presenter: ApplicationContractPresenter = ApplicationPresenter()
     
@@ -25,9 +20,10 @@ class ViewController: UIViewController {
         
         presenter.onViewTaken(view: self)
     }
+    
     @IBAction func ButtonPress(_ sender: Any) {
-        let depart = data[pickerdeparture.selectedRow(inComponent: 0)]
-        let dest = data[pickerdestination.selectedRow(inComponent: 0)]
+        let depart = presenter.getStationCode(name: data[pickerdeparture.selectedRow(inComponent: 0)])
+        let dest = presenter.getStationCode(name: data[pickerdestination.selectedRow(inComponent: 0)])
         
         let string = presenter.getTimesRequest(departure: depart, destination: dest)
         if let url = URL(string: string) {
@@ -40,11 +36,6 @@ extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
-    
-
-    // 3 items for the picker.
-
-    // Outlet.
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -74,6 +65,12 @@ extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 
 extension ViewController: ApplicationContractView {
     func setLabel(text: String) {
-        label.text = text
+        // TODO: nothing
+    }
+    
+    func updateDropDowns() {
+        data = presenter.getStationNames().sorted()
+        pickerdeparture.reloadAllComponents()
+        pickerdestination.reloadAllComponents()
     }
 }
