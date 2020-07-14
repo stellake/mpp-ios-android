@@ -8,7 +8,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
-import kotlinx.android.synthetic.main.activity_main.view.*
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), ApplicationContract.View {
 
@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         val departureSpinner = findViewById<Spinner>(R.id.departure_station_spinner)
         val destinationSpinner = findViewById<Spinner>(R.id.destination_station_spinner)
         val presenter = ApplicationPresenter()
-        val request = presenter.getTimesRequest(departureSpinner.selectedItem.toString(), destinationSpinner.selectedItem.toString())
+        val request = presenter.getTimesRequest(departureSpinner.selectedItem.toString(), destination_station_spinner.selectedItem.toString())
         val intent = Uri.parse(request).let { webpage ->
             Intent(Intent.ACTION_VIEW, webpage)
         }
