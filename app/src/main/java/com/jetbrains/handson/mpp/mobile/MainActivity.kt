@@ -15,7 +15,6 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         val presenter = ApplicationPresenter()
         presenter.onViewTaken(this)
         val spinners= listOf<Spinner>(findViewById(R.id.arrival_station),findViewById(R.id.departure_station))
@@ -45,6 +44,15 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         val departureSpinner:Spinner=findViewById(R.id.departure_station)
         return Pair(arrivalSpinner.selectedItem.toString(),departureSpinner.selectedItem.toString())
     }
+
+    override fun showData(data: List<ApplicationContract.TrainJourney>) {
+        TODO("Not yet implemented")
+    }
+
+//    override fun showData(data: List<Triple<GMTDate, GMTDate, Int>>) {
+//        TODO("Not yet implemented")
+//    }
+
     override fun setLabel(text: String) {
         findViewById<TextView>(R.id.main_text).text = text
     }

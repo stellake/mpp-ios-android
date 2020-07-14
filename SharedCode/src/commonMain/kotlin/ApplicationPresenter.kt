@@ -28,10 +28,14 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
     override fun onDoneButtonPressed() {
         val arriveDepart = view?.getArrivalDepartureStations()
         if (arriveDepart!=null) {
-            val arriveCRS = stationToCRS(arriveDepart.first)
-            val departCRS = stationToCRS(arriveDepart.second)
-            view?.openURL("https://www.lner.co.uk/travel-information/travelling-now/live-train-times/depart/$departCRS/$arriveCRS/#LiveDepResults")
+            onStationsSubmitted(arriveDepart.second,arriveDepart.first)
         }
+    }
+
+    override fun onStationsSubmitted(departure: String, arrival: String) {
+        val arriveCRS = stationToCRS(arrival)
+        val departCRS = stationToCRS(departure)
+        view?.openURL("https://www.lner.co.uk/travel-information/travelling-now/live-train-times/depart/$departCRS/$arriveCRS/#LiveDepResults")
     }
 
     override fun stationToCRS(station: String): String {
