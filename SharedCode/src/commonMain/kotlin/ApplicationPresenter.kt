@@ -41,7 +41,8 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
     override fun onStationsSubmitted(departure: String, arrival: String) {
         val arriveCRS = stationToCRS(arrival)
         val departCRS = stationToCRS(departure)
-        view?.openURL("https://www.lner.co.uk/travel-information/travelling-now/live-train-times/depart/$departCRS/$arriveCRS/#LiveDepResults")
+        launch { callOnTrainPage(departCRS,arriveCRS) }
+        //view?.openURL("https://www.lner.co.uk/travel-information/travelling-now/live-train-times/depart/$departCRS/$arriveCRS/#LiveDepResults")
     }
 
     override fun stationToCRS(station: String): String {
@@ -49,9 +50,7 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
     }
 
     @Serializable
-    data class trainData(val outboundJourneys: List<JourneyOption>,
-                         val inboundJourneys: List<JourneyOption>
-                         )
+    data class trainData(val outboundJourneys: List<JourneyOption>)
 
     @Serializable
     data class JourneyOption(val departureTime: String,
@@ -68,15 +67,12 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
 
 
 
-    suspend fun callOnTrainPage(){
+    suspend fun callOnTrainPage(originCRS:String,destinationCRS:String){
         val client = HttpClient() {
             install(JsonFeature) {
-                serializer = KotlinxSerializer()
+                serializer = KotlinxSerializer(Json.nonstrict)
             }
         }
-
-        val originCRS = "CBG"
-        val destinationCRS = "KGX"
         val outboundTime = "2020-08-05" + "T" + "12" + "%3A" + "16" + "%3A" + "27.371" + "%2B" + "00" + "%3A" + "00"
         val adults = "2"
         val children = "1"
@@ -86,8 +82,11 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
 
 
         client.close()
-
-        view?.showData(listOf())
+        val journeys=mutableListOf<ApplicationContract.TrainJourney>()
+        trainInfo.outboundJourneys.forEach {
+            journeys.add(ApplicationContract.TrainJourney(it.departureTime,it.arrivalTime,it.tickets.first().priceInPennies))
+        }
+        view?.showData(journeys)
     }
 
 

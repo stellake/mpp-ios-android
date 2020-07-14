@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
     }
 
     override fun showData(data: List<ApplicationContract.TrainJourney>) {
-        TODO("Not yet implemented")
+        println(data)
     }
 
     override fun setLabel(text: String) {
