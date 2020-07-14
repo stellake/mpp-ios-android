@@ -12,6 +12,8 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
     @IBOutlet private var arrival_departure_button: UIButton!
     
     var stations=["Edinburgh Waverly","King's Cross","York","Durham","Cambridge"]
+    
+    private var tableContents:Array<String>=[]
     private let presenter: ApplicationContractPresenter = ApplicationPresenter()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +46,6 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
 
 
 extension ViewController: ApplicationContractView {
-    
     func getArrivalDepartureStations() -> KotlinPair {
         
         let departureStation = stations[departure_picker.selectedRow(inComponent: 0)]
@@ -61,4 +62,20 @@ extension ViewController: ApplicationContractView {
     func setLabel(text: String) {
         label.text = text
     }
+}
+extension ViewController: UITableViewDataSource,UITableViewDelegate{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return tableContents.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        <#code#>
+    }
+    func showData(data: [ApplicationContractTrainJourney]) {
+        tableContents.removeAll()
+        for journey in data{
+            tableContents.append(journey.departureTime+", "+journey.arrivalTime)
+        }
+    }
+    
 }

@@ -1,5 +1,6 @@
 package com.jetbrains.handson.mpp.mobile
 
+import com.soywiz.klock.*
 import io.ktor.client.HttpClient
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
@@ -14,7 +15,6 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
     private val dispatchers = AppDispatchersImpl()
     private var view: ApplicationContract.View? = null
     private val job: Job = SupervisorJob()
-
     private val DIRTY_CRS_HACK = mapOf(
         "Cambridge" to "CBG",
         "King's Cross" to "KGX",
@@ -22,7 +22,9 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         "Edinburgh Waverly" to "EDB",
         "York" to "YRK"
     )
-
+    private val dateFormat=DateFormat("yyyy-MM-ddTHH%3Amm%3Ass.000%2B01%3A00")
+    private val returnedFormat=DateFormat("yyyy-MM-ddTHH:mm:ss.000")
+    private val niceFormat=DateFormat("HH:mm")
     override val coroutineContext: CoroutineContext
         get() = dispatchers.main + job
 
@@ -66,14 +68,19 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
 
 
 
-
+    fun readableTime(horrificTime:String):String{
+        val dateTime=returnedFormat.parse(horrificTime.substringBeforeLast('+'))
+        return dateTime.format(niceFormat)
+    }
     suspend fun callOnTrainPage(originCRS:String,destinationCRS:String){
         val client = HttpClient() {
             install(JsonFeature) {
                 serializer = KotlinxSerializer(Json.nonstrict)
             }
         }
-        val outboundTime = "2020-08-05" + "T" + "12" + "%3A" + "16" + "%3A" + "27.371" + "%2B" + "00" + "%3A" + "00"
+        var now=DateTimeTz.nowLocal()
+        now=now.addOffset(TimeSpan(10000.0))
+        val outboundTime = now.format(dateFormat)
         val adults = "2"
         val children = "1"
 
@@ -84,7 +91,7 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         client.close()
         val journeys=mutableListOf<ApplicationContract.TrainJourney>()
         trainInfo.outboundJourneys.forEach {
-            journeys.add(ApplicationContract.TrainJourney(it.departureTime,it.arrivalTime,it.tickets.first().priceInPennies))
+            journeys.add(ApplicationContract.TrainJourney(readableTime(it.departureTime),readableTime(it.arrivalTime),it.tickets.first().priceInPennies))
         }
         view?.showData(journeys)
     }
