@@ -1,8 +1,12 @@
 package com.jetbrains.handson.mpp.mobile
 
 import io.ktor.client.HttpClient
+import io.ktor.client.features.json.JsonFeature
+import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.request.get
 import kotlinx.coroutines.*
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 import kotlin.coroutines.CoroutineContext
 
 class ApplicationPresenter : ApplicationContract.Presenter() {
@@ -44,17 +48,46 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         return DIRTY_CRS_HACK[station] ?: "KGX" //the world is king's cross
     }
 
+    @Serializable
+    data class trainData(val outboundJourneys: List<JourneyOption>,
+                         val inboundJourneys: List<JourneyOption>
+                         )
+
+    @Serializable
+    data class JourneyOption(val departureTime: String,
+                             val arrivalTime: String,
+                             val tickets: List<ticketOptions>
+    )
+
+    @Serializable
+    data class ticketOptions(val priceInPennies: Int
+    )
+
+
+
+
+
+
     suspend fun callOnTrainPage(){
-        val client = HttpClient()
+        val client = HttpClient() {
+            install(JsonFeature) {
+                serializer = KotlinxSerializer()
+            }
+        }
 
-        val trainInfo = client.get<String>("https://mobile-api-dev.lner.co.uk/v1/fares?originStation=CBG&destinationStation=HML&outboundDateTime=2020-08-05T12%3A16%3A27.371%2B00%3A00&numberOfChildren=1&numberOfAdults=2&doSplitTicketing=false"
+        val originCRS = "CBG"
+        val destinationCRS = "KGX"
+        val outboundTime = "2020-08-05" + "T" + "12" + "%3A" + "16" + "%3A" + "27.371" + "%2B" + "00" + "%3A" + "00"
+        val adults = "2"
+        val children = "1"
+
+        val trainInfo = client.get<trainData>("https://mobile-api-dev.lner.co.uk/v1/fares?originStation=$originCRS&destinationStation=$destinationCRS&outboundDateTime=$outboundTime&numberOfChildren=$children&numberOfAdults=$adults&doSplitTicketing=false"
         )
-
 
 
         client.close()
 
-        view.showData
+        view?.showData(listOf())
     }
 
 
