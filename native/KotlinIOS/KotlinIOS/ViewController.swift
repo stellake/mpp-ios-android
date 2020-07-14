@@ -51,7 +51,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         let destination = pickerData[Station_picker2.selectedRow(inComponent: 0)]
         let url = (URL(string: presenter.onButtonPressed(origin: origin, destination: destination)) ?? URL(string: "https://lner.co.uk"))!
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        print("It works?")
+        
     }
     
     

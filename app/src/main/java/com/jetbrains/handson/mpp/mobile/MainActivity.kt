@@ -7,6 +7,10 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.invoke
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class MainActivity : AppCompatActivity(), ApplicationContract.View,
@@ -41,11 +45,12 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
         button.setOnClickListener {
             val origin = spinner1.selectedItem.toString()
             val destination = spinner2.selectedItem.toString()
-            val webIntent: Intent =
-                Uri.parse(presenter.onButtonPressed(origin,destination)).let { webpage ->
+            /*val webIntent: Intent =
+                Uri.parse(presenter.onButtonPressed(origin, destination)).let { webpage ->
                     Intent(Intent.ACTION_VIEW, webpage)
                 }
-            startActivity(webIntent)
+            startActivity(webIntent)*/
+            setLabel(presenter.onButtonPressed(origin, destination))
         }
     }
 
