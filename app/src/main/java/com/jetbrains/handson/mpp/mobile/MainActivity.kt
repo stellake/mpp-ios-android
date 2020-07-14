@@ -6,55 +6,42 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.Spinner
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), ApplicationContract.View {
 
+    private val presenter = ApplicationPresenter()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val presenter = ApplicationPresenter()
         presenter.onViewTaken(this)
 
-        val departureSpinner: Spinner = findViewById(R.id.departure_station_spinner)
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter.createFromResource(
-            this,
-            R.array.stations_array,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            // Specify the layout to use when the list of choices appears
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner
-            departureSpinner.adapter = adapter
-        }
-
-        val destinationSpinner: Spinner = findViewById(R.id.destination_station_spinner)
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter.createFromResource(
-            this,
-            R.array.stations_array,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            // Specify the layout to use when the list of choices appears
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner
-            destinationSpinner.adapter = adapter
-        }
+        updateDropDowns()
     }
 
     override fun setLabel(text: String) {
         findViewById<TextView>(R.id.main_text).text = text
     }
 
+    override fun updateDropDowns() {
+        ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            presenter.getStationNames().sorted()
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            departure_station_spinner.adapter = adapter
+            destination_station_spinner.adapter = adapter
+        }
+    }
+
     fun getJourneyButtonClick(view: View) {
-        val departureSpinner = findViewById<Spinner>(R.id.departure_station_spinner)
-        val destinationSpinner = findViewById<Spinner>(R.id.destination_station_spinner)
-        val presenter = ApplicationPresenter()
-        val request = presenter.getTimesRequest(departureSpinner.selectedItem.toString(), destination_station_spinner.selectedItem.toString())
+        val departCode = presenter.getStationCode(departure_station_spinner.selectedItem.toString())
+        val destCode = presenter.getStationCode(destination_station_spinner.selectedItem.toString())
+        val request = presenter.getTimesRequest(departCode, destCode)
         val intent = Uri.parse(request).let { webpage ->
             Intent(Intent.ACTION_VIEW, webpage)
         }

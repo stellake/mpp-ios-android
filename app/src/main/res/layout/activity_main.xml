@@ -41,7 +41,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Get Journeys"
+        android:text="@string/get_times_button_name"
         android:onClick="getJourneyButtonClick"
         app:layout_constraintTop_toBottomOf="@id/destination_station_spinner"
         app:layout_constraintBottom_toBottomOf="parent"
