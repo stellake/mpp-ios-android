@@ -1,15 +1,19 @@
 package com.jetbrains.handson.mpp.mobile
 
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 
 interface ApplicationContract {
     interface View {
         fun setLabel(text: String)
         fun showAlert(text: String)
+        fun showData(text: FaresResponse)
     }
 
     abstract class Presenter: CoroutineScope {
         abstract fun onViewTaken(view: View)
-        abstract fun onButtonPressed(origin: String, destination: String): String
+        abstract fun onButtonPressed(origin: String, destination: String)
     }
+
+
 }

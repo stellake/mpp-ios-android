@@ -14,7 +14,9 @@ import kotlinx.coroutines.withContext
 
 
 class MainActivity : AppCompatActivity(), ApplicationContract.View,
+
     AdapterView.OnItemSelectedListener {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -50,7 +52,7 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
                     Intent(Intent.ACTION_VIEW, webpage)
                 }
             startActivity(webIntent)*/
-            setLabel(presenter.onButtonPressed(origin, destination))
+            presenter.onButtonPressed(origin, destination)
         }
     }
 
@@ -65,6 +67,9 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
 
     override fun setLabel(text: String) {
         findViewById<TextView>(R.id.main_text).text = text
+    }
+
+    override fun showData(text: FaresResponse) {
     }
 
     override fun showAlert(text: String) {
