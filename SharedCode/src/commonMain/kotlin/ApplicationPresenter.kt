@@ -57,6 +57,9 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
     @kotlinx.serialization.UnstableDefault
     override fun loadJourneys(view: ApplicationContract.View, departure: String, destination: String) {
         launch(coroutineContext) {
+
+            view.setButtonAvailability(false)
+
             val client = HttpClient {
                 install(JsonFeature) {
                     serializer = KotlinxSerializer(kotlinx.serialization.json.Json{
@@ -64,8 +67,20 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
                     })
                 }
             }
-            val fares: Fares = client.get(Url("https://mobile-api-dev.lner.co.uk/v1/fares?originStation=${getStationCode(departure)}&destinationStation=${getStationCode(destination)}&noChanges=false&numberOfAdults=2&numberOfChildren=0&journeyType=single&inboundDateTime=2020-07-01T12:16:27.371&inboundIsArriveBy=false&outboundDateTime=2020-07-14T19%3A30%3A00.000%2B01%3A00&outboundIsArriveBy=false"))
+
+            var fares = Fares()
+
+            try {
+                fares = client.get(Url("https://mobile-api-dev.lner.co.uk/v1/fares?originStation=${getStationCode(departure)}&destinationStation=${getStationCode(destination)}&outboundDateTime=2020-07-15T12%3A16%3A27.371%2B00%3A00&numberOfChildren=2&numberOfAdults=2&doSplitTicketing=false"))
+                if (fares.outboundJourneys.isEmpty()) throw Exception("No journeys available.")
+            } catch (e: Exception) {
+                view.setLabel("Sorry we couldn't find a journey.")
+                println(e.message)
+            }
+
             client.close()
+
+            view.setButtonAvailability(true)
 
             println(fares)
         }

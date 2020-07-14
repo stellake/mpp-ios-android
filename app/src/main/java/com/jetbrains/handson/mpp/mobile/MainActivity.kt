@@ -1,7 +1,5 @@
 package com.jetbrains.handson.mpp.mobile
 
-import android.content.Intent
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -36,6 +34,11 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
             departure_station_spinner.adapter = adapter
             destination_station_spinner.adapter = adapter
         }
+    }
+
+    override fun setButtonAvailability(state: Boolean) {
+        get_journey_button.isEnabled = state
+        get_journey_button.isClickable = state
     }
 
     fun getJourneyButtonClick(view: View) {
