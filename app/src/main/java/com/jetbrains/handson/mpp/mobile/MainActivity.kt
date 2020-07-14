@@ -39,12 +39,13 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
     }
 
     fun getJourneyButtonClick(view: View) {
-        val departCode = presenter.getStationCode(departure_station_spinner.selectedItem.toString())
-        val destCode = presenter.getStationCode(destination_station_spinner.selectedItem.toString())
-        val request = presenter.getTimesRequest(departCode, destCode)
-        val intent = Uri.parse(request).let { webpage ->
-            Intent(Intent.ACTION_VIEW, webpage)
-        }
-        startActivity(intent)
+        val departureName = departure_station_spinner.selectedItem.toString()
+        val destinationName = destination_station_spinner.selectedItem.toString()
+//        val request = presenter.getTimesRequest(departCode, destCode)
+//        val intent = Uri.parse(request).let { webpage ->
+//            Intent(Intent.ACTION_VIEW, webpage)
+//        }
+//        startActivity(intent)
+        presenter.loadJourneys(this, departureName, destinationName)
     }
 }

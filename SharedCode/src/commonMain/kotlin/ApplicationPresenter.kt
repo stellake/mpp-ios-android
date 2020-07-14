@@ -41,6 +41,10 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
             stationMap[station.name] = station.crs ?: station.nlc
     }
 
+    private fun getStationCode(name: String): String {
+        return stationMap[name] ?: throw Exception("Station cannot be found in system.")
+    }
+
     override val coroutineContext: CoroutineContext
         get() = dispatchers.main + job
 
@@ -50,11 +54,20 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
         getStations(view)
     }
 
-    override fun getTimesRequest(departure: String, destination: String): String {
-        return "https://mobile-api-dev.lner.co.uk/v1/fares?originStation=${departure}&destinationStation=${destination}&noChanges=false&numberOfAdults=2&numberOfChildren=0&journeyType=single&inboundDateTime=2020-07-01T12:16:27.371&inboundIsArriveBy=false&outboundDateTime=2020-07-14T19%3A30%3A00.000%2B01%3A00&outboundIsArriveBy=false"
-    }
+    @kotlinx.serialization.UnstableDefault
+    override fun loadJourneys(view: ApplicationContract.View, departure: String, destination: String) {
+        launch(coroutineContext) {
+            val client = HttpClient {
+                install(JsonFeature) {
+                    serializer = KotlinxSerializer(kotlinx.serialization.json.Json{
+                        ignoreUnknownKeys = true
+                    })
+                }
+            }
+            val fares: Fares = client.get(Url("https://mobile-api-dev.lner.co.uk/v1/fares?originStation=${getStationCode(departure)}&destinationStation=${getStationCode(destination)}&noChanges=false&numberOfAdults=2&numberOfChildren=0&journeyType=single&inboundDateTime=2020-07-01T12:16:27.371&inboundIsArriveBy=false&outboundDateTime=2020-07-14T19%3A30%3A00.000%2B01%3A00&outboundIsArriveBy=false"))
+            client.close()
 
-    override fun getStationCode(name: String): String {
-        return stationMap[name] ?: throw Exception("Station cannot be found in system.")
+            println(fares)
+        }
     }
 }
