@@ -33,7 +33,7 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
     private val stationMap = mutableMapOf<String, String>()
 
     private fun getStations(view: ApplicationContract.View) {
-        launch {
+        launch(coroutineContext) {
             val client = HttpClient {
                 install(JsonFeature) {
                     serializer = KotlinxSerializer()
