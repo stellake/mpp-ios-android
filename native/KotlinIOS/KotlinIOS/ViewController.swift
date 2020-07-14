@@ -79,7 +79,8 @@ extension ViewController: UITableViewDataSource,UITableViewDelegate{
     func showData(data: [ApplicationContractTrainJourney]) {
         tableContents.removeAll()
         for journey in data{
-            tableContents.append(journey.departureTime+", "+journey.arrivalTime)
+            let cost_string=String(journey.cost/100)+"."+String(journey.cost%100)
+            tableContents.append(journey.departureTime+", "+journey.arrivalTime+" : £"+cost_string)
         }
         tableView.reloadData()
     }
