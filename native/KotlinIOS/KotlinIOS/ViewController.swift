@@ -11,9 +11,11 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
     
     @IBOutlet private var arrival_departure_button: UIButton!
     
+    @IBOutlet private var tableView: UITableView!
     var stations=["Edinburgh Waverly","King's Cross","York","Durham","Cambridge"]
     
     private var tableContents:Array<String>=[]
+    private let tableID="potato"
     private let presenter: ApplicationContractPresenter = ApplicationPresenter()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +24,7 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
         departure_picker.dataSource = self
         arrival_picker.delegate=self
         arrival_picker.dataSource=self
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: tableID)
     }
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -69,13 +72,16 @@ extension ViewController: UITableViewDataSource,UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        <#code#>
+        let cell=tableView.dequeueReusableCell(withIdentifier: tableID)!
+        cell.textLabel?.text=tableContents[indexPath.row]
+        return cell
     }
     func showData(data: [ApplicationContractTrainJourney]) {
         tableContents.removeAll()
         for journey in data{
             tableContents.append(journey.departureTime+", "+journey.arrivalTime)
         }
+        tableView.reloadData()
     }
     
 }

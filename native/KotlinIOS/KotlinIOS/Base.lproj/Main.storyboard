@@ -73,6 +73,7 @@
                         <outlet property="arrival_picker" destination="mMv-Kb-f86" id="QmL-lh-BRi"/>
                         <outlet property="departure_picker" destination="vQa-YY-Lmi" id="iyI-vW-Ruk"/>
                         <outlet property="label" destination="Bvm-TJ-sDP" id="0K4-VH-gLR"/>
+                        <outlet property="tableView" destination="Zi7-hc-41D" id="wZ5-DK-kgG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
