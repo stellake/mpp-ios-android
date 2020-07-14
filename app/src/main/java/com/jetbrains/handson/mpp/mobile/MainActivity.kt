@@ -19,18 +19,18 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
 
         presenter.onViewTaken(this)
 
-        updateDropDowns()
+        updateDropDowns(listOf())
     }
 
     override fun setLabel(text: String) {
         findViewById<TextView>(R.id.main_text).text = text
     }
 
-    override fun updateDropDowns() {
+    override fun updateDropDowns(stationNames: List<String>) {
         ArrayAdapter(
             this,
             android.R.layout.simple_spinner_item,
-            presenter.getStationNames().sorted()
+            stationNames
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             departure_station_spinner.adapter = adapter

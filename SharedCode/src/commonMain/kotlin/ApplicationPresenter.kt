@@ -27,8 +27,12 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
             stationList = client.get(Url("https://mobile-api-dev.lner.co.uk/v1/stations"))
             client.close()
             generateStationMap()
-            view.updateDropDowns()
+            view.updateDropDowns(getStationNames().sorted())
         }
+    }
+
+    private fun getStationNames(): List<String> {
+        return stationList.stations.map { it.name }
     }
 
     private fun generateStationMap() {
@@ -48,13 +52,6 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
 
     override fun getTimesRequest(departure: String, destination: String): String {
         return "https://mobile-api-dev.lner.co.uk/v1/fares?originStation=${departure}&destinationStation=${destination}&noChanges=false&numberOfAdults=2&numberOfChildren=0&journeyType=single&inboundDateTime=2020-07-01T12:16:27.371&inboundIsArriveBy=false&outboundDateTime=2020-07-14T19%3A30%3A00.000%2B01%3A00&outboundIsArriveBy=false"
-    }
-
-    override fun getStationNames(): List<String> {
-        val retList = mutableListOf<String>()
-        for (station in stationList.stations)
-            retList.add(station.name)
-        return retList
     }
 
     override fun getStationCode(name: String): String {

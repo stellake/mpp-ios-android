@@ -45,7 +45,7 @@ data class JourneyOption(
     val arrivalRealTime: String = "",
     val status: String,
     val primaryTrainOperator: TrainOperator,
-    val legs: String, // TODO: figure out how to remove
+    val legs: List<LegDetails>, // TODO: figure out how to remove
     val tickets: TicketOption,
     val journeyDurationInMinutes: Int,
     val isFastedJourney: Boolean,
@@ -114,7 +114,7 @@ data class PricingItem(
 
 @Serializable
 data class PricingDetailBreakdown(
-    val pasenger: String,
+    val passenger: String,
     val ticketCount: Int,
     val costInPennies: Int,
     val discountDescription: String = ""
@@ -141,6 +141,11 @@ data class Discount(
     val numberOfUnits: Int = 0,
     val discountType: String
 )
+
+@Serializable
+enum class LegDetails {
+    // TODO: this
+}
 
 @Serializable
 data class Bulletin(
