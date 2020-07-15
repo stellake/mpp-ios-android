@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -45,23 +43,6 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
             val destination = inboundSpinner.selectedItem.toString()
             presenter.onButtonPressed(origin, destination)
         }
-
-        val journeysRecyclerView = findViewById<RecyclerView>(R.id.journeys_recycler_view)
-
-        journeysRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-
-        val journeys = ArrayList<Journey>()
-
-        //adding some dummy data to the list
-        journeys.add(Journey("Priyanka Patel", "18122000"))
-        journeys.add(Journey("Elliot Barnes", "unknown"))
-        journeys.add(Journey("Zachary Freed", "unknown"))
-
-        //creating our adapter
-        val adapter = CustomAdapter(journeys)
-
-        //now adding the adapter to recyclerview
-        journeysRecyclerView.adapter = adapter
     }
 
     override fun onNothingSelected(p0: AdapterView<*>?) {
