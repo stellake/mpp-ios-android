@@ -4,4 +4,7 @@
     <string name="get_live_train_times">Get live train times</string>
     <string name="please_select_outbound_station">Please select outbound station</string>
     <string name="please_select_inbound_station">Please select inbound station</string>
+    <string name="harrow_and_wealdstone">Harrow and Wealdstone</string>
+    <string name="canley">Canley</string>
+    <string name="buy_tickets">buy tickets</string>
 </resources>

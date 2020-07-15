@@ -4,33 +4,28 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-
-    <androidx.cardview.widget.CardView
+    <TextView
+        android:id="@+id/inboundStation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp">
+        android:padding="5dp"
+        android:text="@string/harrow_and_wealdstone"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+    <TextView
+        android:id="@+id/outboundStation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="@string/canley"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text="Priyanka Patel"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
-
-            <TextView
-                android:id="@+id/dob"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text="18122000"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+    <Button
+        android:id="@+id/go_to_buy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:text="@string/buy_tickets"
+        />
 
 </LinearLayout>

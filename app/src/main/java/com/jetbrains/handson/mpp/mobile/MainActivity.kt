@@ -53,12 +53,12 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
         val journeys = ArrayList<Journey>()
 
         //adding some dummy data to the list
-        journeys.add(Journey("Priyanka Patel", "18122000"))
-        journeys.add(Journey("Elliot Barnes", "unknown"))
-        journeys.add(Journey("Zachary Freed", "unknown"))
+        journeys.add(Journey("Harrow and Wealdstone", "Canley"))
+        journeys.add(Journey("Canley", "London Euston"))
+        journeys.add(Journey("Coventry", "Canley"))
 
         //creating our adapter
-        val adapter = CustomAdapter(journeys)
+        val adapter = JourneyAdapter(journeys)
 
         //now adding the adapter to recyclerview
         journeysRecyclerView.adapter = adapter
@@ -83,6 +83,4 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
     override fun showAlert(text: String) {
         Toast.makeText(this, text, Toast.LENGTH_LONG).show()
     }
-
-
 }
