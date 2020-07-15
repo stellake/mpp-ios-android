@@ -29,9 +29,11 @@ class JourneyAdapter(private val journeyList: ArrayList<Journey>) : RecyclerView
     //the class is holding the list view
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
+
+
         fun bindItems(inbound: String, outbound: String, onButtonClick: () -> Unit) {
-            itemView.inboundStation.text = inbound
-            itemView.outboundStation.text = outbound
+            itemView.departureTime.text = inbound
+            itemView.arrivalTime.text = outbound
             itemView.go_to_buy.setOnClickListener {
                 onButtonClick()
             }

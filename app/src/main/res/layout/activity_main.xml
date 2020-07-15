@@ -63,15 +63,18 @@
         android:text="@string/button_text"
         app:layout_constraintTop_toBottomOf="@id/inbound_spinner_control"
         app:layout_constrainedWidth="true"
-        app:layout_constraintLeft_toLeftOf="@id/inbound_spinner_control" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/journeys_recycler_view"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/station_button"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        android:scrollbars="vertical"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
