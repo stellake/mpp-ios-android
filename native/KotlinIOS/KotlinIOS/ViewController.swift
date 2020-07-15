@@ -79,8 +79,12 @@ extension ViewController: UITableViewDataSource,UITableViewDelegate{
     func showData(data: [ApplicationContractTrainJourney]) {
         tableContents.removeAll()
         for journey in data{
-            let cost_string=String(journey.cost/100)+"."+String(journey.cost%100)
-            tableContents.append(journey.departureTime+", "+journey.arrivalTime+" : £"+cost_string)
+            let currencyFormatter = NumberFormatter()
+            currencyFormatter.usesGroupingSeparator = true
+            currencyFormatter.numberStyle = .currency
+            currencyFormatter.locale = Locale.init(identifier: "en_GB")
+            let priceString = currencyFormatter.string(from: NSNumber(value: Double(journey.cost)/100.0))!
+            tableContents.append(journey.departureTime+", "+journey.arrivalTime+" : "+priceString)
         }
         tableView.reloadData()
     }

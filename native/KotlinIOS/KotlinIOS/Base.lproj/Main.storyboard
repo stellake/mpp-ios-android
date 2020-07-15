@@ -23,48 +23,46 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vQa-YY-Lmi" userLabel="Departure picker">
-                                <rect key="frame" x="0.0" y="82.5" width="414" height="216"/>
-                            </pickerView>
-                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mMv-Kb-f86" userLabel="Arrival picker">
-                                <rect key="frame" x="0.0" y="298.5" width="414" height="216"/>
+                                <rect key="frame" x="0.0" y="85" width="207" height="216"/>
                             </pickerView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PaJ-Ar-jam">
-                                <rect key="frame" x="20" y="524.5" width="374" height="30"/>
+                                <rect key="frame" x="20" y="311" width="374" height="30"/>
                                 <state key="normal" title="Button"/>
                                 <connections>
                                     <action selector="button_press:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pzv-ol-spb"/>
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Zi7-hc-41D">
-                                <rect key="frame" x="0.0" y="574.5" width="414" height="287.5"/>
+                                <rect key="frame" x="0.0" y="361" width="414" height="501"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="BYZ-38-t0r" id="T0N-Ua-Cmz"/>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="pwb-ZR-yqy"/>
                                 </connections>
                             </tableView>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mMv-Kb-f86" userLabel="Arrival picker">
+                                <rect key="frame" x="207" y="85" width="207" height="216"/>
+                            </pickerView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="Bvm-TJ-sDP" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="0EO-4s-M6m"/>
                             <constraint firstItem="Zi7-hc-41D" firstAttribute="top" secondItem="PaJ-Ar-jam" secondAttribute="bottom" constant="20" id="101-3F-k9T"/>
-                            <constraint firstItem="mMv-Kb-f86" firstAttribute="top" secondItem="vQa-YY-Lmi" secondAttribute="bottom" id="25e-Wz-HDl"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="PaJ-Ar-jam" secondAttribute="trailing" constant="20" id="5zP-dD-T3E"/>
-                            <constraint firstItem="mMv-Kb-f86" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="6S6-6W-RB3"/>
+                            <constraint firstItem="vQa-YY-Lmi" firstAttribute="top" secondItem="Bvm-TJ-sDP" secondAttribute="bottom" constant="10" id="6B8-YL-TRe"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Zi7-hc-41D" secondAttribute="bottom" id="ARz-rJ-xjM"/>
+                            <constraint firstItem="mMv-Kb-f86" firstAttribute="width" secondItem="vQa-YY-Lmi" secondAttribute="width" id="CDq-op-pKg"/>
                             <constraint firstItem="PaJ-Ar-jam" firstAttribute="top" secondItem="mMv-Kb-f86" secondAttribute="bottom" constant="10" id="Dyy-MU-Rt9"/>
                             <constraint firstItem="PaJ-Ar-jam" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Eyt-cF-7qr"/>
+                            <constraint firstAttribute="trailing" secondItem="mMv-Kb-f86" secondAttribute="trailing" id="LoU-nU-8HC"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Zi7-hc-41D" secondAttribute="trailing" id="N0B-Ot-GOL"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Zi7-hc-41D" secondAttribute="trailing" id="Ss0-bT-NpX"/>
-                            <constraint firstItem="vQa-YY-Lmi" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="VUP-yn-xdM"/>
+                            <constraint firstItem="mMv-Kb-f86" firstAttribute="leading" secondItem="vQa-YY-Lmi" secondAttribute="trailing" id="TMS-09-8BI"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Bvm-TJ-sDP" secondAttribute="trailing" constant="10" id="XX7-VF-lgy"/>
-                            <constraint firstItem="mMv-Kb-f86" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="aws-3u-aoh"/>
-                            <constraint firstItem="mMv-Kb-f86" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="fS4-jC-AJi"/>
                             <constraint firstItem="Zi7-hc-41D" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="jZ2-ci-rmg"/>
                             <constraint firstItem="Bvm-TJ-sDP" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="kiX-pz-eKI"/>
-                            <constraint firstItem="vQa-YY-Lmi" firstAttribute="top" secondItem="Bvm-TJ-sDP" secondAttribute="bottom" constant="7.5" id="lSz-11-gxQ"/>
-                            <constraint firstItem="mMv-Kb-f86" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="p7T-GO-Vfv"/>
-                            <constraint firstItem="vQa-YY-Lmi" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="rc3-ZN-hgM"/>
+                            <constraint firstItem="mMv-Kb-f86" firstAttribute="top" secondItem="Bvm-TJ-sDP" secondAttribute="bottom" constant="10" id="s6U-4d-35P"/>
+                            <constraint firstItem="vQa-YY-Lmi" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="u2l-9b-KFP"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

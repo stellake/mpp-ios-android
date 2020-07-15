@@ -91,7 +91,8 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         client.close()
         val journeys=mutableListOf<ApplicationContract.TrainJourney>()
         trainInfo.outboundJourneys.forEach {
-            journeys.add(ApplicationContract.TrainJourney(readableTime(it.departureTime),readableTime(it.arrivalTime),it.tickets.first().priceInPennies))
+            val minPrice=it.tickets.minBy { it.priceInPennies }?.priceInPennies?:0
+            journeys.add(ApplicationContract.TrainJourney(readableTime(it.departureTime),readableTime(it.arrivalTime),minPrice))
         }
         view?.showData(journeys)
     }
