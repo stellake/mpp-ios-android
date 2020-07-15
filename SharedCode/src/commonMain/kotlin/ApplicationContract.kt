@@ -1,7 +1,6 @@
 package com.jetbrains.handson.mpp.mobile
 
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
 
 interface ApplicationContract {
     interface View {
@@ -10,10 +9,8 @@ interface ApplicationContract {
         fun showData(text: FaresResponse)
     }
 
-    abstract class Presenter: CoroutineScope {
+    abstract class Presenter : CoroutineScope {
         abstract fun onViewTaken(view: View)
         abstract fun onButtonPressed(origin: String, destination: String)
     }
-
-
 }
