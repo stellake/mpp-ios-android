@@ -17,7 +17,10 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         setContentView(R.layout.activity_main)
         val presenter = ApplicationPresenter()
         presenter.onViewTaken(this)
-        val spinners= listOf<Spinner>(findViewById(R.id.arrival_station),findViewById(R.id.departure_station))
+        val spinners = listOf<Spinner>(
+            findViewById(R.id.arrival_station),
+            findViewById(R.id.departure_station)
+        )
 // Create an ArrayAdapter using the string array and a default spinner layout
         spinners.forEach {
             ArrayAdapter.createFromResource(
@@ -31,22 +34,32 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
                 it.adapter = adapter
             }
         }
-        val button:Button=findViewById(R.id.done_button)
+        val button: Button = findViewById(R.id.done_button)
         button.setOnClickListener {
             presenter.onDoneButtonPressed()
         }
     }
-    override fun openURL(url:String){
-        startActivity(Intent(ACTION_VIEW,Uri.parse(url)))
+
+    override fun openURL(url: String) {
+        startActivity(Intent(ACTION_VIEW, Uri.parse(url)))
     }
-    override fun getArrivalDepartureStations():Pair<String,String>{
-        val arrivalSpinner:Spinner=findViewById(R.id.arrival_station)
-        val departureSpinner:Spinner=findViewById(R.id.departure_station)
-        return Pair(arrivalSpinner.selectedItem.toString(),departureSpinner.selectedItem.toString())
+
+    override fun getArrivalDepartureStations(): Pair<String, String> {
+        val arrivalSpinner: Spinner = findViewById(R.id.arrival_station)
+        val departureSpinner: Spinner = findViewById(R.id.departure_station)
+        return Pair(
+            arrivalSpinner.selectedItem.toString(),
+            departureSpinner.selectedItem.toString()
+        )
     }
 
     override fun showData(data: List<ApplicationContract.TrainJourney>) {
         println(data)
+    }
+
+    override fun updateStations(data: List<String>) {
+        println(data)
+        println(data.size)
     }
 
     override fun setLabel(text: String) {
