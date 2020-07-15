@@ -1,16 +1,10 @@
 package com.jetbrains.handson.mpp.mobile
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.invoke
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class MainActivity : AppCompatActivity(), ApplicationContract.View,
@@ -23,35 +17,30 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
         val presenter = ApplicationPresenter()
         presenter.onViewTaken(this)
 
-        val spinner1: Spinner = findViewById(station_spinner1.id)
+        val outboundSpinner: Spinner = findViewById(outbound_spinner_control.id)
         ArrayAdapter.createFromResource(
             this,
             R.array.stations_array,
             android.R.layout.simple_spinner_item
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinner1.adapter = adapter
+            outboundSpinner.adapter = adapter
         }
 
-        val spinner2: Spinner = findViewById(station_spinner2.id)
+        val inboundSpinner: Spinner = findViewById(inbound_spinner_control.id)
         ArrayAdapter.createFromResource(
             this,
             R.array.stations_array,
             android.R.layout.simple_spinner_item
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinner2.adapter = adapter
+            inboundSpinner.adapter = adapter
         }
 
         val button: Button = findViewById(station_button.id)
         button.setOnClickListener {
-            val origin = spinner1.selectedItem.toString()
-            val destination = spinner2.selectedItem.toString()
-            /*val webIntent: Intent =
-                Uri.parse(presenter.onButtonPressed(origin, destination)).let { webpage ->
-                    Intent(Intent.ACTION_VIEW, webpage)
-                }
-            startActivity(webIntent)*/
+            val origin = outboundSpinner.selectedItem.toString()
+            val destination = inboundSpinner.selectedItem.toString()
             presenter.onButtonPressed(origin, destination)
         }
     }
