@@ -16,6 +16,7 @@ import kotlinx.serialization.UnstableDefault
 import kotlinx.serialization.json.Json
 import kotlin.coroutines.CoroutineContext
 import com.jetbrains.handson.mpp.mobile.api.*
+import kotlinx.serialization.json.JsonBuilder
 
 @ImplicitReflectionSerializer
 class ApplicationPresenter : ApplicationContract.Presenter() {
@@ -25,12 +26,12 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
     private val job: Job = SupervisorJob()
     private val codeMap =
         mutableMapOf<String, String>(
-            "Harrow and Wealdstone" to "HRW",
-            "Canley" to "CNL",
-            "London Euston" to "EUS",
-            "Coventry" to "COV",
-            "Birmingham New Street" to "BHM"
-        )
+        "Harrow and Wealdstone" to "HRW",
+        "Canley" to "CNL",
+        "London Euston" to "EUS",
+        "Coventry" to "COV",
+        "Birmingham New Street" to "BHM"
+    )
 
     init {
         launch {
@@ -47,7 +48,7 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
 
     private val client = HttpClient {
         install(JsonFeature) {
-            serializer = KotlinxSerializer(json = Json {
+            serializer = KotlinxSerializer( json = Json {
                 isLenient = true
                 allowStructuredMapKeys = true
                 prettyPrint = true

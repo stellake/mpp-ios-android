@@ -102,5 +102,4 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
         openURL.data = Uri.parse(url)
         startActivity(openURL)
     }
-
 }

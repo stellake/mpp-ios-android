@@ -50,7 +50,6 @@ data class JourneyOptionStation(
     val displayName: String,
     val crs: String,
     val nlc: String
-
 )
 
 @ImplicitReflectionSerializer
