@@ -3,6 +3,7 @@ package com.jetbrains.handson.mpp.mobile
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,9 +11,13 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.parcel.Parcelize
+import kotlinx.android.parcel.RawValue
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.journey_view.*
 import kotlinx.android.synthetic.main.recycler_view.view.*
+import java.io.Serializable
+
 
 class MainActivity : AppCompatActivity(), ApplicationContract.View {
 
@@ -47,19 +52,20 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         get_journey_button.isClickable = state
     }
 
-    override fun displayFares(fareList: List<JourneyDetailsLight>) {
-        // TODO: this
+    override fun displayFares(fareList: List<List<String>>) {
+        val intent = Intent(this, JourneyActivity::class.java).apply{
+            putExtra("fareList",  fareList as Serializable)
+        }
+        startActivity(intent)
     }
 
     override fun showAlert(message: String) {
-        // TODO: this
+        Log.e("msg", message)
     }
 
     fun getJourneyButtonClick(view: View) {
         val departureName = departure_station_spinner.selectedItem.toString()
         val destinationName = destination_station_spinner.selectedItem.toString()
         presenter.loadJourneys(this, departureName, destinationName)
-        val intent = Intent(this, JourneyActivity::class.java)
-        startActivity(intent)
     }
 }

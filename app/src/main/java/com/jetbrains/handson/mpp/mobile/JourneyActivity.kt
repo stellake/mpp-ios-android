@@ -1,6 +1,7 @@
 package com.jetbrains.handson.mpp.mobile
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,23 +13,31 @@ import kotlinx.android.synthetic.main.recycler_view.view.*
 
 class JourneyActivity : AppCompatActivity() {
 
+    var DataList: List<List<String>> = listOf(listOf("ignore", "display"))
+    val adapter = MyRecyclerViewAdapter()
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
+
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.journey_view)
         setUpTable()
+        DataList = intent.getSerializableExtra("fareList") as List<List<String>>
+        adapter.updateData(DataList)
     }
 
 
-    var DataList = listOf("Interns", "LNER", "Mike", "CleanCode")
-
 
     private fun setUpTable(){
+
         val layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL,false)
-        val adapter = MyRecyclerViewAdapter()
         adapter.updateData(DataList)
 
 
 
-        RecyclerViewTable.apply{
+        recyclerViewTable.apply{
             this.layoutManager = layoutManager
             this.adapter = adapter
         }
@@ -37,8 +46,7 @@ class JourneyActivity : AppCompatActivity() {
 
 class MyRecyclerViewAdapter: RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder>(){ //TODO: Move to another file
 
-
-    private var myData = emptyList<String>()
+    private var myData = emptyList<List<String>>()
 
     inner class MyViewHolder(view: View): RecyclerView.ViewHolder(view){
         fun bindData(text:String){
@@ -61,10 +69,10 @@ class MyRecyclerViewAdapter: RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHo
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.bindData(myData[position])
+        holder.bindData(myData[position][1])
     }
 
-    fun updateData(data:List<String>){
+    fun updateData(data:List<List<String>>){
         myData = data
         notifyDataSetChanged() //updates the recycler
     }

@@ -160,7 +160,9 @@ data class StationMessage(
     val message: String = ""
 )
 
+@Serializable
 data class JourneyDetailsLight(val token: String, val details: String)
+
 
 data class RequestURL(
     val originStation: String,

@@ -52,8 +52,8 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
         return "$time - $priceAsString"
     }
 
-    private fun getJourneyDetailsLight(fares: Fares): List<JourneyDetailsLight> {
-        return fares.outboundJourneys.map { JourneyDetailsLight(it.journeyOptionToken, convertToLight(it)) }
+    private fun getJourneyDetailsLight(fares: Fares): List<List<String>> {
+        return fares.outboundJourneys.map { listOf(it.journeyOptionToken, convertToLight(it)) }
     }
 
     override val coroutineContext: CoroutineContext
