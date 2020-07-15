@@ -75,7 +75,6 @@ extension ViewController: ApplicationContractView {
     }
     
     func displayFares(fareList: [JourneyDetailsLight]) {
-        print(fareList)
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let newViewController = storyboard.instantiateViewController(withIdentifier: "DISPLAY_JOUNEYS_VIEW_CONTROLLER") as! DisplayJourneysViewController
         self.navigationController?.isNavigationBarHidden = false

@@ -1,5 +1,6 @@
 package com.jetbrains.handson.mpp.mobile
 
+import io.ktor.client.request.request
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -160,6 +161,50 @@ data class StationMessage(
 )
 
 data class JourneyDetailsLight(val token: String, val details: String)
+
+data class RequestURL(
+    val originStation: String,
+    val destinationStation: String,
+    val viaStation: String? = null,
+    val avoidStation: String? = null,
+    val noChanges: Boolean? = null,
+    val outboundDateTime: String,
+    val outboundIsArriveBy: String? = null,
+    val journeyType: String? = null,
+    val inboundDateTime: String? = null,
+    val inboundIsArriveBy: String? = null,
+    val railcards: List<String>? = null,
+    val numberOfChildren: Int = 0,
+    val numberOfAdults: Int = 2,
+    val doSplitTicketing: Boolean? = null,
+    val initialOutboundDateTime: String? = null,
+    val initialInboundDateTime: String? = null,
+    val promotionCode: String? = null,
+    val promotionAuthorisationToken: String? = null
+) {
+    fun toURL(): String {
+        var urlString = "https://mobile-api-dev.lner.co.uk/v1/fares?"
+        urlString += "originStation=$originStation"
+        urlString += "&destinationStation=$destinationStation"
+        urlString += if (viaStation != null) "&viaStation=$viaStation" else ""
+        urlString += if (avoidStation != null) "&avoidStation=$avoidStation" else ""
+        urlString += if (noChanges != null) "&noChanges=$noChanges" else ""
+        urlString += "&outboundDateTime=$outboundDateTime"
+        urlString += if (outboundIsArriveBy != null) "&outboundIsArriveBy=$outboundIsArriveBy" else ""
+        urlString += if (journeyType != null) "&journeyType=$journeyType" else ""
+        urlString += if (inboundDateTime != null) "&inboundDateTime=$inboundDateTime" else ""
+        urlString += if (inboundIsArriveBy != null) "&inboundIsArriveBy=$inboundIsArriveBy" else ""
+        urlString += if (railcards != null) "&railcards=${railcards.joinToString(",")}" else ""
+        urlString += "&numberOfChildren=$numberOfChildren"
+        urlString += "&numberOfAdults=$numberOfAdults"
+        urlString += if (doSplitTicketing != null) "&doSplitTicketing=$doSplitTicketing" else ""
+        urlString += if (initialOutboundDateTime != null) "&initialOutboundDateTime=$initialOutboundDateTime" else ""
+        urlString += if (initialInboundDateTime != null) "&initialInboundDateTime=$initialInboundDateTime" else ""
+        urlString += if (promotionCode != null) "&promotionCode=$promotionCode" else ""
+        urlString += if (promotionAuthorisationToken != null) "&promotionAuthorisationToken=$promotionAuthorisationToken" else ""
+        return urlString
+    }
+}
 
 fun createApplicationScreenMessage(): String {
     return "Kotlin Rocks on ${platformName()}"

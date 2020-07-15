@@ -47,9 +47,9 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
 
     private fun convertToLight(journey: JourneyOption): String {
         val time = journey.arrivalTime
-        val pennies = journey.tickets[0].priceInPennies
-        val price = "£${pennies/100}.${pennies - (pennies/100)*100}"
-        return "$time - $price"
+        val price = journey.tickets[0].priceInPennies.toString()
+        val priceAsString = "£" + price.substring(0,price.length-2) + "." + price.substring(price.length-2,price.length)
+        return "$time - $priceAsString"
     }
 
     private fun getJourneyDetailsLight(fares: Fares): List<JourneyDetailsLight> {
@@ -81,7 +81,11 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
             var fares: Fares
 
             try {
-                fares = client.get(Url("https://mobile-api-dev.lner.co.uk/v1/fares?originStation=${getStationCode(departure)}&destinationStation=${getStationCode(destination)}&outboundDateTime=2020-07-15T12%3A16%3A27.371%2B00%3A00&numberOfChildren=2&numberOfAdults=2&doSplitTicketing=false"))
+                fares = client.get(RequestURL(
+                    originStation = getStationCode(departure),
+                    destinationStation = getStationCode(destination),
+                    outboundDateTime = "2020-07-16T12%3A16%3A27.371%2B00%3A00"
+                ).toURL())
                 if (fares.outboundJourneys.isEmpty()) throw Exception("No journeys available.")
                 view.displayFares(getJourneyDetailsLight(fares))
             } catch (e: Exception) {
