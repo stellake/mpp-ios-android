@@ -3,7 +3,9 @@ package com.jetbrains.handson.mpp.mobile
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Runnable
 import platform.UIKit.UIDevice
-import platform.darwin.*
+import platform.darwin.dispatch_async
+import platform.darwin.dispatch_get_main_queue
+import platform.darwin.dispatch_queue_t
 import kotlin.coroutines.CoroutineContext
 
 actual fun platformName(): String {
@@ -12,7 +14,7 @@ actual fun platformName(): String {
             UIDevice.currentDevice.systemVersion
 }
 
-actual class AppDispatchersImpl: AppDispatchers {
+actual class AppDispatchersImpl : AppDispatchers {
     @SharedImmutable
     override val main: CoroutineDispatcher = NSQueueDispatcher(dispatch_get_main_queue())
 
@@ -21,7 +23,7 @@ actual class AppDispatchersImpl: AppDispatchers {
 
     class NSQueueDispatcher(
         @SharedImmutable private val dispatchQueue: dispatch_queue_t
-    ): CoroutineDispatcher() {
+    ) : CoroutineDispatcher() {
         override fun dispatch(context: CoroutineContext, block: Runnable) {
             dispatch_async(dispatchQueue) {
                 block.run()

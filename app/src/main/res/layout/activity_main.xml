@@ -1,23 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".MainActivity">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
 
     <TextView
-            android:id="@+id/main_text"
-            android:textSize="42sp"
-            android:layout_margin="5sp"
-            android:textAlignment="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hello World!"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+        android:id="@+id/main_text"
+        android:textSize="36sp"
+        android:layout_margin="5sp"
+        android:textAlignment="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/get_live_train_times"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/outbound_station"
+        android:textSize="20sp"
+        android:layout_margin="5sp"
+        android:textAlignment="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/please_select_outbound_station"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/main_text" />
+
+    <Spinner
+        android:id="@+id/outbound_spinner_control"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/outbound_station" />
+
+    <TextView
+        android:id="@+id/inbound_station"
+        android:textSize="20sp"
+        android:layout_margin="5sp"
+        android:textAlignment="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/please_select_inbound_station"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/outbound_spinner_control" />
+
+    <Spinner
+        android:id="@+id/inbound_spinner_control"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/inbound_station" />
+
+    <Button
+        android:id="@+id/station_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_text"
+        app:layout_constraintTop_toBottomOf="@id/inbound_spinner_control"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintLeft_toLeftOf="@id/inbound_spinner_control"
+        android:layout_centerInParent="true"
+        android:gravity="center_horizontal" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
