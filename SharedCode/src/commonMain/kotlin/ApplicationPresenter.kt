@@ -22,9 +22,9 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         "Edinburgh Waverly" to "EDB",
         "York" to "YRK"
     )
-    private val dateFormat=DateFormat("yyyy-MM-ddTHH%3Amm%3Ass.000%2B01%3A00")
-    private val returnedFormat=DateFormat("yyyy-MM-ddTHH:mm:ss.000")
-    private val niceFormat=DateFormat("HH:mm")
+    private val dateFormat = DateFormat("yyyy-MM-ddTHH%3Amm%3Ass.000%2B01%3A00")
+    private val returnedFormat = DateFormat("yyyy-MM-ddTHH:mm:ss.000")
+    private val niceFormat = DateFormat("HH:mm")
     override val coroutineContext: CoroutineContext
         get() = dispatchers.main + job
 
@@ -35,19 +35,22 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
 
     override fun onDoneButtonPressed() {
         val arriveDepart = view?.getArrivalDepartureStations()
-        if (arriveDepart!=null) {
-            onStationsSubmitted(arriveDepart.second,arriveDepart.first)
+        if (arriveDepart != null) {
+            onStationsSubmitted(arriveDepart.second, arriveDepart.first)
         }
     }
 
     override fun onStationsSubmitted(departure: String, arrival: String) {
         val arriveCRS = stationToCRS(arrival)
         val departCRS = stationToCRS(departure)
-        launch { callOnTrainPage(departCRS,arriveCRS) }
-        //view?.openURL("https://www.lner.co.uk/travel-information/travelling-now/live-train-times/depart/$departCRS/$arriveCRS/#LiveDepResults")
+        launch { callOnTrainPage(departCRS, arriveCRS) }
     }
 
-    override fun stationToCRS(station: String): String {
+    override fun getStationList(): List<String> {
+        return DIRTY_CRS_HACK.keys.toList()
+    }
+
+    private fun stationToCRS(station: String): String {
         return DIRTY_CRS_HACK[station] ?: "KGX" //the world is king's cross
     }
 
@@ -55,44 +58,50 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
     data class trainData(val outboundJourneys: List<JourneyOption>)
 
     @Serializable
-    data class JourneyOption(val departureTime: String,
-                             val arrivalTime: String,
-                             val tickets: List<ticketOptions>
+    data class JourneyOption(
+        val departureTime: String,
+        val arrivalTime: String,
+        val tickets: List<ticketOptions>
     )
 
     @Serializable
-    data class ticketOptions(val priceInPennies: Int
+    data class ticketOptions(
+        val priceInPennies: Int
     )
 
 
-
-
-
-    fun readableTime(horrificTime:String):String{
-        val dateTime=returnedFormat.parse(horrificTime.substringBeforeLast('+'))
+    fun readableTime(horrificTime: String): String {
+        val dateTime = returnedFormat.parse(horrificTime.substringBeforeLast('+'))
         return dateTime.format(niceFormat)
     }
-    suspend fun callOnTrainPage(originCRS:String,destinationCRS:String){
+
+    suspend fun callOnTrainPage(originCRS: String, destinationCRS: String) {
         val client = HttpClient() {
             install(JsonFeature) {
                 serializer = KotlinxSerializer(Json.nonstrict)
             }
         }
-        var now=DateTimeTz.nowLocal()
-        now=now.addOffset(TimeSpan(10000.0))
+        val now = DateTimeTz.nowLocal().addOffset(TimeSpan(10000.0))
         val outboundTime = now.format(dateFormat)
         val adults = "2"
         val children = "1"
 
-        val trainInfo = client.get<trainData>("https://mobile-api-dev.lner.co.uk/v1/fares?originStation=$originCRS&destinationStation=$destinationCRS&outboundDateTime=$outboundTime&numberOfChildren=$children&numberOfAdults=$adults&doSplitTicketing=false"
+        val trainInfo = client.get<trainData>(
+            "https://mobile-api-dev.lner.co.uk/v1/fares?originStation=$originCRS&destinationStation=$destinationCRS&outboundDateTime=$outboundTime&numberOfChildren=$children&numberOfAdults=$adults&doSplitTicketing=false"
         )
 
 
         client.close()
-        val journeys=mutableListOf<ApplicationContract.TrainJourney>()
+        val journeys = mutableListOf<ApplicationContract.TrainJourney>()
         trainInfo.outboundJourneys.forEach {
-            val minPrice=it.tickets.minBy { it.priceInPennies }?.priceInPennies?:0
-            journeys.add(ApplicationContract.TrainJourney(readableTime(it.departureTime),readableTime(it.arrivalTime),minPrice))
+            val minPrice = it.tickets.minBy { it.priceInPennies }?.priceInPennies ?: 0
+            journeys.add(
+                ApplicationContract.TrainJourney(
+                    readableTime(it.departureTime),
+                    readableTime(it.arrivalTime),
+                    minPrice
+                )
+            )
         }
         view?.showData(journeys)
     }

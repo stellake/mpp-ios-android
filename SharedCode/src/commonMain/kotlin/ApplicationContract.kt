@@ -17,6 +17,6 @@ interface ApplicationContract {
         abstract fun onViewTaken(view: View)
         abstract fun onDoneButtonPressed()
         abstract fun onStationsSubmitted(departure: String,arrival:String)
-        abstract fun stationToCRS(station: String): String
+        abstract fun getStationList():List<String>
     }
 }
