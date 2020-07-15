@@ -15,7 +15,7 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
     private val dispatchers = AppDispatchersImpl()
     private var view: ApplicationContract.View? = null
     private val job: Job = SupervisorJob()
-    private val stationCRS=mutableMapOf<String,String>()
+    private val stationCRS = mutableMapOf<String, String>()
     private val dateFormat = DateFormat("yyyy-MM-ddTHH%3Amm%3Ass.000%2B01%3A00")
     private val returnedFormat = DateFormat("yyyy-MM-ddTHH:mm:ss.000")
     private val niceFormat = DateFormat("HH:mm")
@@ -25,7 +25,7 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
     override fun onViewTaken(view: ApplicationContract.View) {
         this.view = view
         view.setLabel(createApplicationScreenMessage())
-        launch{populateStationCRS()}
+        launch { populateStationCRS() }
     }
 
     override fun onDoneButtonPressed() {
@@ -40,16 +40,19 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         val departCRS = stationToCRS(departure)
         launch { callOnTrainPage(departCRS, arriveCRS) }
     }
+
     @Serializable
     data class StationList(
-        val stations:List<Station>
+        val stations: List<Station>
     )
+
     @Serializable
     data class Station(
-        val name:String,
-        val crs:String?
+        val name: String,
+        val crs: String?
     )
-    private suspend fun populateStationCRS(){
+
+    private suspend fun populateStationCRS() {
         if (stationCRS.isEmpty()) {
             val client = HttpClient() {
                 install(JsonFeature) {
@@ -65,6 +68,7 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         }
         view?.updateStations(stationCRS.keys.toList())
     }
+
     private fun stationToCRS(station: String): String {
         return stationCRS[station] ?: "KGX" //the world is king's cross
     }
@@ -97,26 +101,38 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
             }
         }
         val now = DateTimeTz.nowLocal().addOffset(TimeSpan(10000.0))
-        val outboundTime = now.format(dateFormat)
-        val adults = "2"
-        val children = "1"
-
-        val trainInfo = client.get<trainData>(
-            "https://mobile-api-dev.lner.co.uk/v1/fares?originStation=$originCRS&destinationStation=$destinationCRS&outboundDateTime=$outboundTime&numberOfChildren=$children&numberOfAdults=$adults&doSplitTicketing=false"
-        )
-
-
-        client.close()
-        val journeys = mutableListOf<ApplicationContract.TrainJourney>()
-        trainInfo.outboundJourneys.forEach {
-            val minPrice = it.tickets.minBy { it.priceInPennies }?.priceInPennies ?: 0
-            journeys.add(
+        val journeys: List<ApplicationContract.TrainJourney>
+        if (originCRS == destinationCRS) {
+            //you are already there
+            journeys = listOf(
                 ApplicationContract.TrainJourney(
-                    readableTime(it.departureTime),
-                    readableTime(it.arrivalTime),
-                    minPrice
+                    now.format(niceFormat),
+                    now.format(niceFormat),
+                    0
                 )
             )
+        } else {
+            val outboundTime = now.format(dateFormat)
+            val adults = "2"
+            val children = "1"
+
+            val trainInfo = client.get<trainData>(
+                "https://mobile-api-dev.lner.co.uk/v1/fares?originStation=$originCRS&destinationStation=$destinationCRS&outboundDateTime=$outboundTime&numberOfChildren=$children&numberOfAdults=$adults&doSplitTicketing=false"
+            )
+
+
+            client.close()
+            journeys = mutableListOf<ApplicationContract.TrainJourney>()
+            trainInfo.outboundJourneys.forEach {
+                val minPrice = it.tickets.minBy { it.priceInPennies }?.priceInPennies ?: 0
+                journeys.add(
+                    ApplicationContract.TrainJourney(
+                        readableTime(it.departureTime),
+                        readableTime(it.arrivalTime),
+                        minPrice
+                    )
+                )
+            }
         }
         view?.showData(journeys)
     }
