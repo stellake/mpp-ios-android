@@ -85,4 +85,16 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
 
         return jsonResponse
     }
+
+    fun onBuyButton(
+        outBound: String,
+        inBound: String,
+        month: Int,
+        day: Int,
+        hour: Int,
+        min: Int,
+        ret: Boolean = true
+    ) {
+        view?.openWebpage("https://www.lner.co.uk/buy-tickets/booking-engine/?ocrs=$outBound&dcrs=$inBound&outm=$month&outd=$day&outh=$hour&outmi=$min&ret=$ret")
+    }
 }
