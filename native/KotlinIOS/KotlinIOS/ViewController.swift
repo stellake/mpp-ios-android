@@ -7,7 +7,8 @@ class ViewController: UIViewController {
 
     @IBOutlet private var pickerdeparture: UIPickerView!
     @IBOutlet private var pickerdestination: UIPickerView!
-
+    @IBOutlet var getJourneysButton: UIButton!
+    
     private let presenter: ApplicationContractPresenter = ApplicationPresenter()
     
     override func viewDidLoad() {
@@ -60,6 +61,14 @@ extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 }
 
 extension ViewController: ApplicationContractView {
+    func showAlert(message: String) {
+        let alertController = UIAlertController(title: "No Journeys Found", message:
+            "Sorry. We couldn't find any journeys for the specified route.", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Dismiss", style: .default))
+
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
     func displayFares(fareList: [JourneyDetailsLight]) {
         print(fareList)
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -72,7 +81,7 @@ extension ViewController: ApplicationContractView {
     }
     
     func setButtonAvailability(state: Bool) {
-        //Do nothing
+        // TODO: this
     }
     
     func setLabel(text: String) {

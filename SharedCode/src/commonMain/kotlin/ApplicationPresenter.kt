@@ -45,14 +45,6 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
         return stationMap[name] ?: throw Exception("Station cannot be found in system.")
     }
 
-//    private fun DisplayJourney(journeyOption: JourneyOption):String{
-//        var label = ""
-//        for(ticket in journeyOption.tickets) {
-//            label = label + ("The price is £" + ticket.priceInPennies.toDouble() / 100 + "\n")
-//        }
-//        return label
-//    }
-
     private fun convertToLight(journey: JourneyOption): String {
         val time = journey.arrivalTime
         val pennies = journey.tickets[0].priceInPennies
@@ -69,7 +61,6 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
 
     override fun onViewTaken(view: ApplicationContract.View) {
         this.view = view
-        view.setLabel(createApplicationScreenMessage())
         getStations(view)
     }
 
@@ -94,19 +85,12 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
                 if (fares.outboundJourneys.isEmpty()) throw Exception("No journeys available.")
                 view.displayFares(getJourneyDetailsLight(fares))
             } catch (e: Exception) {
-                view.setLabel("Sorry we couldn't find a journey.")
+                view.showAlert("Sorry we couldn't find a journey.")
                 println(e.message)
             }
 
             client.close()
-
-//            view.setButtonAvailability(true)
-//            var label = ""
-//            for(journey in fares.outboundJourneys){
-//                label = label + DisplayJourney(journey)
-//            }
-//
-//            print(label)
+            view.setButtonAvailability(true)
         }
     }
 }

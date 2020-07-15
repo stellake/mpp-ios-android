@@ -6,28 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/main_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5sp"
-        android:text="Hello World!"
-        android:textAlignment="center"
-        android:textSize="42sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.13" />
-
     <Spinner
         android:id="@+id/departure_station_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/main_text"
-        app:layout_constraintVertical_bias="0.3" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
 
     <Spinner
         android:id="@+id/destination_station_spinner"
@@ -46,22 +31,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/destination_station_spinner"
         app:layout_constraintVertical_bias="0.2" />
-
-    <TextView
-        android:id="@+id/ticket_prices"
-        android:layout_width="358dp"
-        android:layout_height="155dp"
-        android:layout_marginStart="26dp"
-        android:layout_marginTop="13dp"
-        android:layout_marginEnd="27dp"
-        android:layout_marginBottom="64dp"
-        android:text="TextView"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/get_journey_button"
-        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

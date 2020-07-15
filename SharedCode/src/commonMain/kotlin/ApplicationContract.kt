@@ -4,10 +4,10 @@ import kotlinx.coroutines.CoroutineScope
 
 interface ApplicationContract {
     interface View {
-        fun setLabel(text: String)
         fun updateDropDowns(stationNames: List<String>)
         fun setButtonAvailability(state: Boolean)
         fun displayFares(fareList: List<JourneyDetailsLight>)
+        fun showAlert(message: String)
     }
 
     abstract class Presenter: CoroutineScope {

@@ -51,6 +51,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="getJourneysButton" destination="yJb-Pe-N2A" id="s9d-ja-VJe"/>
                         <outlet property="pickerdeparture" destination="Rrt-k7-eeL" id="hgc-Zd-4Hv"/>
                         <outlet property="pickerdestination" destination="wFb-s1-Wk1" id="7yM-Nw-QFE"/>
                     </connections>
