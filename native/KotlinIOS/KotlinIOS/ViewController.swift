@@ -84,10 +84,6 @@ extension ViewController: ApplicationContractView {
         // TODO: this
     }
     
-    func setLabel(text: String) {
-        // TODO: nothing
-    }
-    
     func updateDropDowns(stationNames: [String]) {
         data = stationNames
         pickerdeparture.reloadAllComponents()
