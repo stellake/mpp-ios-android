@@ -17,8 +17,7 @@ class JourneyAdapter(private val journeyList: ArrayList<Journey>) : RecyclerView
 
     //this method is binding the data on the list
     override fun onBindViewHolder(holder: JourneyAdapter.MyViewHolder, position: Int) {
-        holder.bindItems(journeyList[position].inB, journeyList[position].outB
-        ) { journeyList[position].button }
+        holder.bindItems(journeyList[position].depTime, journeyList[position].arrTime, journeyList[position].duration) { journeyList[position].button }
     }
 
     //this method is giving the size of the list
@@ -31,9 +30,10 @@ class JourneyAdapter(private val journeyList: ArrayList<Journey>) : RecyclerView
 
 
 
-        fun bindItems(inbound: String, outbound: String, onButtonClick: () -> Unit) {
+        fun bindItems(inbound: String, outbound: String, duration: String, onButtonClick: () -> Unit) {
             itemView.departureTime.text = inbound
             itemView.arrivalTime.text = outbound
+            itemView.duration.text = duration
             itemView.go_to_buy.setOnClickListener {
                 onButtonClick()
             }

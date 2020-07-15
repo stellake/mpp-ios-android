@@ -21,6 +21,14 @@
         android:text="@string/_17_15_00"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
+    <TextView
+        android:id="@+id/duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="@string/_15_minutes"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+
     <Button
         android:id="@+id/go_to_buy"
         android:layout_width="wrap_content"

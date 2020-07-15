@@ -50,18 +50,16 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
 
         journeysRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
-
-
         val journeys = ArrayList<Journey>()
 
         //adding some dummy data to the list
-        journeys.add(Journey("17:00", "17:15"))
-        journeys.add(Journey("17:30", "17:45"))
-        journeys.add(Journey("18:00", "18:15"))
-        journeys.add(Journey("18:30", "18:45"))
-        journeys.add(Journey("19:00", "19:15"))
-        journeys.add(Journey("19:30", "19:45"))
-        journeys.add(Journey("20:00", "20:15"))
+        journeys.add(Journey("17:00", "17:15", "15 min"))
+        journeys.add(Journey("17:30", "17:45", "15 min"))
+        journeys.add(Journey("18:00", "18:15", "15 min"))
+        journeys.add(Journey("18:30", "18:45", "15 min"))
+        journeys.add(Journey("19:00", "19:15", "15 min"))
+        journeys.add(Journey("19:30", "19:45", "15 min"))
+        journeys.add(Journey("20:00", "20:15", "15 min"))
 
         //creating our adapter
         val adapter = JourneyAdapter(journeys)
