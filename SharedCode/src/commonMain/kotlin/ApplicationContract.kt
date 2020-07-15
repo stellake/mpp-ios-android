@@ -9,6 +9,7 @@ interface ApplicationContract {
         fun openURL(url:String)
         fun getArrivalDepartureStations():Pair<String,String>
         fun showData(data:List<TrainJourney>)
+        fun updateStations(data: List<String>)
     }
 
 
@@ -17,6 +18,5 @@ interface ApplicationContract {
         abstract fun onViewTaken(view: View)
         abstract fun onDoneButtonPressed()
         abstract fun onStationsSubmitted(departure: String,arrival:String)
-        abstract fun getStationList():List<String>
     }
 }

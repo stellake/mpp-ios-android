@@ -25,6 +25,7 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
     override fun onViewTaken(view: ApplicationContract.View) {
         this.view = view
         view.setLabel(createApplicationScreenMessage())
+        launch{populateStationCRS()}
     }
 
     override fun onDoneButtonPressed() {
@@ -40,25 +41,30 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         launch { callOnTrainPage(departCRS, arriveCRS) }
     }
     @Serializable
+    data class StationList(
+        val stations:List<Station>
+    )
+    @Serializable
     data class Station(
         val name:String,
-        val crs:String
+        val crs:String?
     )
-    private fun populateStationCRS(){
-        if (stationCRS.isEmpty()){
+    private suspend fun populateStationCRS(){
+        if (stationCRS.isEmpty()) {
             val client = HttpClient() {
                 install(JsonFeature) {
                     serializer = KotlinxSerializer(Json.nonstrict)
                 }
             }
-            val job=launch { client.get("https://mobile-api-dev.lner.co.uk/v1/stations") }
-
+            val job = client.get<StationList>("https://mobile-api-dev.lner.co.uk/v1/stations")
+            job.stations.forEach {
+                if (it.crs != null) {
+                    stationCRS[it.name] = it.crs
+                }
+            }
         }
+        view?.updateStations(stationCRS.keys.toList())
     }
-    override fun getStationList(): List<String> {
-        return stationCRS.keys.toList()
-    }
-
     private fun stationToCRS(station: String): String {
         return stationCRS[station] ?: "KGX" //the world is king's cross
     }

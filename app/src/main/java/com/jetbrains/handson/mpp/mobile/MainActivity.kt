@@ -49,6 +49,11 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         println(data)
     }
 
+    override fun updateStations(data: List<String>) {
+        println(data)
+        println(data.size)
+    }
+
     override fun setLabel(text: String) {
         findViewById<TextView>(R.id.main_text).text = text
     }
