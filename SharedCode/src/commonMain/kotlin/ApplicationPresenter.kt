@@ -95,6 +95,11 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         min: Int,
         ret: Boolean = true
     ) {
-        view?.openWebpage("https://www.lner.co.uk/buy-tickets/booking-engine/?ocrs=$outBound&dcrs=$inBound&outm=$month&outd=$day&outh=$hour&outmi=$min&ret=$ret")
+        val returnBool = if (ret) {
+            "y"
+        } else {
+            "n"
+        }
+        view?.openWebpage("https://www.lner.co.uk/buy-tickets/booking-engine/?ocrs=$outBound&dcrs=$inBound&outm=$month&outd=$day&outh=$hour&outmi=$min&ret=$returnBool")
     }
 }
