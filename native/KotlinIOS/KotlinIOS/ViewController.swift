@@ -64,7 +64,7 @@ extension ViewController: ApplicationContractView {
         print(fareList)
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let newViewController = storyboard.instantiateViewController(withIdentifier: "DISPLAY_JOUNEYS_VIEW_CONTROLLER") as! DisplayJourneysViewController
-        newViewController.modalPresentationStyle = .fullScreen
+//        newViewController.modalPresentationStyle = .fullScreen
         self.present(newViewController, animated: true, completion: nil)
         newViewController.setPresenter(presenter)
         newViewController.setTableData(fareList)

@@ -28,7 +28,7 @@ class DisplayJourneysViewController: UIViewController {
     func setTableData(_ fareList: [JourneyDetailsLight]) {
         self.fareList = fareList
         tableData = fareList.map { $0.details }
-        resultsTableView.reloadData()
+        resultsTableView?.reloadData()
     }
     
     private func priceInPounds(_ pennies: Int32) -> String {
