@@ -87,3 +87,6 @@ val packForXcode by tasks.creating(Sync::class) {
 }
 
 tasks.getByName("build").dependsOn(packForXcode)
+dependencies {
+
+}
