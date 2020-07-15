@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="50dp"
+    android:layout_width = "match_parent"
+    android:orientation="horizontal">
+    <TextView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@color/colorPrimaryDark"
+        android:text="This text is Hardcoded"/>
+
+    <Button
+        android:layout_height="30dp"
+        android:id="@+id/myButton"
+        android:layout_width="match_parent"
+        android:text="Click me!!"
+        android:layout_marginTop="10dp"/>
+
+</LinearLayout>
