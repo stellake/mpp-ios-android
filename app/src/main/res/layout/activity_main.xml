@@ -9,28 +9,54 @@
 
     <TextView
             android:id="@+id/main_text"
-            android:textSize="42sp"
+            android:textSize="36sp"
             android:layout_margin="5sp"
             android:textAlignment="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hello World!"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="@string/get_live_train_times"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/outbound_station"
+        android:textSize="20sp"
+        android:layout_margin="5sp"
+        android:textAlignment="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/please_select_outbound_station"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/main_text"/>
+
     <Spinner
         android:id="@+id/station_spinner1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/main_text"
+        app:layout_constraintTop_toBottomOf="@id/outbound_station"
         />
+
+    <TextView
+        android:id="@+id/inbound_station"
+        android:textSize="20sp"
+        android:layout_margin="5sp"
+        android:textAlignment="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/please_select_inbound_station"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/station_spinner1"/>
+
     <Spinner
         android:id="@+id/station_spinner2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/station_spinner1"
+        app:layout_constraintTop_toBottomOf="@id/inbound_station"
         />
+
     <Button
         android:id="@+id/station_button"
         android:layout_width="wrap_content"
@@ -38,7 +64,10 @@
         android:text="@string/button_text"
         app:layout_constraintTop_toBottomOf="@id/station_spinner2"
         app:layout_constrainedWidth="true"
+        app:layout_constraintLeft_toLeftOf="@id/station_spinner2"
         android:layout_centerInParent="true"
         android:gravity="center_horizontal" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
