@@ -6,7 +6,9 @@ import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.request.get
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.readText
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import kotlinx.serialization.ImplicitReflectionSerializer
 import kotlinx.serialization.UnstableDefault
 import kotlinx.serialization.json.Json
@@ -37,13 +39,21 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
     @OptIn(UnstableDefault::class)
 
     override fun onButtonPressed(origin: String, destination: String) {
-        val originCode = requireNotNull(codeMap[origin])
-        val destinationCode = requireNotNull(codeMap[destination])
-
+        val originCode = codeMap[origin]
+        val destinationCode = codeMap[destination]
+        if (originCode == null || destinationCode == null) {
+            view?.showAlert("Error: Station not found")
+            return
+        }
+        if (originCode == destinationCode) {
+            view?.showAlert("Stations must be different")
+            return
+        }
         launch {
             val response = sequentialRequests(originCode, destinationCode)
-            view?.showData(response)
+            if (response != null) view?.showData(response)
         }
+
     }
 
     @ImplicitReflectionSerializer
@@ -51,22 +61,28 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
     private suspend fun sequentialRequests(
         originCode: String,
         destinationCode: String
-    ): FaresResponse {
-        val client = HttpClient() {
+    ): FaresResponse? {
+        val client = HttpClient {
             install(JsonFeature) {
                 serializer = KotlinxSerializer()
             }
         }
 
         val json = Json(JsonConfiguration(ignoreUnknownKeys = true, isLenient = true))
-
+        var jsonResponse: FaresResponse? = null
         // Get the content of an URL.
-        val response: HttpResponse =
-            client.get<HttpResponse>("https://mobile-api-dev.lner.co.uk/v1/fares?originStation=$originCode&destinationStation=$destinationCode&outboundDateTime=2020-07-15T12%3A16%3A27.371%2B00%3A00&inboundDateTime=2020-03-06T12%3A16%3A27.371%2B00%3A00&numberOfChildren=1&numberOfAdults=0&doSplitTicketing=false")
+        try {
+            val response: HttpResponse =
+                client.get<HttpResponse>("https://mobile-api-dev.lner.co.uk/v1/fares?originStation=$originCode&destinationStation=$destinationCode&outboundDateTime=2020-07-15T12%3A16%3A27.371%2B00%3A00&inboundDateTime=2020-03-06T12%3A16%3A27.371%2B00%3A00&numberOfChildren=1&numberOfAdults=0&doSplitTicketing=false")
+            val parsedResponse = json.parseJson(response.readText())
+            jsonResponse = json.fromJson<FaresResponse>(parsedResponse)
+        } catch (cause: Throwable) {
+            view?.showAlert("An error occurred:$cause")
 
+        }
         client.close()
 
-        val parsedResponse = json.parseJson(response.readText())
-        return json.fromJson<FaresResponse>(parsedResponse)
+
+        return jsonResponse
     }
 }
