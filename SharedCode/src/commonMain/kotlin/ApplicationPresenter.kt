@@ -15,13 +15,7 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
     private val dispatchers = AppDispatchersImpl()
     private var view: ApplicationContract.View? = null
     private val job: Job = SupervisorJob()
-    private val DIRTY_CRS_HACK = mapOf(
-        "Cambridge" to "CBG",
-        "King's Cross" to "KGX",
-        "Durham" to "DHM",
-        "Edinburgh Waverly" to "EDB",
-        "York" to "YRK"
-    )
+    private val stationCRS=mutableMapOf<String,String>()
     private val dateFormat = DateFormat("yyyy-MM-ddTHH%3Amm%3Ass.000%2B01%3A00")
     private val returnedFormat = DateFormat("yyyy-MM-ddTHH:mm:ss.000")
     private val niceFormat = DateFormat("HH:mm")
@@ -45,13 +39,28 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         val departCRS = stationToCRS(departure)
         launch { callOnTrainPage(departCRS, arriveCRS) }
     }
+    @Serializable
+    data class Station(
+        val name:String,
+        val crs:String
+    )
+    private fun populateStationCRS(){
+        if (stationCRS.isEmpty()){
+            val client = HttpClient() {
+                install(JsonFeature) {
+                    serializer = KotlinxSerializer(Json.nonstrict)
+                }
+            }
+            val job=launch { client.get("https://mobile-api-dev.lner.co.uk/v1/stations") }
 
+        }
+    }
     override fun getStationList(): List<String> {
-        return DIRTY_CRS_HACK.keys.toList()
+        return stationCRS.keys.toList()
     }
 
     private fun stationToCRS(station: String): String {
-        return DIRTY_CRS_HACK[station] ?: "KGX" //the world is king's cross
+        return stationCRS[station] ?: "KGX" //the world is king's cross
     }
 
     @Serializable
