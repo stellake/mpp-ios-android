@@ -16,60 +16,88 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bvm-TJ-sDP">
-                                <rect key="frame" x="10" y="54" width="394" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Train Board" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bvm-TJ-sDP">
+                                <rect key="frame" x="10" y="54" width="394" height="36"/>
+                                <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="31"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vQa-YY-Lmi" userLabel="Departure picker">
-                                <rect key="frame" x="0.0" y="85" width="207" height="216"/>
-                            </pickerView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PaJ-Ar-jam">
-                                <rect key="frame" x="20" y="311" width="374" height="30"/>
-                                <state key="normal" title="Button"/>
-                                <connections>
-                                    <action selector="button_press:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pzv-ol-spb"/>
-                                </connections>
-                            </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Zi7-hc-41D">
-                                <rect key="frame" x="0.0" y="361" width="414" height="501"/>
+                                <rect key="frame" x="0.0" y="241" width="414" height="601"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="BYZ-38-t0r" id="T0N-Ua-Cmz"/>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="pwb-ZR-yqy"/>
                                 </connections>
                             </tableView>
-                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mMv-Kb-f86" userLabel="Arrival picker">
-                                <rect key="frame" x="207" y="85" width="207" height="216"/>
-                            </pickerView>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Select Departing Station" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cAS-1l-TMf">
+                                <rect key="frame" x="117.5" y="100" width="286.5" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Depart from:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="73T-Bv-e1D">
+                                <rect key="frame" x="10" y="100" width="97.5" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Select Destination Station" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Bvr-MS-zYN">
+                                <rect key="frame" x="117.5" y="139" width="286.5" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Arrive at:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hkc-4l-ueG">
+                                <rect key="frame" x="10" y="139" width="97.5" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PaJ-Ar-jam">
+                                <rect key="frame" x="20" y="188" width="374" height="33"/>
+                                <color key="backgroundColor" red="0.96848052740097046" green="0.58702484440313885" blue="0.33637450608460684" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
+                                <color key="tintColor" red="1" green="0.99998801950000005" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <state key="normal" title="Submit">
+                                    <color key="titleColor" red="0.94333755970001221" green="0.93183788573333692" blue="0.50942897763853978" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <connections>
+                                    <action selector="button_press:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pzv-ol-spb"/>
+                                </connections>
+                            </button>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="1" green="0.9263933928714877" blue="0.56129312466364945" alpha="0.66353983274647887" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
+                            <constraint firstItem="Hkc-4l-ueG" firstAttribute="width" secondItem="73T-Bv-e1D" secondAttribute="width" id="08q-nk-87Y"/>
                             <constraint firstItem="Bvm-TJ-sDP" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="0EO-4s-M6m"/>
-                            <constraint firstItem="Zi7-hc-41D" firstAttribute="top" secondItem="PaJ-Ar-jam" secondAttribute="bottom" constant="20" id="101-3F-k9T"/>
+                            <constraint firstItem="Bvr-MS-zYN" firstAttribute="width" secondItem="cAS-1l-TMf" secondAttribute="width" id="4eJ-F2-8R3"/>
+                            <constraint firstItem="73T-Bv-e1D" firstAttribute="top" secondItem="Bvm-TJ-sDP" secondAttribute="bottom" constant="10" id="5aU-o2-ZCN"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="PaJ-Ar-jam" secondAttribute="trailing" constant="20" id="5zP-dD-T3E"/>
-                            <constraint firstItem="vQa-YY-Lmi" firstAttribute="top" secondItem="Bvm-TJ-sDP" secondAttribute="bottom" constant="10" id="6B8-YL-TRe"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Zi7-hc-41D" secondAttribute="bottom" id="ARz-rJ-xjM"/>
-                            <constraint firstItem="mMv-Kb-f86" firstAttribute="width" secondItem="vQa-YY-Lmi" secondAttribute="width" id="CDq-op-pKg"/>
-                            <constraint firstItem="PaJ-Ar-jam" firstAttribute="top" secondItem="mMv-Kb-f86" secondAttribute="bottom" constant="10" id="Dyy-MU-Rt9"/>
+                            <constraint firstItem="PaJ-Ar-jam" firstAttribute="top" secondItem="Bvr-MS-zYN" secondAttribute="bottom" constant="15" id="BL9-Sa-h2k"/>
                             <constraint firstItem="PaJ-Ar-jam" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Eyt-cF-7qr"/>
-                            <constraint firstAttribute="trailing" secondItem="mMv-Kb-f86" secondAttribute="trailing" id="LoU-nU-8HC"/>
+                            <constraint firstItem="Hkc-4l-ueG" firstAttribute="top" secondItem="73T-Bv-e1D" secondAttribute="bottom" constant="5" id="JSD-PV-N35"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="cAS-1l-TMf" secondAttribute="trailing" constant="10" id="Llk-2x-L2w"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Zi7-hc-41D" secondAttribute="trailing" id="N0B-Ot-GOL"/>
+                            <constraint firstItem="cAS-1l-TMf" firstAttribute="top" secondItem="Bvm-TJ-sDP" secondAttribute="bottom" constant="10" id="Nul-hD-hUF"/>
+                            <constraint firstItem="cAS-1l-TMf" firstAttribute="leading" secondItem="73T-Bv-e1D" secondAttribute="trailing" constant="10" id="RCO-NL-uo0"/>
+                            <constraint firstItem="73T-Bv-e1D" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="S5h-It-sOx"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Zi7-hc-41D" secondAttribute="trailing" id="Ss0-bT-NpX"/>
-                            <constraint firstItem="mMv-Kb-f86" firstAttribute="leading" secondItem="vQa-YY-Lmi" secondAttribute="trailing" id="TMS-09-8BI"/>
+                            <constraint firstItem="Hkc-4l-ueG" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="Vba-kq-9Xo"/>
+                            <constraint firstItem="Bvr-MS-zYN" firstAttribute="top" secondItem="cAS-1l-TMf" secondAttribute="bottom" constant="5" id="Wv3-bS-egd"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Bvm-TJ-sDP" secondAttribute="trailing" constant="10" id="XX7-VF-lgy"/>
+                            <constraint firstItem="Hkc-4l-ueG" firstAttribute="height" secondItem="Bvr-MS-zYN" secondAttribute="height" id="gOG-3X-URs"/>
                             <constraint firstItem="Zi7-hc-41D" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="jZ2-ci-rmg"/>
                             <constraint firstItem="Bvm-TJ-sDP" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="kiX-pz-eKI"/>
-                            <constraint firstItem="mMv-Kb-f86" firstAttribute="top" secondItem="Bvm-TJ-sDP" secondAttribute="bottom" constant="10" id="s6U-4d-35P"/>
-                            <constraint firstItem="vQa-YY-Lmi" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="u2l-9b-KFP"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Zi7-hc-41D" secondAttribute="bottom" constant="20" id="m1B-Tn-cxx"/>
+                            <constraint firstItem="Zi7-hc-41D" firstAttribute="top" secondItem="PaJ-Ar-jam" secondAttribute="bottom" constant="20" id="pfF-Q8-JZn"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Bvr-MS-zYN" secondAttribute="trailing" constant="10" id="rGM-MU-sPA"/>
+                            <constraint firstItem="73T-Bv-e1D" firstAttribute="height" secondItem="cAS-1l-TMf" secondAttribute="height" id="xq9-uV-lQp"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
                         <outlet property="arrival_departure_button" destination="PaJ-Ar-jam" id="ZZn-TL-i1T"/>
-                        <outlet property="arrival_picker" destination="mMv-Kb-f86" id="QmL-lh-BRi"/>
-                        <outlet property="departure_picker" destination="vQa-YY-Lmi" id="iyI-vW-Ruk"/>
+                        <outlet property="arrival_field" destination="Bvr-MS-zYN" id="mmU-GG-1UC"/>
+                        <outlet property="departure_field" destination="cAS-1l-TMf" id="ukW-Mc-S9f"/>
                         <outlet property="label" destination="Bvm-TJ-sDP" id="0K4-VH-gLR"/>
                         <outlet property="tableView" destination="Zi7-hc-41D" id="wZ5-DK-kgG"/>
                     </connections>
