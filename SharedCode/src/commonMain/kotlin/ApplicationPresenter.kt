@@ -8,8 +8,6 @@ import io.ktor.http.Url
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
-
-
 class ApplicationPresenter: ApplicationContract.Presenter() {
 
     private val dispatchers = AppDispatchersImpl()
@@ -47,12 +45,23 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
         return stationMap[name] ?: throw Exception("Station cannot be found in system.")
     }
 
-    private fun DisplayJourney(journeyOption: JourneyOption):String{
-        var label = ""
-        for(ticket in journeyOption.tickets) {
-            label = label + ("The price is £" + ticket.priceInPennies.toDouble() / 100 + "\n")
-        }
-        return label
+//    private fun DisplayJourney(journeyOption: JourneyOption):String{
+//        var label = ""
+//        for(ticket in journeyOption.tickets) {
+//            label = label + ("The price is £" + ticket.priceInPennies.toDouble() / 100 + "\n")
+//        }
+//        return label
+//    }
+
+    private fun convertToLight(journey: JourneyOption): String {
+        val time = journey.arrivalTime
+        val pennies = journey.tickets[0].priceInPennies
+        val price = "£${pennies/100}.${pennies - (pennies/100)*100}"
+        return "$time - $price"
+    }
+
+    private fun getJourneyDetailsLight(fares: Fares): List<JourneyDetailsLight> {
+        return fares.outboundJourneys.map { JourneyDetailsLight(it.journeyOptionToken, convertToLight(it)) }
     }
 
     override val coroutineContext: CoroutineContext
@@ -78,11 +87,12 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
                 }
             }
 
-            var fares = Fares()
+            var fares: Fares
 
             try {
                 fares = client.get(Url("https://mobile-api-dev.lner.co.uk/v1/fares?originStation=${getStationCode(departure)}&destinationStation=${getStationCode(destination)}&outboundDateTime=2020-07-15T12%3A16%3A27.371%2B00%3A00&numberOfChildren=2&numberOfAdults=2&doSplitTicketing=false"))
                 if (fares.outboundJourneys.isEmpty()) throw Exception("No journeys available.")
+                view.displayFares(getJourneyDetailsLight(fares))
             } catch (e: Exception) {
                 view.setLabel("Sorry we couldn't find a journey.")
                 println(e.message)
@@ -90,13 +100,13 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
 
             client.close()
 
-            view.setButtonAvailability(true)
-            var label = ""
-            for(journey in fares.outboundJourneys){
-                label = label + DisplayJourney(journey)
-            }
-
-            print(label)
+//            view.setButtonAvailability(true)
+//            var label = ""
+//            for(journey in fares.outboundJourneys){
+//                label = label + DisplayJourney(journey)
+//            }
+//
+//            print(label)
         }
     }
 }

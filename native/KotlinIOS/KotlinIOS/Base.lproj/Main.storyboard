@@ -59,21 +59,30 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CpP-1u-d5W">
-                                <rect key="frame" x="186" y="291" width="42" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="kP9-XB-6dN">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="XYi-XF-u3A" id="2LH-3E-LbK"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="kP9-XB-6dN" firstAttribute="top" secondItem="vYI-hj-j2a" secondAttribute="top" id="5M5-YI-kbo"/>
+                            <constraint firstItem="kP9-XB-6dN" firstAttribute="trailing" secondItem="vYI-hj-j2a" secondAttribute="trailing" id="Hh2-2h-hML"/>
+                            <constraint firstItem="kP9-XB-6dN" firstAttribute="leading" secondItem="vYI-hj-j2a" secondAttribute="leading" id="MF6-hF-q9Y"/>
+                            <constraint firstItem="kP9-XB-6dN" firstAttribute="bottom" secondItem="vYI-hj-j2a" secondAttribute="bottom" id="mgc-pM-Mpw"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="vYI-hj-j2a"/>
                     </view>
+                    <connections>
+                        <outlet property="resultsTableView" destination="kP9-XB-6dN" id="kMF-kb-N34"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FNY-94-YHU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="246" y="1"/>
+            <point key="canvasLocation" x="244.92753623188409" y="0.6696428571428571"/>
         </scene>
     </scenes>
 </document>

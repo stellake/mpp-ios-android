@@ -7,6 +7,7 @@ interface ApplicationContract {
         fun setLabel(text: String)
         fun updateDropDowns(stationNames: List<String>)
         fun setButtonAvailability(state: Boolean)
+        fun displayFares(fareList: List<JourneyDetailsLight>)
     }
 
     abstract class Presenter: CoroutineScope {

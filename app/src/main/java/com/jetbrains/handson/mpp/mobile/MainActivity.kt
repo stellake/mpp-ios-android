@@ -51,4 +51,8 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
 //        startActivity(intent)
         presenter.loadJourneys(this, departureName, destinationName)
     }
+
+    override fun displayFares(fares: Fares) {
+        // TODO: This
+    }
 }

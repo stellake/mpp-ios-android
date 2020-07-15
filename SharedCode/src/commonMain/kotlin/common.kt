@@ -159,6 +159,8 @@ data class StationMessage(
     val message: String = ""
 )
 
+data class JourneyDetailsLight(val token: String, val details: String)
+
 fun createApplicationScreenMessage(): String {
     return "Kotlin Rocks on ${platformName()}"
 }

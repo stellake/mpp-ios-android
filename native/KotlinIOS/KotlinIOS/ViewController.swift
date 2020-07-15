@@ -25,11 +25,6 @@ class ViewController: UIViewController {
         let depart = data[pickerdeparture.selectedRow(inComponent: 0)]
         let dest = data[pickerdestination.selectedRow(inComponent: 0)]
         presenter.loadJourneys(view: self, departure: depart, destination: dest)
-        
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        let newViewController = storyboard.instantiateViewController(withIdentifier: "DISPLAY_JOUNEYS_VIEW_CONTROLLER") as! DisplayJourneysViewController
-//        newViewController.modalPresentationStyle = .fullScreen
-//        self.present(newViewController, animated: true, completion: nil)
     }
 }
 
@@ -65,10 +60,20 @@ extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 }
 
 extension ViewController: ApplicationContractView {
+    func displayFares(fareList: [JourneyDetailsLight]) {
+        print(fareList)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let newViewController = storyboard.instantiateViewController(withIdentifier: "DISPLAY_JOUNEYS_VIEW_CONTROLLER") as! DisplayJourneysViewController
+        newViewController.modalPresentationStyle = .fullScreen
+        self.present(newViewController, animated: true, completion: nil)
+        newViewController.setPresenter(presenter)
+        newViewController.setTableData(fareList)
+        
+    }
+    
     func setButtonAvailability(state: Bool) {
         //Do nothing
     }
-    
     
     func setLabel(text: String) {
         // TODO: nothing
