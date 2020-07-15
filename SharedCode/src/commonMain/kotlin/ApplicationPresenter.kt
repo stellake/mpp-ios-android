@@ -3,7 +3,9 @@ package com.jetbrains.handson.mpp.mobile
 import com.jetbrains.handson.mpp.mobile.api.JourneyOption
 import com.jetbrains.handson.mpp.mobile.api.getFares
 import com.jetbrains.handson.mpp.mobile.api.getStations
+import com.jetbrains.handson.mpp.mobile.api.FaresResponse
 import io.ktor.client.HttpClient
+import io.ktor.client.features.DefaultRequest.Feature.install
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import kotlinx.coroutines.Job
@@ -13,6 +15,7 @@ import kotlinx.serialization.ImplicitReflectionSerializer
 import kotlinx.serialization.UnstableDefault
 import kotlinx.serialization.json.Json
 import kotlin.coroutines.CoroutineContext
+import com.jetbrains.handson.mpp.mobile.api.*
 
 @ImplicitReflectionSerializer
 class ApplicationPresenter : ApplicationContract.Presenter() {
