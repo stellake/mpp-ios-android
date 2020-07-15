@@ -18,25 +18,48 @@ import kotlinx.serialization.json.JsonConfiguration
 import kotlin.coroutines.CoroutineContext
 
 import com.jetbrains.handson.mpp.mobile.api.*
+import kotlinx.serialization.json.JsonBuilder
 
+@ImplicitReflectionSerializer
 class ApplicationPresenter : ApplicationContract.Presenter() {
 
     private val dispatchers = AppDispatchersImpl()
     private var view: ApplicationContract.View? = null
     private val job: Job = SupervisorJob()
-    private val codeMap = mapOf<String, String>(
+    private val codeMap =
+        mutableMapOf<String, String>(
         "Harrow and Wealdstone" to "HRW",
         "Canley" to "CNL",
         "London Euston" to "EUS",
         "Coventry" to "COV",
         "Birmingham New Street" to "BHM"
     )
+
+    init {
+        launch {
+            codeMap.putAll(
+                client.getStations().stations.map {
+                    it.name to (it.nlc ?: it.crs ?: throw Error())
+                }.toMap()
+            )
+            val stations = client.getStations().stations
+            for ( i in stations) {
+                println(i)
+            }
+        }
+    }
+
     override val coroutineContext: CoroutineContext
         get() = dispatchers.main + job
 
     private val client = HttpClient {
         install(JsonFeature) {
-            serializer = KotlinxSerializer()
+            serializer = KotlinxSerializer( json = Json {
+                isLenient = true
+                allowStructuredMapKeys = true
+                prettyPrint = true
+                indent = "   "
+            })
         }
     }
 

@@ -21,19 +21,20 @@ data class FaresResponse(
 data class JourneyOption(
     val journeyOptionToken: String,
     val journeyId: String,
-    val originStation: Station,
-    val destinationStation: Station,
+    val originStation: JourneyOptionStation,
+    val destinationStation: JourneyOptionStation,
     val departureTime: String,
     val arrivalTime: String,
     val journeyDurationInMinutes: Int
 )
 
 @Serializable
-data class Station(
+data class JourneyOptionStation(
     val displayName: String,
     val crs: String,
     val nlc: String
-)
+
+    )
 
 @ImplicitReflectionSerializer
 @OptIn(UnstableDefault::class)
