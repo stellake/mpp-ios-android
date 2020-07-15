@@ -81,7 +81,7 @@ extension ViewController: ApplicationContractView {
     }
     
     func setButtonAvailability(state: Bool) {
-        // TODO: this
+        getJourneysButton.isEnabled = state
     }
     
     func updateDropDowns(stationNames: [String]) {
