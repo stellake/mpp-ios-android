@@ -12,45 +12,42 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.core.view.get
 
-fun openNewTabWindow(urls: String, context: Context) {
-    val uris = Uri.parse(urls)
-    val intents = Intent(Intent.ACTION_VIEW, uris)
-    val b = Bundle()
-    b.putBoolean("new_window", true)
-    intents.putExtras(b)
-    context.startActivity(intents)
-}
-
 
 class MainActivity : AppCompatActivity(), ApplicationContract.View {
 
+    fun openNewTabWindow(urls: String, context: Context) {
+        val uris = Uri.parse(urls)
+        val intents = Intent(Intent.ACTION_VIEW, uris)
+        val b = Bundle()
+        b.putBoolean("new_window", true)
+        intents.putExtras(b)
+        context.startActivity(intents)
+    }
+
+    fun newLocationsSpinner(context:Context,spinnerID:Int):Spinner
+    {
+        val theSpinner: Spinner = findViewById(spinnerID)
+        ArrayAdapter.createFromResource(
+            context,
+            R.array.departing_stations_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            theSpinner.adapter = adapter
+        }
+        return theSpinner
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_main)
 
         val presenter = ApplicationPresenter()
         presenter.onViewTaken(this)
 
-        val departingSpinner: Spinner = findViewById(R.id.departing_spinner)
-        ArrayAdapter.createFromResource(
-            this,
-            R.array.departing_stations_array,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            departingSpinner.adapter = adapter
-        }
+        val departingSpinner: Spinner =newLocationsSpinner(this,R.id.departing_spinner)
 
-        val arrivalSpinner: Spinner = findViewById(R.id.arrival_spinner)
-        ArrayAdapter.createFromResource(
-            this,
-            R.array.departing_stations_array,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            arrivalSpinner.adapter = adapter
-        }
+        val arrivalSpinner : Spinner =newLocationsSpinner(this,R.id.departing_spinner)
+
         val button: Button = findViewById(R.id.button_id)
         button.setOnClickListener {
             var departingCode:String = ""
@@ -59,13 +56,13 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
             var stationList = resources.getStringArray(R.array.departing_stations_array)
             var stationCodes = resources.getStringArray(R.array.departing_stations_codes)
 
-            for( i in stationList.indices)
+            for( index in stationList.indices)
             {
-                if(departingSpinner.selectedItem == stationList[i])
-                    departingCode = stationCodes[i]
+                if(departingSpinner.selectedItem == stationList[index])
+                    departingCode = stationCodes[index]
 
-                if(arrivalSpinner.selectedItem == stationList[i])
-                   arrivalCode = stationCodes[i]
+                if(arrivalSpinner.selectedItem == stationList[index])
+                   arrivalCode = stationCodes[index]
             }
 
             openNewTabWindow("https://www.lner.co.uk/travel-information/travelling-now/live-train-times/depart/".plus(departingCode).plus("/").plus(arrivalCode).plus("/#LiveDepResults"), this@MainActivity)
