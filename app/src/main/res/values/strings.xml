@@ -3,5 +3,5 @@
     <string name="button_text">Submit</string>
     <string name="get_live_train_times">Get live train times</string>
     <string name="please_select_outbound_station">Please select outbound station</string>
-    <string name="please_select_inbound_station">please select inbound station</string>
+    <string name="please_select_inbound_station">Please select inbound station</string>
 </resources>
