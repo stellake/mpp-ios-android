@@ -22,6 +22,11 @@ class ViewController: UIViewController {
         presenter.onViewTaken(view: self)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true
+    }
+    
     @IBAction func ButtonPress(_ sender: Any) {
         let depart = data[pickerdeparture.selectedRow(inComponent: 0)]
         let dest = data[pickerdestination.selectedRow(inComponent: 0)]
@@ -73,11 +78,10 @@ extension ViewController: ApplicationContractView {
         print(fareList)
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let newViewController = storyboard.instantiateViewController(withIdentifier: "DISPLAY_JOUNEYS_VIEW_CONTROLLER") as! DisplayJourneysViewController
-//        newViewController.modalPresentationStyle = .fullScreen
-        self.present(newViewController, animated: true, completion: nil)
+        self.navigationController?.isNavigationBarHidden = false
+        self.show(newViewController, sender: self)
         newViewController.setPresenter(presenter)
         newViewController.setTableData(fareList)
-        
     }
     
     func setButtonAvailability(state: Bool) {
