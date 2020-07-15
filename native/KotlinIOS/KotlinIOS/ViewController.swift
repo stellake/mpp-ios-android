@@ -7,19 +7,19 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
 
     private let presenter: ApplicationContractPresenter = ApplicationPresenter()
     
-    @IBOutlet weak var Station_picker1: UIPickerView!
+    @IBOutlet weak var outboundStationPicker: UIPickerView!
     var pickerData:[String] = [String]()
 
     @IBOutlet weak var Submit: UIButton!
-    @IBOutlet weak var Station_picker2: UIPickerView!
+    @IBOutlet weak var inboundStationPicker: UIPickerView!
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter.onViewTaken(view: self)
         pickerData = ["Harrow and Wealdstone", "London Euston", "Canley", "Coventry", "Birmingham New Street"]
-        Station_picker1.dataSource = self
-        Station_picker1.delegate = self
-        Station_picker2.dataSource = self
-        Station_picker2.delegate = self
+        outboundStationPicker.dataSource = self
+        outboundStationPicker.delegate = self
+        outboundStationPicker.dataSource = self
+        outboundStationPicker.delegate = self
     }
     override func didReceiveMemoryWarning() {
             super.didReceiveMemoryWarning()
@@ -47,10 +47,10 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     }
     
     @IBAction func onButtonPress(_ sender: Any) {
-        let origin: String = pickerData[Station_picker1.selectedRow(inComponent: 0)]
-        let destination = pickerData[Station_picker2.selectedRow(inComponent: 0)]
-        let url = (URL(string: presenter.onButtonPressed(origin: origin, destination: destination)) ?? URL(string: "https://lner.co.uk"))!
-        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+//        let origin: String = pickerData[Station_picker1.selectedRow(inComponent: 0)]
+//        let destination = pickerData[Station_picker2.selectedRow(inComponent: 0)]
+//        let url = (URL(string: presenter.onButtonPressed(origin: origin, destination: destination)) ?? URL(string: "https://lner.co.uk"))!
+//        UIApplication.shared.open(url, options: [:], completionHandler: nil)
         
     }
     
@@ -58,6 +58,10 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
 }
 
 extension ViewController: ApplicationContractView {
+    func showData(text: FaresResponse) {
+        
+    }
+    
     func showAlert(text: String) {
     
     }

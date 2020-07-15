@@ -1,15 +1,14 @@
 package com.jetbrains.handson.mpp.mobile
 
-import kotlinx.serialization.*
-import kotlinx.serialization.json.*
+import kotlinx.serialization.Serializable
 
 @Serializable
-data class FaresResponse (
+data class FaresResponse(
     val outboundJourneys: List<JourneyOption>
 )
 
 @Serializable
-data class JourneyOption (
+data class JourneyOption(
     val journeyOptionToken: String,
     val journeyId: String,
     val originStation: Station,
@@ -17,10 +16,10 @@ data class JourneyOption (
     val departureTime: String,
     val arrivalTime: String,
     val journeyDurationInMinutes: Int
-    )
+)
 
 @Serializable
-data class Station (
+data class Station(
     val displayName: String,
     val crs: String,
     val nlc: String
