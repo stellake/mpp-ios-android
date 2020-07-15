@@ -1,6 +1,8 @@
 package com.jetbrains.handson.mpp.mobile
 
+import com.jetbrains.handson.mpp.mobile.api.FaresResponse
 import io.ktor.client.HttpClient
+import io.ktor.client.features.DefaultRequest.Feature.install
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.request.get
@@ -14,6 +16,8 @@ import kotlinx.serialization.UnstableDefault
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
 import kotlin.coroutines.CoroutineContext
+
+import com.jetbrains.handson.mpp.mobile.api.*
 
 class ApplicationPresenter : ApplicationContract.Presenter() {
 
@@ -29,6 +33,12 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
     )
     override val coroutineContext: CoroutineContext
         get() = dispatchers.main + job
+
+    private val client = HttpClient {
+        install(JsonFeature) {
+            serializer = KotlinxSerializer()
+        }
+    }
 
     override fun onViewTaken(view: ApplicationContract.View) {
         this.view = view
@@ -50,40 +60,9 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
             return
         }
         launch {
-            val response = sequentialRequests(originCode, destinationCode)
+            val response = client.getFares(originCode, destinationCode)
             if (response != null) view?.showData(response)
         }
-
-    }
-
-    @ImplicitReflectionSerializer
-    @OptIn(UnstableDefault::class)
-    private suspend fun sequentialRequests(
-        originCode: String,
-        destinationCode: String
-    ): FaresResponse? {
-        val client = HttpClient {
-            install(JsonFeature) {
-                serializer = KotlinxSerializer()
-            }
-        }
-
-        val json = Json(JsonConfiguration(ignoreUnknownKeys = true, isLenient = true))
-        var jsonResponse: FaresResponse? = null
-        // Get the content of an URL.
-        try {
-            val response: HttpResponse =
-                client.get<HttpResponse>("https://mobile-api-dev.lner.co.uk/v1/fares?originStation=$originCode&destinationStation=$destinationCode&outboundDateTime=2020-07-15T12%3A16%3A27.371%2B00%3A00&inboundDateTime=2020-03-06T12%3A16%3A27.371%2B00%3A00&numberOfChildren=1&numberOfAdults=0&doSplitTicketing=false")
-            val parsedResponse = json.parseJson(response.readText())
-            jsonResponse = json.fromJson<FaresResponse>(parsedResponse)
-        } catch (cause: Throwable) {
-            view?.showAlert("An error occurred:$cause")
-
-        }
-        client.close()
-
-
-        return jsonResponse
     }
 
     fun onBuyButton(
