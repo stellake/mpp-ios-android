@@ -6,12 +6,13 @@ import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.request.get
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.readText
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import kotlinx.serialization.ImplicitReflectionSerializer
 import kotlinx.serialization.UnstableDefault
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
-import kotlinx.serialization.json.JsonElement
 import kotlin.coroutines.CoroutineContext
 
 class ApplicationPresenter : ApplicationContract.Presenter() {
@@ -40,18 +41,19 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
     override fun onButtonPressed(origin: String, destination: String) {
         val originCode = codeMap[origin]
         val destinationCode = codeMap[destination]
-        if (originCode != null && destinationCode != null) {
-            if (originCode != destinationCode) {
-                launch {
-                    val response = sequentialRequests(originCode, destinationCode)
-                    if (response != null) view?.showData(response)
-                }
-            } else {
-                view?.showAlert("Stations must be different")
-            }
-        } else {
+        if (originCode == null || destinationCode == null) {
             view?.showAlert("Error: Station not found")
+            return
         }
+        if (originCode == destinationCode) {
+            view?.showAlert("Stations must be different")
+            return
+        }
+        launch {
+            val response = sequentialRequests(originCode, destinationCode)
+            if (response != null) view?.showData(response)
+        }
+
     }
 
     @ImplicitReflectionSerializer
@@ -60,7 +62,7 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         originCode: String,
         destinationCode: String
     ): FaresResponse? {
-        val client = HttpClient() {
+        val client = HttpClient {
             install(JsonFeature) {
                 serializer = KotlinxSerializer()
             }
