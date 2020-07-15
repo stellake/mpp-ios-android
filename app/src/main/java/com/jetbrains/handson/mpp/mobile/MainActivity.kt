@@ -5,34 +5,22 @@ import android.content.Intent.ACTION_VIEW
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.Spinner
-import android.widget.TextView
+import android.widget.*
 
 class MainActivity : AppCompatActivity(), ApplicationContract.View {
-
+    lateinit private var autoAdapter:ArrayAdapter<String>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val presenter = ApplicationPresenter()
         presenter.onViewTaken(this)
-        val spinners = listOf<Spinner>(
+        autoAdapter=ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line, mutableListOf())
+        val autos = listOf<AutoCompleteTextView>(
             findViewById(R.id.arrival_station),
             findViewById(R.id.departure_station)
         )
-// Create an ArrayAdapter using the string array and a default spinner layout
-        spinners.forEach {
-            ArrayAdapter.createFromResource(
-                this,
-                R.array.stations_array,
-                android.R.layout.simple_spinner_item
-            ).also { adapter ->
-                // Specify the layout to use when the list of choices appears
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                // Apply the adapter to the spinner
-                it.adapter = adapter
-            }
+        autos.forEach{
+            it.setAdapter(autoAdapter);
         }
         val button: Button = findViewById(R.id.done_button)
         button.setOnClickListener {
@@ -45,11 +33,11 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
     }
 
     override fun getArrivalDepartureStations(): Pair<String, String> {
-        val arrivalSpinner: Spinner = findViewById(R.id.arrival_station)
-        val departureSpinner: Spinner = findViewById(R.id.departure_station)
+        val arrivalText:AutoCompleteTextView = findViewById(R.id.arrival_station)
+        val departureText:AutoCompleteTextView = findViewById(R.id.departure_station)
         return Pair(
-            arrivalSpinner.selectedItem.toString(),
-            departureSpinner.selectedItem.toString()
+            arrivalText.text.toString(),
+            departureText.text.toString()
         )
     }
 
@@ -58,8 +46,8 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
     }
 
     override fun updateStations(data: List<String>) {
-        println(data)
-        println(data.size)
+        autoAdapter.clear()
+        autoAdapter.addAll(data)
     }
 
     override fun setLabel(text: String) {
