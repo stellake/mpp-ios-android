@@ -38,7 +38,7 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
     @ImplicitReflectionSerializer
     @OptIn(UnstableDefault::class)
 
-    override fun onButtonPressed(origin: String, destination: String) {
+    override fun onButtonPressed(origin: String, destination: String, time: String) {
         val originCode = codeMap[origin]
         val destinationCode = codeMap[destination]
         if (originCode == null || destinationCode == null) {
@@ -50,17 +50,16 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
             return
         }
         launch {
-            val response = sequentialRequests(originCode, destinationCode)
+            val response = sequentialRequests(originCode, destinationCode, time)
             if (response != null) view?.showData(response)
         }
-
     }
 
     @ImplicitReflectionSerializer
     @OptIn(UnstableDefault::class)
     private suspend fun sequentialRequests(
         originCode: String,
-        destinationCode: String
+        destinationCode: String, time: String
     ): FaresResponse? {
         val client = HttpClient {
             install(JsonFeature) {
@@ -73,7 +72,7 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         // Get the content of an URL.
         try {
             val response: HttpResponse =
-                client.get<HttpResponse>("https://mobile-api-dev.lner.co.uk/v1/fares?originStation=$originCode&destinationStation=$destinationCode&outboundDateTime=2020-07-15T12%3A16%3A27.371%2B00%3A00&inboundDateTime=2020-03-06T12%3A16%3A27.371%2B00%3A00&numberOfChildren=1&numberOfAdults=0&doSplitTicketing=false")
+                client.get<HttpResponse>("https://mobile-api-dev.lner.co.uk/v1/fares?originStation=$originCode&destinationStation=$destinationCode&outboundDateTime=$time.371%2B00%3A00&inboundDateTime=$time.371%2B00%3A00&numberOfChildren=1&numberOfAdults=0&doSplitTicketing=false")
             val parsedResponse = json.parseJson(response.readText())
             jsonResponse = json.fromJson<FaresResponse>(parsedResponse)
         } catch (cause: Throwable) {
@@ -81,8 +80,6 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
 
         }
         client.close()
-
-
         return jsonResponse
     }
 
