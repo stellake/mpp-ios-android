@@ -9,6 +9,7 @@ interface ApplicationContract {
         fun openURL(url:String)
         fun showData(data:List<TrainJourney>)
         fun updateStations(data: List<String>)
+        fun showAPIError(info:String) //print info in console, show something nice to the user
     }
 
 

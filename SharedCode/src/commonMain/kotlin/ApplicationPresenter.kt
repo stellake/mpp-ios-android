@@ -2,6 +2,7 @@ package com.jetbrains.handson.mpp.mobile
 
 import com.soywiz.klock.*
 import io.ktor.client.HttpClient
+import io.ktor.client.features.ClientRequestException
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.request.get
@@ -47,10 +48,14 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
 
     private suspend fun populateStationCRS() {
         if (stationCRS.isEmpty()) {
-            fetchStations().stations.forEach {
-                if (it.crs != null) {
-                    stationCRS[it.name] = it.crs
+            try {
+                fetchStations().stations.forEach {
+                    if (it.crs != null) {
+                        stationCRS[it.name] = it.crs
+                    }
                 }
+            }catch (e:ClientRequestException){
+                view?.showAPIError("Bad API call")
             }
         }
         view?.updateStations(stationCRS.keys.toList())
@@ -98,7 +103,13 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
                 )
             )
         } else {
-            val trainInfo = fetchJourneyData(originCRS, destinationCRS, now)
+            val trainInfo:trainData
+            try {
+                trainInfo = fetchJourneyData(originCRS, destinationCRS, now)
+            }catch (e:ClientRequestException){
+                view?.showAPIError("bad API call")
+                return
+            }
             journeys = mutableListOf<ApplicationContract.TrainJourney>()
             trainInfo.outboundJourneys.forEach {
                 val minPrice = it.tickets.minBy { it.priceInPennies }?.priceInPennies ?: 0

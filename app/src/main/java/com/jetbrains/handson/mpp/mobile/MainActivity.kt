@@ -75,4 +75,10 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
     override fun setLabel(text: String) {
         findViewById<TextView>(R.id.main_text).text = text
     }
+
+    override fun showAPIError(info:String) {
+        //TODO - bring up error message
+        println("API CALL FAILED")
+        println(info)
+    }
 }

@@ -79,6 +79,11 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
 
 
 extension ViewController: ApplicationContractView {
+    func showAPIError(info: String) {
+        //TODO - show message to user
+        print(info)
+    }
+    
     func updateStations(data: [String]) {
         print("")
     }
