@@ -16,6 +16,7 @@ import kotlinx.serialization.UnstableDefault
 import kotlinx.serialization.json.Json
 import kotlin.coroutines.CoroutineContext
 import com.jetbrains.handson.mpp.mobile.api.*
+import kotlinx.coroutines.channels.Channel
 import kotlinx.serialization.json.JsonBuilder
 
 @ImplicitReflectionSerializer
@@ -24,7 +25,7 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
     private val dispatchers = AppDispatchersImpl()
     private var view: ApplicationContract.View? = null
     private val job: Job = SupervisorJob()
-    private val codeMap =
+    val codeMap =
         mutableMapOf<String, String>(
         "Harrow and Wealdstone" to "HRW",
         "Canley" to "CNL",
@@ -32,6 +33,7 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         "Coventry" to "COV",
         "Birmingham New Street" to "BHM"
     )
+
 
     init {
         launch {
@@ -104,3 +106,5 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         view?.openWebpage("https://www.lner.co.uk/buy-tickets/booking-engine/?ocrs=$outbound&dcrs=$inbound&outm=$month&outd=$day&outh=$hour&outmi=$minutes&ret=$returnSymbol")
     }
 }
+
+val codeMapChannel: Channel<MutableMap<String,String>> = Channel()

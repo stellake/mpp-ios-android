@@ -1,6 +1,6 @@
 package com.jetbrains.handson.mpp.mobile
 
-import android.content.Intent
+mport android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jetbrains.handson.mpp.mobile.api.JourneyOption
 import kotlinx.android.synthetic.main.activity_main.*
 import java.time.LocalDateTime
+import kotlinx.coroutines.launch
+
 
 class MainActivity : AppCompatActivity(), ApplicationContract.View,
 
@@ -27,25 +29,28 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
         val presenter = ApplicationPresenter()
         presenter.onViewTaken(this)
 
-        val outboundSpinner: Spinner = findViewById(outbound_spinner_control.id)
-        ArrayAdapter.createFromResource(
-            this,
-            R.array.stations_array,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            outboundSpinner.adapter = adapter
+        val stations = mutableListOf<String>()
+        presenter.launch {
+            val codeMap = codeMapChannel.receive()
+            stations.clear()
+            stations.addAll(codeMap.keys)
         }
 
+
+        val outboundSpinner: Spinner = findViewById(outbound_spinner_control.id)
+        ArrayAdapter(this, android.R.layout.simple_spinner_item, stations)
+            .also { adapter ->
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                outboundSpinner.adapter = adapter
+            }
+
         val inboundSpinner: Spinner = findViewById(inbound_spinner_control.id)
-        ArrayAdapter.createFromResource(
-            this,
-            R.array.stations_array,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            inboundSpinner.adapter = adapter
-        }
+
+        ArrayAdapter(this, android.R.layout.simple_spinner_item, stations)
+            .also { adapter ->
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                inboundSpinner.adapter = adapter
+            }
 
 
         val journeysRecyclerView = findViewById<RecyclerView>(R.id.journeys_recycler_view)
