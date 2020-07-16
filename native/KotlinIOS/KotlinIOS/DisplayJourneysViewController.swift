@@ -7,9 +7,7 @@ class DisplayJourneysViewController: UIViewController {
     
     private let standardCellIden = "CELL_IDENTIFIER"
     
-    private var presenter = ApplicationContractPresenter()
-    private var tableData: [String] = []
-    private var fareList: [[String]] = []
+    private var fares: Fares? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,13 +19,8 @@ class DisplayJourneysViewController: UIViewController {
         resultsTableView.tableFooterView = UIView(frame: .zero)
     }
     
-    func setPresenter(_ presenter: ApplicationContractPresenter) {
-        self.presenter = presenter
-    }
-    
-    func setTableData(_ fareList: [[String]]) {
-        self.fareList = fareList
-        tableData = fareList.map { $0[1] }
+    func setTableData(_ fares: Fares) {
+        self.fares = fares
         resultsTableView?.reloadData()
     }
     
@@ -39,12 +32,12 @@ class DisplayJourneysViewController: UIViewController {
 
 extension DisplayJourneysViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tableData.count
+        return fares!.outboundJourneys.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = resultsTableView.dequeueReusableCell(withIdentifier: standardCellIden)
-        cell?.textLabel?.text = tableData[indexPath.row]
+//        cell?.textLabel?.text = tableData[indexPath.row]
         return cell!
     }
 }

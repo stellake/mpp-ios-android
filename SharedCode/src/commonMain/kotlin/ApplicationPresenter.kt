@@ -49,19 +49,6 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
         return stationMap[name] ?: throw Exception("Station cannot be found in system.")
     }
 
-    private fun getPrice(journey: JourneyOption): String {
-        val price = journey.tickets.map { it.priceInPennies }.min().toString()
-        val priceAsString = "from £" + price.substring(0,price.length-2) + "." + price.substring(price.length-2,price.length)
-        return priceAsString
-    }
-
-    private fun getJourneyDetailsLight(fares: Fares): List<List<String>> {
-        return fares.outboundJourneys.map { listOf(
-            it.journeyOptionToken,
-            it.departureTime,
-            getPrice(it)) }
-    }
-
     override val coroutineContext: CoroutineContext
         get() = dispatchers.main + job
 
@@ -94,7 +81,7 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
                     outboundDateTime = DateTime.nowLocal().format(ISO8601.DATETIME_COMPLETE) + ".000%2B00:00"
                 ).toURL())
                 if (fares.outboundJourneys.isEmpty()) throw Exception("No journeys available.")
-                view!!.displayFares(getJourneyDetailsLight(fares))  // force use bc otherwise it should show error message
+                view!!.displayFares(fares)  // force use bc otherwise it should show error message
             } catch (e: Exception) {
                 view?.showAlert("Sorry we couldn't find a journey.")
                 println(e.message)

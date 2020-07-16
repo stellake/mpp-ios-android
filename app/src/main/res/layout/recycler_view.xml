@@ -5,11 +5,18 @@
     android:layout_width = "match_parent"
     android:orientation="horizontal">
     <TextView
-        android:id="@+id/recyclerView"
+        android:id="@+id/departureTimeView"
         android:layout_width="match_parent"
         android:layout_height="20dp"
         android:background="@color/colorPrimaryDark"
-        android:text="This text is Hardcoded"/>
+        android:text="2020-10-09 12:12:12"/>
+
+    <TextView
+        android:id="@+id/priceView"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@color/colorPrimaryDark"
+        android:text="From: £10.00"/>
 
     <Button
         android:layout_height="30dp"

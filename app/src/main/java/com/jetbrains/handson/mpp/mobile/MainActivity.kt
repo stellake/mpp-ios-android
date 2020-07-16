@@ -2,26 +2,22 @@ package com.jetbrains.handson.mpp.mobile
 
 import android.content.Intent
 import android.os.Bundle
+
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import java.io.Serializable
-
+import com.google.gson.Gson
 
 class MainActivity : AppCompatActivity(), ApplicationContract.View {
 
-
     private val presenter = ApplicationPresenter()
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-
         presenter.onViewTaken(this)
         updateDropDowns(listOf())
     }
@@ -43,9 +39,9 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         get_journey_button.isClickable = state
     }
 
-    override fun displayFares(fareList: List<List<String>>) {
+    override fun displayFares(fares: Fares) {
         val intent = Intent(this, JourneyActivity::class.java).apply{
-            putExtra("fareList",  fareList as Serializable)
+            putExtra("fareList",  Gson().toJson(fares))
         }
         startActivity(intent)
     }

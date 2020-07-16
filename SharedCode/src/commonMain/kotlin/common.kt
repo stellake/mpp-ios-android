@@ -1,6 +1,5 @@
 package com.jetbrains.handson.mpp.mobile
 
-import io.ktor.client.request.request
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
