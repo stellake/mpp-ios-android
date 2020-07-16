@@ -9,8 +9,6 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     private var data: [JourneyOption]?
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var outboundStationPicker: UIPickerView!
-    @IBOutlet weak var inboundStationPicker: UIPickerView!
     @IBOutlet weak var Submit: UIButton!
     var pickerData:[String] = [String]()
     
@@ -19,16 +17,12 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         let nib = UINib(nibName: "journeyCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: "CUSTOM_CELL")
         tableView.tableFooterView = UIView(frame: .zero)
+        print("Hi")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter.onViewTaken(view: self)
-        pickerData = ["Harrow and Wealdstone", "London Euston", "Canley", "Coventry", "Birmingham New Street"]
-        outboundStationPicker.dataSource = self
-        outboundStationPicker.delegate = self
-        outboundStationPicker.dataSource = self
-        outboundStationPicker.delegate = self
         setUpTable()
     }
     
@@ -58,8 +52,18 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     }
     
     @IBAction func onButtonPress(_ sender: Any) {
-        
-        
+        let outboundSelection = "Birmingham New Street"
+        let inboundSelection = "London Euston"
+        let date = Date()
+        let calendar = Calendar.current
+        let year = calendar.component(.year, from: date)
+        let month = calendar.component(.month, from: date)
+        let day = calendar.component(.day, from: date)
+        let hour = calendar.component(.hour, from: date)
+        let minutes = calendar.component(.minute, from: date)
+        let timeString = String(format: "%04u-%02u-%02uT%02u:%02u:00.000+00:00", year, month, day, hour, minutes)
+        presenter.onButtonPressed(origin: outboundSelection, destination: inboundSelection, time: timeString)
+        print(timeString)
     }
     
     
@@ -69,11 +73,14 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
 extension ViewController: ApplicationContractView {
    
     func showData(journeys: [JourneyOption]) {
-        
+        print("hi")
+        data = journeys
+        tableView.reloadData()
     }
     
     func showAlert(text: String) {
-    
+        print(text)
+        setLabel(text: text)
     }
     
     func setLabel(text: String) {
@@ -81,7 +88,7 @@ extension ViewController: ApplicationContractView {
     }
     
     func openWebpage(url: String) {
-        
+        UIApplication.shared.open(NSURL(string:url)! as URL)
     }
 }
 
@@ -93,12 +100,15 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CUSTOM_CELL") as! journeyCell
         let thisCellRow = indexPath.row
-        cell.setData(outboundCode: data?[thisCellRow].originStation.crs ?? "" , inboundCode: data?[thisCellRow].destinationStation.crs ?? "", outMonth: data?[thisCellRow].outboundMonth, outDay: <#T##String#>, outHour: <#T##String#>, outMinute: <#T##String#>, arrivalTime: <#T##String#>, duration: <#T##String#>, delegate: <#T##CustomTableCellDelegate#>)
+        //cell.setData(outboundCode: data?[thisCellRow].originStation.crs ?? "" , inboundCode: data?[thisCellRow].destinationStation.crs ?? "", outMonth: data?[thisCellRow].outboundMonth ?? "", outDay: <#T##String#>, outHour: <#T##String#>, outMinute: <#T##String#>, arrivalTime: <#T##String#>, duration: <#T##String#>, delegate: self)
+        cell.setData(outboundCode: "", inboundCode: "" , outMonth: 0, outDay: 0, outHour: 0, outMinute: 0, arrivalTime: "", duration: "", delegate: self)
+        
+        return cell
     }
 }
 
 extension ViewController: CustomTableCellDelegate {
-    func onBuyButtonTapped(outboundCode: String, inboundCode: String, outMonth: String, outDay: String, outHour: String, outMinute: String, returnSymbol: String) {
-        presenter.onBuyButton(outboundCode,inboundCode, outMonth, outDay, outHour, outMinute, "y")
-    }
+    
+    func onBuyButtonTapped(outboundCode: String, inboundCode: String, outMonth: Int32, outDay: Int32, outHour: Int32, outMinute: Int32, returnSymbol: Bool = true) {
+        presenter.onBuyButton(outbound: outboundCode, inbound: inboundCode, month: outMonth, day: outDay, hour: outHour, minutes: outMinute, returnBool: returnSymbol)    }
 }

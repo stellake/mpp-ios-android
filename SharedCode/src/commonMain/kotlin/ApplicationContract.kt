@@ -14,14 +14,16 @@ interface ApplicationContract {
 
     abstract class Presenter : CoroutineScope {
         abstract fun onViewTaken(view: View)
-        abstract fun onButtonPressed(origin: String, destination: String)
-        abstract fun onBuyButtonPressed(outbound: String,
-                                        inbound: String,
-                                        month: Int,
-                                        day: Int,
-                                        hour: Int,
-                                        minutes: Int,
-                                        returnBool: Boolean = true)
         abstract fun onButtonPressed(origin: String, destination: String, time: String)
+        abstract fun onBuyButton(
+            outbound: String,
+            inbound: String,
+            month: Int,
+            day: Int,
+            hour: Int,
+            minutes: Int,
+            returnBool: Boolean = true
+        )
+
     }
 }

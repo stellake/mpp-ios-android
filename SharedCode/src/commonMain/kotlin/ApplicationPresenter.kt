@@ -83,14 +83,14 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         }
     }
 
-     fun onBuyButton(
+    override fun onBuyButton(
         outbound: String,
         inbound: String,
         month: Int,
         day: Int,
         hour: Int,
         minutes: Int,
-        returnBool: Boolean = true
+        returnBool: Boolean
     ) {
         val returnSymbol = if (returnBool) {
             "y"
@@ -99,5 +99,4 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         }
         view?.openWebpage("https://www.lner.co.uk/buy-tickets/booking-engine/?ocrs=$outbound&dcrs=$inbound&outm=$month&outd=$day&outh=$hour&outmi=$minutes&ret=$returnSymbol")
     }
-
 }
