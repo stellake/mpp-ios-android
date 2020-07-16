@@ -70,11 +70,10 @@
         android:id="@+id/journeys_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/station_button"
+        android:scrollbars="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:scrollbars="vertical"
-        android:scrollbarAlwaysDrawVerticalTrack="true"
-        />
+        app:layout_constraintTop_toBottomOf="@id/station_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

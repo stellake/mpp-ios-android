@@ -69,7 +69,6 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
     }
 
     override fun onNothingSelected(p0: AdapterView<*>?) {
-        TODO("Not yet implemented")
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, arg1: View?, position: Int, id: Long) {
