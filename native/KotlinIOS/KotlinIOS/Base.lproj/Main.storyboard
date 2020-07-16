@@ -35,8 +35,8 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
-                                    <action selector="departureStationValueBeginsEditing:" destination="BYZ-38-t0r" eventType="editingDidBegin" id="xrn-7m-zeV"/>
-                                    <action selector="departureStationValueChanges:" destination="BYZ-38-t0r" eventType="editingChanged" id="Vpj-WQ-vbG"/>
+                                    <action selector="stationValueBeginsEditing:" destination="BYZ-38-t0r" eventType="editingDidBegin" id="dlY-Wr-Krl"/>
+                                    <action selector="stationValueChanges:" destination="BYZ-38-t0r" eventType="editingChanged" id="YpX-x0-wvo"/>
                                 </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Depart from:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="73T-Bv-e1D">
@@ -50,8 +50,8 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
-                                    <action selector="arrivalStationValueBeginsEditing:" destination="BYZ-38-t0r" eventType="editingDidBegin" id="4Vm-RQ-iG8"/>
-                                    <action selector="arrivalStationValueChanges:" destination="BYZ-38-t0r" eventType="editingChanged" id="RY1-ds-bS9"/>
+                                    <action selector="stationValueBeginsEditing:" destination="BYZ-38-t0r" eventType="editingDidBegin" id="fr6-j1-T9d"/>
+                                    <action selector="stationValueChanges:" destination="BYZ-38-t0r" eventType="editingChanged" id="5CN-oE-91I"/>
                                 </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Arrive at:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hkc-4l-ueG">

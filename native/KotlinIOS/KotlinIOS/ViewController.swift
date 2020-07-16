@@ -1,7 +1,10 @@
 import UIKit
 import SharedCode
 
-
+enum pickerType{
+    case arrival
+    case departure
+}
 class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate {
 
     @IBOutlet private var label: UILabel!
@@ -18,17 +21,13 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
     
     @IBOutlet private var arrival_field: UITextField!
     
-    var departure_picker = UIPickerView()
-    var arrival_picker = UIPickerView()
-    var currentDeparture = ""
-    var currentArrival = ""
-    let toolBarDeparture = UIToolbar()
-    let toolBarArrival = UIToolbar()
-    let doneButtonDeparture = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneClickDeparture))
-    let doneButtonArrival = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneClickArrival))
+    var pickerState=pickerType.arrival
+    var commonPicker = UIPickerView()
+    var currentText = ""
+    let commonToolBar = UIToolbar()
+    let commonDoneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneClick))
     let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-    let cancelButtonDeparture = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelClick))
-    let cancelButtonArrival = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelClick))
+    let commonCancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelClick))
     
     var departureStations = [String]()
     var departureSearchInput = ""
@@ -42,7 +41,19 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
     private let tableID="potato"
     private let presenter: ApplicationContractPresenter = ApplicationPresenter()
     
+    @IBAction func stationValueBeginsEditing(_ sender: Any) {
+        pickerState = (sender as AnyObject===departure_field) ? pickerType.departure : pickerType.arrival
+        if (pickerState==pickerType.departure){
+            departureFilter()
+        }else{
+            arrivalFilter()
+        }
+    }
     
+    @IBAction func stationValueChanges(_ sender: Any) {
+        stationValueBeginsEditing(sender)
+        createpickers()
+    }
     //On load
     
     override func viewDidLoad() {
@@ -115,105 +126,68 @@ extension ViewController: UITableViewDataSource,UITableViewDelegate{
 
 extension ViewController {
     func createpickers(){
-        //New Departure Picker
-        departure_field.inputView = departure_picker
-        departure_picker.delegate=self
-        departure_picker.dataSource=self
-        toolBarDeparture.barStyle = .default
-        toolBarDeparture.isTranslucent = true
-        toolBarDeparture.setItems([cancelButtonDeparture, spaceButton, doneButtonDeparture], animated: false)
-        toolBarDeparture.sizeToFit()
-        toolBarDeparture.isUserInteractionEnabled = true
-        departure_field.inputAccessoryView = toolBarDeparture
+        //New Common Picker
+        let field=currentField()
+        field.inputView = commonPicker
+        commonPicker.delegate=self
+        commonPicker.dataSource=self
+        commonToolBar.barStyle = .default
+        commonToolBar.isTranslucent = true
+        commonToolBar.setItems([commonCancelButton, spaceButton, commonDoneButton], animated: false)
+        commonToolBar.sizeToFit()
+        commonToolBar.isUserInteractionEnabled = true
+        field.inputAccessoryView = commonToolBar
          //initial value should be the first value of stations
-        
-        //New Arrival Picker
-        arrival_field.inputView = arrival_picker
-        arrival_picker.delegate=self
-        arrival_picker.dataSource=self
-        toolBarArrival.barStyle = .default
-        toolBarArrival.isTranslucent = true
-        toolBarArrival.setItems([cancelButtonArrival, spaceButton, doneButtonArrival], animated: false)
-        toolBarArrival.sizeToFit()
-        toolBarArrival.isUserInteractionEnabled = true
-        arrival_field.inputAccessoryView = toolBarArrival
     }
-    
+    private func currentField()->UITextField{
+        return pickerState==pickerType.arrival ? arrival_field : departure_field
+    }
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
     // The number of rows of data
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        switch pickerView {
-        case departure_picker:
+        switch pickerState {
+        case pickerType.departure:
             return departureStations.count
-        case arrival_picker:
+        case pickerType.arrival:
             return arrivalStations.count
-        default: return 0
         }
     }
     
     // The data to return for the row and component (column) that's being passed in
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        switch pickerView {
-        case departure_picker:
+        switch pickerState {
+        case pickerType.departure:
             return departureStations[row]
-        case arrival_picker:
+        case pickerType.arrival:
             return arrivalStations[row]
-        default: return ""
         }
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
-        switch pickerView {
-        case departure_picker:
-            currentDeparture = departureStations[departure_picker.selectedRow(inComponent: 0)]
-        case arrival_picker:
-            currentArrival = arrivalStations[arrival_picker.selectedRow(inComponent: 0)]
-        default:
-            departure_field.resignFirstResponder()
-            arrival_field.resignFirstResponder()
+        switch pickerState {
+        case pickerType.departure:
+            currentText = departureStations[commonPicker.selectedRow(inComponent: 0)]
+        case pickerType.arrival:
+            currentText = arrivalStations[commonPicker.selectedRow(inComponent: 0)]
         }
     }
     
     @objc func cancelClick() {
-        departure_field.resignFirstResponder()
-        arrival_field.resignFirstResponder()
+        currentField().resignFirstResponder()
     }
-    
-    @objc func doneClickDeparture() {
-        departure_field.text = currentDeparture
-        departure_field.resignFirstResponder()
-    }
-    
-    @objc func doneClickArrival() {
-        arrival_field.text = currentArrival
-        arrival_field.resignFirstResponder()
+    @objc func doneClick(){
+        let field = currentField()
+        field.text=currentText
+        field.resignFirstResponder()
     }
     
     //Search function
     
-    @IBAction func departureStationValueBeginsEditing(_ sender: Any) {
-        departureFilter()
-    }
     
-    @IBAction func departureStationValueChanges(_ sender: Any) {
-        departureFilter()
-        createpickers()
-    }
-    
-    @IBAction func arrivalStationValueBeginsEditing(_ sender: Any) {
-        arrivalFilter()
-    }
-    
-    
-    
-    @IBAction func arrivalStationValueChanges(_ sender: Any) {
-        arrivalFilter()
-        createpickers()
-    }
     
     //Filters out stations
     
@@ -227,9 +201,9 @@ extension ViewController {
         }
         
         if departureStations.count > 0 {
-        currentDeparture = departureStations[0]
+        currentText = departureStations[0]
         } else {
-            currentDeparture = ""
+            currentText = ""
         }
     }
     
@@ -243,9 +217,9 @@ extension ViewController {
         }
         
         if arrivalStations.count > 0 {
-        currentArrival = arrivalStations[0]
+        currentText = arrivalStations[0]
         } else {
-            currentArrival = ""
+            currentText = ""
         }
     }
 }
