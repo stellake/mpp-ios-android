@@ -2,19 +2,23 @@ package com.jetbrains.handson.mpp.mobile
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jetbrains.handson.mpp.mobile.api.FaresResponse
 import kotlinx.android.synthetic.main.activity_main.*
+import java.time.LocalDateTime
 
 class MainActivity : AppCompatActivity(), ApplicationContract.View,
 
     AdapterView.OnItemSelectedListener {
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -45,7 +49,8 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
         button.setOnClickListener {
             val origin = outboundSpinner.selectedItem.toString()
             val destination = inboundSpinner.selectedItem.toString()
-            presenter.onButtonPressed(origin, destination)
+            val time = LocalDateTime.now().plusMinutes(5).toString()
+            presenter.onButtonPressed(origin, destination, time)
         }
 
         val journeysRecyclerView = findViewById<RecyclerView>(R.id.journeys_recycler_view)

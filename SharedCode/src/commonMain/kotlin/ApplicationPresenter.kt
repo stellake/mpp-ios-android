@@ -52,6 +52,7 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
                 allowStructuredMapKeys = true
                 prettyPrint = true
                 indent = "   "
+                ignoreUnknownKeys = true
             })
         }
     }
