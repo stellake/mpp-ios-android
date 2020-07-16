@@ -77,12 +77,12 @@
                         <constraints>
                             <constraint firstItem="Hkc-4l-ueG" firstAttribute="width" secondItem="73T-Bv-e1D" secondAttribute="width" id="08q-nk-87Y"/>
                             <constraint firstItem="Bvm-TJ-sDP" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="0EO-4s-M6m"/>
+                            <constraint firstItem="Bvr-MS-zYN" firstAttribute="top" secondItem="Hkc-4l-ueG" secondAttribute="top" id="3VH-LG-i8E"/>
                             <constraint firstItem="Bvr-MS-zYN" firstAttribute="width" secondItem="cAS-1l-TMf" secondAttribute="width" id="4eJ-F2-8R3"/>
-                            <constraint firstItem="73T-Bv-e1D" firstAttribute="top" secondItem="Bvm-TJ-sDP" secondAttribute="bottom" constant="10" id="5aU-o2-ZCN"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="PaJ-Ar-jam" secondAttribute="trailing" constant="20" id="5zP-dD-T3E"/>
                             <constraint firstItem="PaJ-Ar-jam" firstAttribute="top" secondItem="Bvr-MS-zYN" secondAttribute="bottom" constant="15" id="BL9-Sa-h2k"/>
+                            <constraint firstItem="cAS-1l-TMf" firstAttribute="top" secondItem="73T-Bv-e1D" secondAttribute="top" id="D2f-9z-4HQ"/>
                             <constraint firstItem="PaJ-Ar-jam" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Eyt-cF-7qr"/>
-                            <constraint firstItem="Hkc-4l-ueG" firstAttribute="top" secondItem="73T-Bv-e1D" secondAttribute="bottom" constant="5" id="JSD-PV-N35"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="cAS-1l-TMf" secondAttribute="trailing" constant="10" id="Llk-2x-L2w"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Zi7-hc-41D" secondAttribute="trailing" id="N0B-Ot-GOL"/>
                             <constraint firstItem="cAS-1l-TMf" firstAttribute="top" secondItem="Bvm-TJ-sDP" secondAttribute="bottom" constant="10" id="Nul-hD-hUF"/>

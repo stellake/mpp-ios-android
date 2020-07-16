@@ -41,19 +41,6 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
     private let tableID="potato"
     private let presenter: ApplicationContractPresenter = ApplicationPresenter()
     
-    @IBAction func stationValueBeginsEditing(_ sender: Any) {
-        pickerState = (sender as AnyObject===departure_field) ? pickerType.departure : pickerType.arrival
-        if (pickerState==pickerType.departure){
-            departureFilter()
-        }else{
-            arrivalFilter()
-        }
-    }
-    
-    @IBAction func stationValueChanges(_ sender: Any) {
-        stationValueBeginsEditing(sender)
-        createpickers()
-    }
     //On load
     
     override func viewDidLoad() {
@@ -61,7 +48,7 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
         presenter.onViewTaken(view: self)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: tableID)
         
-        createpickers()
+        createPickers()
         
     }
     
@@ -125,19 +112,39 @@ extension ViewController: UITableViewDataSource,UITableViewDelegate{
 //Picker Stuff
 
 extension ViewController {
-    func createpickers(){
+    func updateState(_ sender:Any){
+        pickerState = (sender as AnyObject===departure_field) ? pickerType.departure : pickerType.arrival
+    }
+    @IBAction func stationValueBeginsEditing(_ sender: Any) {
+        updateState(sender)
+        if (pickerState==pickerType.departure){
+            departureFilter()
+        }else{
+            arrivalFilter()
+        }
+        updatePickers()
+    }
+    
+    @IBAction func stationValueChanges(_ sender: Any) {
+        stationValueBeginsEditing(sender)
+    }
+    func createPickers(){
         //New Common Picker
-        let field=currentField()
-        field.inputView = commonPicker
         commonPicker.delegate=self
         commonPicker.dataSource=self
         commonToolBar.barStyle = .default
         commonToolBar.isTranslucent = true
         commonToolBar.setItems([commonCancelButton, spaceButton, commonDoneButton], animated: false)
         commonToolBar.sizeToFit()
+         //initial value should be the first value of stations
+    }
+    func updatePickers(){
+        //Do some amount of createPickers...
+        let field=currentField()
+        field.inputView = commonPicker
         commonToolBar.isUserInteractionEnabled = true
         field.inputAccessoryView = commonToolBar
-         //initial value should be the first value of stations
+        commonPicker.reloadAllComponents()
     }
     private func currentField()->UITextField{
         return pickerState==pickerType.arrival ? arrival_field : departure_field
