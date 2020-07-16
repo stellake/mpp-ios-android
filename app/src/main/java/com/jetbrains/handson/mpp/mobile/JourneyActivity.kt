@@ -51,7 +51,7 @@ class MyRecyclerViewAdapter: RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHo
 
     inner class MyViewHolder(view: View): RecyclerView.ViewHolder(view){
         fun bindData(text:String){
-            itemView.recyclerView.text = text
+            itemView.departureTimeView.text = text
             itemView.myButton.text = "Button"
             itemView.myButton.setOnClickListener{
                 //Do something when button pressed
