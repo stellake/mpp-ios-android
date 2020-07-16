@@ -17,27 +17,28 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rrt-k7-eeL">
-                                <rect key="frame" x="20" y="238" width="374" height="216"/>
+                                <rect key="frame" x="20" y="335" width="374" height="216"/>
                                 <connections>
                                     <outlet property="dataSource" destination="BYZ-38-t0r" id="311-eS-M5b"/>
                                 </connections>
                             </pickerView>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wFb-s1-Wk1">
+                                <rect key="frame" x="20" y="556" width="374" height="216"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="Vwa-yn-hyQ"/>
+                                </connections>
+                            </pickerView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yJb-Pe-N2A">
-                                <rect key="frame" x="20" y="782" width="374" height="30"/>
+                                <rect key="frame" x="20" y="792" width="374" height="30"/>
                                 <state key="normal" title="GET JOURNEYS!"/>
                                 <connections>
                                     <action selector="ButtonPress:" destination="BYZ-38-t0r" eventType="touchUpInside" id="TEW-mT-WrH"/>
                                 </connections>
                             </button>
-                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wFb-s1-Wk1">
-                                <rect key="frame" x="20" y="459" width="374" height="216"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="Vwa-yn-hyQ"/>
-                                </connections>
-                            </pickerView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="yJb-Pe-N2A" firstAttribute="top" secondItem="wFb-s1-Wk1" secondAttribute="bottom" constant="20" id="20Y-ee-Ksu"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="yJb-Pe-N2A" secondAttribute="trailing" constant="20" id="HUG-Vo-CO1"/>
                             <constraint firstItem="wFb-s1-Wk1" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="KqT-ug-u8B"/>
                             <constraint firstItem="yJb-Pe-N2A" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="TWn-Ng-W4Q"/>
@@ -45,8 +46,7 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="wFb-s1-Wk1" secondAttribute="trailing" constant="20" id="hIE-Aw-Q4y"/>
                             <constraint firstItem="wFb-s1-Wk1" firstAttribute="top" secondItem="Rrt-k7-eeL" secondAttribute="bottom" constant="5" id="jzd-o6-5bA"/>
                             <constraint firstItem="Rrt-k7-eeL" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="llN-4L-1j5"/>
-                            <constraint firstItem="Rrt-k7-eeL" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="150" id="xMT-RG-e7m"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="yJb-Pe-N2A" secondAttribute="bottom" constant="50" id="xyp-we-Yt3"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="yJb-Pe-N2A" secondAttribute="bottom" constant="40" id="xyp-we-Yt3"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -59,7 +59,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="361" y="1"/>
+            <point key="canvasLocation" x="360.86956521739131" y="0.6696428571428571"/>
         </scene>
         <!--Journeys-->
         <scene sceneID="Ug7-kK-OlB">

@@ -1,5 +1,7 @@
 package com.jetbrains.handson.mpp.mobile
 
+import com.soywiz.klock.DateTime
+import com.soywiz.klock.ISO8601
 import io.ktor.client.HttpClient
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
@@ -7,6 +9,7 @@ import io.ktor.client.request.get
 import io.ktor.http.Url
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
+
 
 class ApplicationPresenter: ApplicationContract.Presenter() {
 
@@ -16,6 +19,7 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
 
     private var stationList = StationList(listOf())
     private val stationMap = mutableMapOf<String, String>()
+
 
     private fun getStations(view: ApplicationContract.View) {
         launch(coroutineContext) {
@@ -46,7 +50,8 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
     }
 
     private fun convertToLight(journey: JourneyOption): String {
-        val time = journey.arrivalTime
+
+        val time = journey.departureTime
         val price = journey.tickets[0].priceInPennies.toString()
         val priceAsString = "£" + price.substring(0,price.length-2) + "." + price.substring(price.length-2,price.length)
         return "$time - $priceAsString"
@@ -85,7 +90,7 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
                 fares = client.get(RequestURL(
                     originStation = getStationCode(departure),
                     destinationStation = getStationCode(destination),
-                    outboundDateTime = "2020-07-16T12%3A16%3A27.371%2B00%3A00"
+                    outboundDateTime = DateTime.nowLocal().format(ISO8601.DATETIME_COMPLETE) + ".000%2B00:00"
                 ).toURL())
                 if (fares.outboundJourneys.isEmpty()) throw Exception("No journeys available.")
                 view!!.displayFares(getJourneyDetailsLight(fares))  // force use bc otherwise it should show error message
