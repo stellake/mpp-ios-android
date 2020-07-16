@@ -13,16 +13,18 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
     
     @IBOutlet private var tableView: UITableView!
     
-    var stations=["Edinburgh Waverly","King's Cross","York","Durham","Cambridge"]
+    var stations=["Amersham"] //blatant nepotism
     
-    //Creating new picker
     
     @IBOutlet private var departure_field: UITextField!
     
     @IBOutlet private var arrival_field: UITextField!
     
     var pickerState=pickerType.arrival
+    
+    //Creating new picker
     var commonPicker = UIPickerView()
+    
     var currentText = ""
     let commonToolBar = UIToolbar()
     let commonDoneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneClick))
@@ -60,7 +62,8 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
 
 extension ViewController: ApplicationContractView {
     func updateStations(data: [String]) {
-        print("")
+        stations=data
+        updatePickers()
     }
     
     
@@ -93,13 +96,17 @@ extension ViewController: UITableViewDataSource,UITableViewDelegate{
     }
     func showData(data: [ApplicationContractTrainJourney]) {
         tableContents.removeAll()
-        for journey in data{
-            let currencyFormatter = NumberFormatter()
-            currencyFormatter.usesGroupingSeparator = true
-            currencyFormatter.numberStyle = .currency
-            currencyFormatter.locale = Locale.init(identifier: "en_GB")
-            let priceString = currencyFormatter.string(from: NSNumber(value: Double(journey.cost)/100.0))!
-            tableContents.append(journey.departureTime+", "+journey.arrivalTime+" : "+priceString)
+        if data.count==0 {
+            tableContents.append("No tickets found :(")
+        }else{
+            for journey in data{
+                let currencyFormatter = NumberFormatter()
+                currencyFormatter.usesGroupingSeparator = true
+                currencyFormatter.numberStyle = .currency
+                currencyFormatter.locale = Locale.init(identifier: "en_GB")
+                let priceString = currencyFormatter.string(from: NSNumber(value: Double(journey.cost)/100.0))!
+                tableContents.append(journey.departureTime+", "+journey.arrivalTime+" : "+priceString)
+            }
         }
         tableView.reloadData()
     }
