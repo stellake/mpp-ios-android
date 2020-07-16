@@ -5,7 +5,14 @@ import android.content.Intent.ACTION_VIEW
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.*
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.results_table_cell.view.*
 
 class MainActivity : AppCompatActivity(), ApplicationContract.View {
     lateinit private var autoAdapter: ArrayAdapter<String>
@@ -16,6 +23,7 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         presenter.onViewTaken(this)
         setupAutos()
         setupButton(presenter)
+        setupTable()
     }
 
     private fun setupAutos() {
@@ -63,5 +71,54 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
 
     override fun setLabel(text: String) {
         findViewById<TextView>(R.id.main_text).text = text
+    }
+
+    //Results Table
+
+    private val data = listOf("Test 1","Test 2","Test 3","Test 4","Test 5")
+
+    private fun setupTable() {
+        val layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        val adapter = ResultsTableAdapter()
+        adapter.updateData(data)
+
+        resultsTable.apply {
+            this.layoutManager = layoutManager
+            this.adapter = adapter
+        }
+    }
+}
+
+class  ResultsTableAdapter: RecyclerView.Adapter<ResultsTableAdapter.MyViewHolder>() {
+    private var myData = emptyList<String>()
+
+    inner class MyViewHolder(view: View): RecyclerView.ViewHolder(view) {
+        fun bindData(text: String, onButtonClick:() -> Unit) {
+            itemView.resultsTableCellText1.text = text
+            itemView.myButton.setOnClickListener {
+                onButtonClick()
+            }
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.results_table_cell, parent, false)
+        return MyViewHolder(view)
+    }
+
+    override fun getItemCount(): Int {
+        return myData.size
+    }
+
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        holder.bindData(
+            myData[position]
+        ) { println(myData[position])}
+    }
+
+    fun updateData(data: List<String>) {
+        myData = data
+        notifyDataSetChanged()
     }
 }

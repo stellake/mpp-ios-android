@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:orientation = "vertical"
+    android:background="@color/colorPrimary">
+
+    <TextView
+        android:id="@+id/resultsTableCellText1"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="#eeeeee"
+        android:text="Test"
+        android:textAlignment="center"/>
+
+    <Button
+        android:id="@+id/myButton"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginTop="10dp"
+        android:background="#eeccee"
+        android:text="Click me!!"/>
+
+</LinearLayout>
