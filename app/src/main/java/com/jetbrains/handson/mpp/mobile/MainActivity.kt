@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jetbrains.handson.mpp.mobile.api.FaresResponse
 import kotlinx.android.synthetic.main.activity_main.*
 
-
 class MainActivity : AppCompatActivity(), ApplicationContract.View,
 
     AdapterView.OnItemSelectedListener {
