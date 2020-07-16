@@ -52,6 +52,7 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
                 allowStructuredMapKeys = true
                 prettyPrint = true
                 indent = "   "
+                ignoreUnknownKeys = true
             })
         }
     }
@@ -64,7 +65,7 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
     @ImplicitReflectionSerializer
     @OptIn(UnstableDefault::class)
 
-    override fun onButtonPressed(origin: String, destination: String) {
+    override fun onButtonPressed(origin: String, destination: String, time: String) {
         val originCode = codeMap[origin]
         val destinationCode = codeMap[destination]
         if (originCode == null || destinationCode == null) {
@@ -76,8 +77,12 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
             return
         }
         launch {
-            val response = client.getFares(originCode, destinationCode)
-            if (response != null) view?.showData(response)
+            try {
+                val response = client.getFares(originCode, destinationCode, time)
+                if (response != null) view?.showData(response)
+            } catch (cause: Throwable) {
+                view?.showAlert("An error occurred:$cause")
+            }
         }
     }
 
