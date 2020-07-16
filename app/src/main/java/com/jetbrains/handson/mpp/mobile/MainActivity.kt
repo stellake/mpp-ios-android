@@ -38,20 +38,19 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
         }
 
 
-        val outboundSpinner: AutoCompleteTextView = findViewById(outbound_autocomplete_control.id)
+        val outboundAutocomplete: AutoCompleteTextView = findViewById(outbound_autocomplete_control.id)
         ArrayAdapter(this, android.R.layout.simple_spinner_item, stations)
             .also { adapter ->
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                outboundSpinner.setAdapter(adapter)
+                outboundAutocomplete.setAdapter(adapter)
             }
 
-        val inboundSpinner: AutoCompleteTextView = findViewById(inbound_autocomplete_control.id)
+        val inboundAutocomplete: AutoCompleteTextView = findViewById(inbound_autocomplete_control.id)
         ArrayAdapter(this, android.R.layout.simple_spinner_item, stations)
             .also { adapter ->
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                inboundSpinner.setAdapter(adapter)
+                inboundAutocomplete.setAdapter(adapter)
             }
-
 
         val journeysRecyclerView = findViewById<RecyclerView>(R.id.journeys_recycler_view)
 
