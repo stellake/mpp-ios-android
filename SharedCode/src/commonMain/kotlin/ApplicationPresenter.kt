@@ -65,10 +65,11 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
     }
 
     @kotlinx.serialization.UnstableDefault
-    override fun loadJourneys(view: ApplicationContract.View, departure: String, destination: String) {
+    override fun loadJourneys(departure: String, destination: String) {
+        val view = this.view
         launch(coroutineContext) {
 
-            view.setButtonAvailability(false)
+            view?.setButtonAvailability(false)
 
             val client = HttpClient {
                 install(JsonFeature) {
@@ -87,14 +88,14 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
                     outboundDateTime = "2020-07-16T12%3A16%3A27.371%2B00%3A00"
                 ).toURL())
                 if (fares.outboundJourneys.isEmpty()) throw Exception("No journeys available.")
-                view.displayFares(getJourneyDetailsLight(fares))
+                view!!.displayFares(getJourneyDetailsLight(fares))  // force use bc otherwise it should show error message
             } catch (e: Exception) {
-                view.showAlert("Sorry we couldn't find a journey.")
+                view?.showAlert("Sorry we couldn't find a journey.")
                 println(e.message)
             }
 
             client.close()
-            view.setButtonAvailability(true)
+            view?.setButtonAvailability(true)
         }
     }
 }

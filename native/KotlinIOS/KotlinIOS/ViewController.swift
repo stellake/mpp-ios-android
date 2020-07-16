@@ -30,7 +30,7 @@ class ViewController: UIViewController {
     @IBAction func ButtonPress(_ sender: Any) {
         let depart = data[pickerdeparture.selectedRow(inComponent: 0)]
         let dest = data[pickerdestination.selectedRow(inComponent: 0)]
-        presenter.loadJourneys(view: self, departure: depart, destination: dest)
+        presenter.loadJourneys(departure: depart, destination: dest)
     }
 }
 
@@ -66,6 +66,7 @@ extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 }
 
 extension ViewController: ApplicationContractView {
+    
     func showAlert(message: String) {
         let alertController = UIAlertController(title: "No Journeys Found", message:
             "Sorry. We couldn't find any journeys for the specified route.", preferredStyle: .alert)
@@ -74,7 +75,7 @@ extension ViewController: ApplicationContractView {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    func displayFares(fareList: [JourneyDetailsLight]) {
+    func displayFares(fareList: [[String]]) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let newViewController = storyboard.instantiateViewController(withIdentifier: "DISPLAY_JOUNEYS_VIEW_CONTROLLER") as! DisplayJourneysViewController
         self.navigationController?.isNavigationBarHidden = false

@@ -66,6 +66,6 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
     fun getJourneyButtonClick(view: View) {
         val departureName = departure_station_spinner.selectedItem.toString()
         val destinationName = destination_station_spinner.selectedItem.toString()
-        presenter.loadJourneys(this, departureName, destinationName)
+        presenter.loadJourneys(departureName, destinationName)
     }
 }

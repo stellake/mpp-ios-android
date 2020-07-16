@@ -9,7 +9,7 @@ class DisplayJourneysViewController: UIViewController {
     
     private var presenter = ApplicationContractPresenter()
     private var tableData: [String] = []
-    private var fareList: [JourneyDetailsLight] = []
+    private var fareList: [[String]] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,9 +25,9 @@ class DisplayJourneysViewController: UIViewController {
         self.presenter = presenter
     }
     
-    func setTableData(_ fareList: [JourneyDetailsLight]) {
+    func setTableData(_ fareList: [[String]]) {
         self.fareList = fareList
-        tableData = fareList.map { $0.details }
+        tableData = fareList.map { $0[1] }
         resultsTableView?.reloadData()
     }
     

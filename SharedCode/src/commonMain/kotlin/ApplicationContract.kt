@@ -12,6 +12,6 @@ interface ApplicationContract {
 
     abstract class Presenter: CoroutineScope {
         abstract fun onViewTaken(view: View)
-        abstract fun loadJourneys(view: View, departure: String, destination: String)
+        abstract fun loadJourneys(departure: String, destination: String)
     }
 }
