@@ -1,16 +1,10 @@
 package com.jetbrains.handson.mpp.mobile.api
 
 import io.ktor.client.HttpClient
-import io.ktor.client.features.json.JsonFeature
-import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.request.get
-import io.ktor.client.statement.HttpResponse
-import io.ktor.client.statement.readText
 import kotlinx.serialization.ImplicitReflectionSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.UnstableDefault
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
 
 @Serializable
 data class FaresResponse(
@@ -34,7 +28,7 @@ data class JourneyOptionStation(
     val crs: String,
     val nlc: String
 
-    )
+)
 
 @ImplicitReflectionSerializer
 @OptIn(UnstableDefault::class)
