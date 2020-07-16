@@ -6,12 +6,21 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     @IBOutlet private var label: UILabel!
 
     private let presenter: ApplicationContractPresenter = ApplicationPresenter()
+    private var data: [JourneyOption]?
     
+    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var outboundStationPicker: UIPickerView!
-    var pickerData:[String] = [String]()
-
-    @IBOutlet weak var Submit: UIButton!
     @IBOutlet weak var inboundStationPicker: UIPickerView!
+    @IBOutlet weak var Submit: UIButton!
+    var pickerData:[String] = [String]()
+    
+    
+    private func setUpTable() {
+        let nib = UINib(nibName: "journeyCell", bundle: nil)
+        tableView.register(nib, forCellReuseIdentifier: "CUSTOM_CELL")
+        tableView.tableFooterView = UIView(frame: .zero)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter.onViewTaken(view: self)
@@ -20,7 +29,9 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         outboundStationPicker.delegate = self
         outboundStationPicker.dataSource = self
         outboundStationPicker.delegate = self
+        setUpTable()
     }
+    
     override func didReceiveMemoryWarning() {
             super.didReceiveMemoryWarning()
             // Dispose of any resources that can be recreated.
@@ -32,12 +43,12 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         }
         
         // The number of rows of data
-        func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
             return pickerData.count
         }
         
         // The data to return fopr the row and component (column) that's being passed in
-        func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
             return pickerData[row]
         }
     
@@ -47,18 +58,17 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     }
     
     @IBAction func onButtonPress(_ sender: Any) {
-//        let origin: String = pickerData[Station_picker1.selectedRow(inComponent: 0)]
-//        let destination = pickerData[Station_picker2.selectedRow(inComponent: 0)]
-//        let url = (URL(string: presenter.onButtonPressed(origin: origin, destination: destination)) ?? URL(string: "https://lner.co.uk"))!
-//        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        
         
     }
     
     
 }
 
+
 extension ViewController: ApplicationContractView {
-    func showData(text: FaresResponse) {
+   
+    func showData(journeys: [JourneyOption]) {
         
     }
     
@@ -69,4 +79,22 @@ extension ViewController: ApplicationContractView {
     func setLabel(text: String) {
         label.text = text
     }
+    
+    func openWebpage(url: String) {
+        
+    }
+}
+
+extension ViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return data?.count ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CUSTOM_CELL") as! journeyCell
+        let thisCellRow = indexPath.row
+        cell.setData(outboundCode: data?[thisCellRow].originStation.crs ?? "" , inboundCode: data?[thisCellRow].destinationStation.crs ?? "", outMonth: , outDay: <#T##String#>, outHour: <#T##String#>, outMinute: <#T##String#>, arrivalTime: <#T##String#>, duration: <#T##String#>, delegate: <#T##CustomTableCellDelegate#>)
+    }
+    
+    
 }
