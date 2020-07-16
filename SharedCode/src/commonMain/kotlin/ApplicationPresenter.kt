@@ -33,13 +33,6 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         launch { populateStationCRS() }
     }
 
-    override fun onDoneButtonPressed() {
-        val arriveDepart = view?.getArrivalDepartureStations()
-        if (arriveDepart != null) {
-            onStationsSubmitted(arriveDepart.second, arriveDepart.first)
-        }
-    }
-
     override fun onStationsSubmitted(departure: String, arrival: String) {
         val arriveCRS = stationToCRS(arrival)
         val departCRS = stationToCRS(departure)

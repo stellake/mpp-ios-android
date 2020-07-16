@@ -34,7 +34,8 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
     private fun setupButton(presenter: ApplicationPresenter) {
         val button: Button = findViewById(R.id.done_button)
         button.setOnClickListener {
-            presenter.onDoneButtonPressed()
+            val departureArrival=getDepartureArrivalStations()
+            presenter.onStationsSubmitted(departureArrival.first,departureArrival.second)
         }
     }
 
@@ -43,12 +44,12 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         startActivity(Intent(ACTION_VIEW, Uri.parse(url)))
     }
 
-    override fun getArrivalDepartureStations(): Pair<String, String> {
+    private fun getDepartureArrivalStations(): Pair<String, String> {
         val arrivalText: AutoCompleteTextView = findViewById(R.id.arrival_station)
         val departureText: AutoCompleteTextView = findViewById(R.id.departure_station)
         return Pair(
-            arrivalText.text.toString(),
-            departureText.text.toString()
+            departureText.text.toString(),
+            arrivalText.text.toString()
         )
     }
 
