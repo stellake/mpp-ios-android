@@ -2,24 +2,58 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:orientation = "vertical"
-    android:background="@color/colorPrimary">
+    android:orientation = "horizontal"
+    android:background="#E87A9F">
+
 
     <TextView
         android:id="@+id/resultsTableCellText1"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
         android:background="#eeeeee"
-        android:text="Test"
+        android:textAlignment="center"/>
+
+    <TextView
+        android:id="@+id/resultsTableCellText2"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:layout_marginStart="5dp"
+        android:background="#eeeeee"
+        android:textAlignment="center"/>
+
+    <TextView
+        android:id="@+id/resultsTableCellText3"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="40dp"
+        android:layout_marginStart="5dp"
+        android:background="#eeeeee"
+        android:textAlignment="center"/>
+
+    <TextView
+        android:id="@+id/resultsTableCellText4"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:layout_marginStart="5dp"
+        android:background="#eeeeee"
         android:textAlignment="center"/>
 
     <Button
         android:id="@+id/myButton"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="40dp"
         android:layout_marginTop="10dp"
-        android:background="#aaccdd"
-        android:text="Click me!!"/>
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/curved_table_button"
+        android:textColor="#FFFFFF"
+        android:text="@string/click_me"/>
+
 
 </LinearLayout>
 

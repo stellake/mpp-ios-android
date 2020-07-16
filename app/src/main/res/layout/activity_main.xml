@@ -27,7 +27,8 @@
 
     <TextView
         android:id="@+id/departure_label"
-        android:layout_width="125dp"
+        android:layout_width="0dp"
+        app:layout_constraintHorizontal_weight="0.35"
         android:layout_height="50dp"
         android:layout_marginTop="16dp"
         android:gravity="center_vertical"
@@ -37,11 +38,13 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/departure_station"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/main_text"/>
+        app:layout_constraintTop_toBottomOf="@id/main_text"
+        android:layout_marginLeft="20dp"/>
 
     <TextView
         android:id="@+id/arrival_label"
-        android:layout_width="125dp"
+        android:layout_width="0dp"
+        app:layout_constraintHorizontal_weight="0.35"
         android:layout_height="50dp"
         android:gravity="center_vertical"
         android:text="@string/arrival_station"
@@ -50,13 +53,15 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/done_button"
         app:layout_constraintEnd_toStartOf="@+id/arrival_station"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/departure_label" />
+        app:layout_constraintTop_toBottomOf="@+id/departure_label"
+        android:layout_marginLeft="20dp"
+        />
 
     <AutoCompleteTextView
         android:id="@+id/arrival_station"
-        android:layout_width="250dp"
+        android:layout_width="0dp"
+        app:layout_constraintHorizontal_weight="0.6"
         android:layout_height="50dp"
         android:background="@drawable/curved_input_field"
         android:padding="5dp"
@@ -64,15 +69,17 @@
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/done_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintLeft_toRightOf="@id/arrival_label"
         app:layout_constraintStart_toEndOf="@+id/arrival_label"
         app:layout_constraintTop_toBottomOf="@+id/departure_station"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="30dp"/>
+        android:layout_marginBottom="30dp"
+        android:layout_marginRight="10dp"/>
 
     <AutoCompleteTextView
         android:id="@+id/departure_station"
-        android:layout_width="250dp"
+        android:layout_width="0dp"
+        app:layout_constraintHorizontal_weight="0.6"
         android:layout_height="50dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/curved_input_field"
@@ -82,13 +89,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/departure_label"
-        app:layout_constraintTop_toBottomOf="@+id/main_text" />
+        app:layout_constraintTop_toBottomOf="@+id/main_text"
+        android:layout_marginRight="10dp"/>
 
     <Button
         android:id="@+id/done_button"
         android:layout_width="210dp"
         android:layout_height="44dp"
-        android:background="#FFFFFF"
+        android:background="@drawable/curved_input_field"
         android:text="@string/done_button"
         android:textColor="#FF3B30"
         app:layout_constraintBottom_toTopOf="@id/resultsTable"
