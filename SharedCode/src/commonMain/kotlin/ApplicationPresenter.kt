@@ -85,4 +85,21 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
 
         return jsonResponse
     }
+
+    fun onBuyButton(
+        outbound: String,
+        inbound: String,
+        month: Int,
+        day: Int,
+        hour: Int,
+        minutes: Int,
+        returnBool: Boolean = true
+    ) {
+        val returnSymbol = if (returnBool) {
+            "y"
+        } else {
+            "n"
+        }
+        view?.openWebpage("https://www.lner.co.uk/buy-tickets/booking-engine/?ocrs=$outbound&dcrs=$inbound&outm=$month&outd=$day&outh=$hour&outmi=$minutes&ret=$returnSymbol")
+    }
 }
