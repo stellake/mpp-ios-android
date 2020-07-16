@@ -3,5 +3,12 @@
     <string name="button_text">Submit</string>
     <string name="get_live_train_times">Get live train times</string>
     <string name="please_select_outbound_station">Please select outbound station</string>
-    <string name="please_select_inbound_station">please select inbound station</string>
+    <string name="please_select_inbound_station">Please select inbound station</string>
+    <string name="harrow_and_wealdstone">Harrow and Wealdstone</string>
+    <string name="canley">Canley</string>
+    <string name="buy_tickets">buy tickets</string>
+    <string name="_17_00_00">17:00:00</string>
+    <string name="_17_15_00">17:15:00</string>
+    <string name="_15">15</string>
+    <string name="_15_minutes">15 minutes</string>
 </resources>

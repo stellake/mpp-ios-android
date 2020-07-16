@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".MainActivity">
 
     <TextView
@@ -61,9 +63,17 @@
         android:text="@string/button_text"
         app:layout_constraintTop_toBottomOf="@id/inbound_spinner_control"
         app:layout_constrainedWidth="true"
-        app:layout_constraintLeft_toLeftOf="@id/inbound_spinner_control"
-        android:layout_centerInParent="true"
-        android:gravity="center_horizontal" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/journeys_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/station_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,7 +6,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
+import android.content.Intent
+import android.net.Uri
 
 
 class MainActivity : AppCompatActivity(), ApplicationContract.View,
@@ -45,10 +49,72 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
             val destination = inboundSpinner.selectedItem.toString()
             presenter.onButtonPressed(origin, destination)
         }
+
+        val journeysRecyclerView = findViewById<RecyclerView>(R.id.journeys_recycler_view)
+
+        journeysRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+
+        val journeys = ArrayList<Journey>()
+
+        //adding some dummy data to the list
+        journeys.add(
+            Journey(
+                "17:00",
+                "17:15",
+                "15 min"
+            )
+        )
+        journeys.add(
+            Journey(
+                "17:30",
+                "17:45",
+                "15 min"
+            )
+        )
+        journeys.add(
+            Journey(
+                "18:00",
+                "18:15",
+                "15 min"
+            )
+        )
+        journeys.add(
+            Journey(
+                "18:30",
+                "18:45",
+                "15 min"
+            )
+        )
+        journeys.add(
+            Journey(
+                "19:00",
+                "19:15",
+                "15 min"
+            )
+        )
+        journeys.add(
+            Journey(
+                "19:30",
+                "19:45",
+                "15 min"
+            )
+        )
+        journeys.add(
+            Journey(
+                "20:00",
+                "20:15",
+                "15 min"
+            )
+        )
+
+        //creating our adapter
+        val adapter = JourneyAdapter(journeys)
+
+        //now adding the adapter to recyclerview
+        journeysRecyclerView.adapter = adapter
     }
 
     override fun onNothingSelected(p0: AdapterView<*>?) {
-        TODO("Not yet implemented")
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, arg1: View?, position: Int, id: Long) {
