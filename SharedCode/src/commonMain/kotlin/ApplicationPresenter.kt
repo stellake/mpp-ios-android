@@ -57,7 +57,12 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
     }
 
     private fun stationToCRS(station: String): String {
-        return stationCRS[station] ?: "KGX" //the world is king's cross
+        val crs=stationCRS[station]
+        if (crs==null){
+            println("CRS lookup failed!")
+            throw RuntimeException("LOOKUP FAILURE - STATION - $station")
+        }
+        return crs
     }
 
 
