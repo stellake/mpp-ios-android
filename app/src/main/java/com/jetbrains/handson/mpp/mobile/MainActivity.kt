@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
 import java.time.LocalDateTime
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -51,7 +50,7 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
         button.setOnClickListener {
             val origin = outboundSpinner.selectedItem.toString()
             val destination = inboundSpinner.selectedItem.toString()
-            val time = LocalDateTime.now().plusMinutes(5).withNano(0).toString()
+            val time = LocalDateTime.now().plusMinutes(5).toString()
             presenter.onButtonPressed(origin, destination, time)
         }
 
