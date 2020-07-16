@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jetbrains.handson.mpp.mobile.api.FaresResponse
 import kotlinx.android.synthetic.main.activity_main.*
 import java.time.LocalDateTime
-import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity(), ApplicationContract.View,
 

@@ -1,16 +1,20 @@
 package com.jetbrains.handson.mpp.mobile
 
+import com.jetbrains.handson.mpp.mobile.api.FaresResponse
 import com.jetbrains.handson.mpp.mobile.api.getFares
 import com.jetbrains.handson.mpp.mobile.api.getStations
 import io.ktor.client.HttpClient
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
+import io.ktor.client.request.get
+import io.ktor.client.statement.HttpResponse
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.serialization.ImplicitReflectionSerializer
 import kotlinx.serialization.UnstableDefault
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonConfiguration
 import kotlin.coroutines.CoroutineContext
 
 @ImplicitReflectionSerializer
@@ -77,39 +81,13 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         }
 
         launch {
-            val response = sequentialRequests(originCode, destinationCode, time)
-            if (response != null) view?.showData(response)
-        }
-    }
-
-    @ImplicitReflectionSerializer
-    @OptIn(UnstableDefault::class)
-    private suspend fun sequentialRequests(
-        originCode: String, destinationCode: String, time: String
-    ): FaresResponse? {
-        val client = HttpClient {
-            install(JsonFeature) {
-                serializer = KotlinxSerializer()
+            try {
+                val response = client.getFares(originCode, destinationCode, time)
+                if (response != null) view?.showData(response)
             }
-        }
-
-        val json = Json(JsonConfiguration(ignoreUnknownKeys = true, isLenient = true))
-        var jsonResponse: FaresResponse? = null
-        // Get the content of an URL.
-        try {
-            val response: HttpResponse =
-                client.get<HttpResponse>("https://mobile-api-dev.lner.co.uk/v1/fares?originStation=$originCode&destinationStation=$destinationCode&outboundDateTime=$time%2B00%3A00&inboundDateTime=$time%2B00%3A00&numberOfChildren=1&numberOfAdults=0&doSplitTicketing=false")
-            val parsedResponse = json.parseJson(response.readText())
-            jsonResponse = json.fromJson<FaresResponse>(parsedResponse)
-        } catch (cause: Throwable) {
-            view?.showAlert("An error occurred:$cause")
-
-        }
-        client.close()
-
-        val response = client.getFares(originCode, destinationCode)
-        if (response != null) view?.showData(response)
-        return jsonResponse
+            catch(cause: Throwable) {
+                view?.showAlert("An error occurred:$cause")
+            }
         }
     }
 
