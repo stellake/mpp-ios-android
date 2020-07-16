@@ -51,8 +51,9 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
 
     private fun getPrice(journey: JourneyOption): String {
         val price = journey.tickets.map { it.priceInPennies }.min().toString()
-        val priceAsString = "from £" + price.substring(0,price.length-2) + "." + price.substring(price.length-2,price.length)
-        return priceAsString
+        val pounds = price.substring(0,price.length-2)
+        val pennies = price.substring(price.length-2,price.length)
+        return "from £$pounds.$pennies"
     }
 
     private fun getJourneyDetailsLight(fares: Fares): List<List<String>> {
