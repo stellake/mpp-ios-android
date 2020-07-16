@@ -1,34 +1,60 @@
 package com.jetbrains.handson.mpp.mobile
 
+import com.jetbrains.handson.mpp.mobile.api.getFares
+import com.jetbrains.handson.mpp.mobile.api.getStations
 import io.ktor.client.HttpClient
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
-import io.ktor.client.request.get
-import io.ktor.client.statement.HttpResponse
-import io.ktor.client.statement.readText
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.serialization.ImplicitReflectionSerializer
 import kotlinx.serialization.UnstableDefault
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
 import kotlin.coroutines.CoroutineContext
 
+@ImplicitReflectionSerializer
 class ApplicationPresenter : ApplicationContract.Presenter() {
 
     private val dispatchers = AppDispatchersImpl()
     private var view: ApplicationContract.View? = null
     private val job: Job = SupervisorJob()
-    private val codeMap = mapOf<String, String>(
-        "Harrow and Wealdstone" to "HRW",
-        "Canley" to "CNL",
-        "London Euston" to "EUS",
-        "Coventry" to "COV",
-        "Birmingham New Street" to "BHM"
-    )
+    private val codeMap =
+        mutableMapOf<String, String>(
+            "Harrow and Wealdstone" to "HRW",
+            "Canley" to "CNL",
+            "London Euston" to "EUS",
+            "Coventry" to "COV",
+            "Birmingham New Street" to "BHM"
+        )
+
+    init {
+        launch {
+            codeMap.putAll(
+                client.getStations().stations.map {
+                    it.name to (it.nlc ?: it.crs ?: throw Error())
+                }.toMap()
+            )
+            val stations = client.getStations().stations
+            for (i in stations) {
+                println(i)
+            }
+        }
+    }
+
     override val coroutineContext: CoroutineContext
         get() = dispatchers.main + job
+
+    private val client = HttpClient {
+        install(JsonFeature) {
+            serializer = KotlinxSerializer(json = Json {
+                isLenient = true
+                allowStructuredMapKeys = true
+                prettyPrint = true
+                indent = "   "
+            })
+        }
+    }
 
     override fun onViewTaken(view: ApplicationContract.View) {
         this.view = view
@@ -80,7 +106,11 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
 
         }
         client.close()
+
+        val response = client.getFares(originCode, destinationCode)
+        if (response != null) view?.showData(response)
         return jsonResponse
+        }
     }
 
     fun onBuyButton(
