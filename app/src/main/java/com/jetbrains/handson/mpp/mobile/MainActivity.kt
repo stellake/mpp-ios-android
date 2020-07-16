@@ -62,6 +62,14 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
 
     override fun showData(data: List<ApplicationContract.TrainJourney>) {
         println(data)
+        val numberOfJourneys = data.size
+        var departureTimes = mutableListOf<String>()
+
+        for (i in 0 until (numberOfJourneys-1)){
+            departureTimes.add(data[i].departureTime + ", " + data[i].arrivalTime + ": £" + (data[i].cost/100).toString() + "." + ((data[i].cost%100).toString()))
+        }
+        tableData = departureTimes
+        setupTable()
     }
 
     override fun updateStations(data: List<String>) {
@@ -75,12 +83,12 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
 
     //Results Table
 
-    private val data = listOf("Test 1","Test 2","Test 3","Test 4","Test 5")
+    private var tableData = listOf<String>()
 
     private fun setupTable() {
         val layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         val adapter = ResultsTableAdapter()
-        adapter.updateData(data)
+        adapter.updateData(tableData)
 
         resultsTable.apply {
             this.layoutManager = layoutManager
@@ -88,6 +96,9 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         }
     }
 }
+
+//--------------------------------------------------------------------------------------------
+//Results Table
 
 class  ResultsTableAdapter: RecyclerView.Adapter<ResultsTableAdapter.MyViewHolder>() {
     private var myData = emptyList<String>()
