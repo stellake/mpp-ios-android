@@ -1,5 +1,6 @@
 package com.jetbrains.handson.mpp.mobile
 
+import com.jetbrains.handson.mpp.mobile.api.JourneyOption
 import com.jetbrains.handson.mpp.mobile.api.getFares
 import com.jetbrains.handson.mpp.mobile.api.getStations
 import io.ktor.client.HttpClient

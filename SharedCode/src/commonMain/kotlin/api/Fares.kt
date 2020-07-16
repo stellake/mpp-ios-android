@@ -40,5 +40,6 @@ suspend fun HttpClient.getFares(
     // Get the content of an URL.
     val response: FaresResponse? =
         get<FaresResponse?>("https://mobile-api-dev.lner.co.uk/v1/fares?originStation=$originCode&destinationStation=$destinationCode&outboundDateTime=$time%2B00%3A00&inboundDateTime=$time%2B00%3A00&numberOfChildren=1&numberOfAdults=0&doSplitTicketing=false")
+
     return response
 }
