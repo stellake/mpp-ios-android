@@ -14,8 +14,7 @@ import kotlinx.android.synthetic.main.recycler_view.view.*
 class JourneyActivity : AppCompatActivity() {
 
     var DataList: List<List<String>> = listOf(listOf("ignore", "display"))
-    val adapter = MyRecyclerViewAdapter()
-
+    val tableadapter = MyRecyclerViewAdapter()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +24,7 @@ class JourneyActivity : AppCompatActivity() {
         setContentView(R.layout.journey_view)
         setUpTable()
         DataList = intent.getSerializableExtra("fareList") as List<List<String>>
-        adapter.updateData(DataList)
+        tableadapter.updateData(DataList)
     }
 
 
@@ -33,13 +32,15 @@ class JourneyActivity : AppCompatActivity() {
     private fun setUpTable(){
 
         val layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL,false)
-        adapter.updateData(DataList)
+
+
+        tableadapter.updateData(DataList)
 
 
 
         recyclerViewTable.apply{
             this.layoutManager = layoutManager
-            this.adapter = adapter
+            this.adapter = tableadapter
         }
     }
 }
