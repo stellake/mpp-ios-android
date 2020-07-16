@@ -125,7 +125,7 @@ extension ViewController {
         toolBarDeparture.sizeToFit()
         toolBarDeparture.isUserInteractionEnabled = true
         departure_field.inputAccessoryView = toolBarDeparture
-        currentDeparture = stations[0] //initial value should be the first value of stations
+         //initial value should be the first value of stations
         
         //New Arrival Picker
         arrival_field.inputView = arrival_picker
@@ -137,7 +137,6 @@ extension ViewController {
         toolBarArrival.sizeToFit()
         toolBarArrival.isUserInteractionEnabled = true
         arrival_field.inputAccessoryView = toolBarArrival
-        currentArrival = stations[0]
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -226,6 +225,12 @@ extension ViewController {
             departureSearchInput = departure_field.text!
             departureStations = stations.filter({ $0.lowercased().prefix(departureSearchInput.count) == departureSearchInput.lowercased()})
         }
+        
+        if departureStations.count > 0 {
+        currentDeparture = departureStations[0]
+        } else {
+            currentDeparture = ""
+        }
     }
     
     func arrivalFilter() {
@@ -235,6 +240,12 @@ extension ViewController {
         } else {
             arrivalSearchInput = arrival_field.text!
             arrivalStations = stations.filter({ $0.lowercased().prefix(arrivalSearchInput.count) == arrivalSearchInput.lowercased()})
+        }
+        
+        if arrivalStations.count > 0 {
+        currentArrival = arrivalStations[0]
+        } else {
+            currentArrival = ""
         }
     }
 }
