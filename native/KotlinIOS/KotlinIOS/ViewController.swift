@@ -47,9 +47,11 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
         super.viewDidLoad()
         presenter.onViewTaken(view: self)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: tableID)
-        
         createPickers()
         
+    }
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
     
     @IBAction func button_press(_ sender: Any) {
@@ -134,6 +136,7 @@ extension ViewController {
         commonPicker.delegate=self
         commonPicker.dataSource=self
         commonToolBar.barStyle = .default
+        commonToolBar.tintColor = .red
         commonToolBar.isTranslucent = true
         commonToolBar.setItems([commonCancelButton, flexSpace, commonDoneButton], animated: false)
         commonToolBar.sizeToFit()
