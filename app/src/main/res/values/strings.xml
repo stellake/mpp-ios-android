@@ -11,4 +11,6 @@
     <string name="_17_15_00">17:15:00</string>
     <string name="_15">15</string>
     <string name="_15_minutes">15 minutes</string>
+    <string name="outbound_station">Outbound Station</string>
+    <string name="inbound_station">Inbound Station</string>
 </resources>

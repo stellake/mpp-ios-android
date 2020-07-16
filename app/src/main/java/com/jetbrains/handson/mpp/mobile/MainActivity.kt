@@ -1,6 +1,6 @@
 package com.jetbrains.handson.mpp.mobile
 
-mport android.content.Intent
+import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -14,6 +14,7 @@ import com.jetbrains.handson.mpp.mobile.api.JourneyOption
 import kotlinx.android.synthetic.main.activity_main.*
 import java.time.LocalDateTime
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.channels.Channel
 
 
 class MainActivity : AppCompatActivity(), ApplicationContract.View,
@@ -31,25 +32,24 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
 
         val stations = mutableListOf<String>()
         presenter.launch {
-            val codeMap = codeMapChannel.receive()
+            val codeMap = presenter.codeMapChannel.receive()
             stations.clear()
             stations.addAll(codeMap.keys)
         }
 
 
-        val outboundSpinner: Spinner = findViewById(outbound_spinner_control.id)
+        val outboundSpinner: AutoCompleteTextView = findViewById(outbound_autocomplete_control.id)
         ArrayAdapter(this, android.R.layout.simple_spinner_item, stations)
             .also { adapter ->
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                outboundSpinner.adapter = adapter
+                outboundSpinner.setAdapter(adapter)
             }
 
-        val inboundSpinner: Spinner = findViewById(inbound_spinner_control.id)
-
+        val inboundSpinner: AutoCompleteTextView = findViewById(inbound_autocomplete_control.id)
         ArrayAdapter(this, android.R.layout.simple_spinner_item, stations)
             .also { adapter ->
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                inboundSpinner.adapter = adapter
+                inboundSpinner.setAdapter(adapter)
             }
 
 

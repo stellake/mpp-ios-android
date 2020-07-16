@@ -25,7 +25,7 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
     private val dispatchers = AppDispatchersImpl()
     private var view: ApplicationContract.View? = null
     private val job: Job = SupervisorJob()
-    val codeMap =
+    private val codeMap =
         mutableMapOf<String, String>(
         "Harrow and Wealdstone" to "HRW",
         "Canley" to "CNL",
@@ -34,6 +34,7 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         "Birmingham New Street" to "BHM"
     )
 
+    val codeMapChannel: Channel<MutableMap<String,String>> = Channel()
 
     init {
         launch {
@@ -107,4 +108,3 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
     }
 }
 
-val codeMapChannel: Channel<MutableMap<String,String>> = Channel()
