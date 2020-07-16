@@ -3,12 +3,16 @@ package com.jetbrains.handson.mpp.mobile
 import android.content.Intent
 import android.content.Intent.ACTION_VIEW
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.*
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.Button
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity(), ApplicationContract.View {
-    lateinit private var autoAdapter: ArrayAdapter<String>
+    private lateinit var autoAdapter: ArrayAdapter<String>
+    val autoValidator=AutoValidator()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -27,14 +31,18 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         )
         autos.forEach {
 
-            it.setAdapter(autoAdapter);
+            it.setAdapter(autoAdapter)
+            it.validator = autoValidator
         }
     }
 
     private fun setupButton(presenter: ApplicationPresenter) {
         val button: Button = findViewById(R.id.done_button)
         button.setOnClickListener {
-            presenter.onDoneButtonPressed()
+            val departureArrival=getDepartureArrivalStations()
+            if (departureArrival.first!="" && departureArrival.second!="") {
+                presenter.onStationsSubmitted(departureArrival.first, departureArrival.second)
+            }
         }
     }
 
@@ -43,12 +51,14 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         startActivity(Intent(ACTION_VIEW, Uri.parse(url)))
     }
 
-    override fun getArrivalDepartureStations(): Pair<String, String> {
+    private fun getDepartureArrivalStations(): Pair<String, String> {
         val arrivalText: AutoCompleteTextView = findViewById(R.id.arrival_station)
+        arrivalText.performValidation()
         val departureText: AutoCompleteTextView = findViewById(R.id.departure_station)
+        departureText.performValidation()
         return Pair(
-            arrivalText.text.toString(),
-            departureText.text.toString()
+            departureText.text.toString(),
+            arrivalText.text.toString()
         )
     }
 
@@ -59,9 +69,16 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
     override fun updateStations(data: List<String>) {
         autoAdapter.clear()
         autoAdapter.addAll(data)
+        autoValidator.valid_list=data
     }
 
     override fun setLabel(text: String) {
         findViewById<TextView>(R.id.main_text).text = text
+    }
+
+    override fun showAPIError(info:String) {
+        //TODO - bring up error message
+        println("API CALL FAILED")
+        println(info)
     }
 }

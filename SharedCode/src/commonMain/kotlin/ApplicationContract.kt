@@ -7,16 +7,15 @@ interface ApplicationContract {
     interface View {
         fun setLabel(text: String)
         fun openURL(url:String)
-        fun getArrivalDepartureStations():Pair<String,String>
         fun showData(data:List<TrainJourney>)
         fun updateStations(data: List<String>)
+        fun showAPIError(info:String) //print info in console, show something nice to the user
     }
 
 
 
     abstract class Presenter: CoroutineScope {
         abstract fun onViewTaken(view: View)
-        abstract fun onDoneButtonPressed()
         abstract fun onStationsSubmitted(departure: String,arrival:String)
     }
 }

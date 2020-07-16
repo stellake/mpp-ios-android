@@ -51,7 +51,7 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
     }
     
     @IBAction func button_press(_ sender: Any) {
-        presenter.onDoneButtonPressed()
+        presenter.onStationsSubmitted(departure: departure_field.text!, arrival: arrival_field.text!)
     }
     
 }
@@ -59,18 +59,13 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
 
 
 extension ViewController: ApplicationContractView {
-    func updateStations(data: [String]) {
-        print("")
+    func showAPIError(info: String) {
+        //TODO - show message to user
+        print(info)
     }
     
-    
-    func getArrivalDepartureStations() -> KotlinPair {
-        
-        let departureStation = departure_field.text
-        
-        let arrivalStation = arrival_field.text
-        
-        return KotlinPair(first: arrivalStation  ,second:departureStation)
+    func updateStations(data: [String]) {
+        print("")
     }
     
     func openURL(url: String) {

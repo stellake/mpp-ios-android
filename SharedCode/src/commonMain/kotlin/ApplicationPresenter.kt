@@ -2,6 +2,7 @@ package com.jetbrains.handson.mpp.mobile
 
 import com.soywiz.klock.*
 import io.ktor.client.HttpClient
+import io.ktor.client.features.ClientRequestException
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.request.get
@@ -19,6 +20,11 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
     private val dateFormat = DateFormat("yyyy-MM-ddTHH%3Amm%3Ass.000%2B01%3A00")
     private val returnedFormat = DateFormat("yyyy-MM-ddTHH:mm:ss.000")
     private val niceFormat = DateFormat("HH:mm")
+    private val client = HttpClient() {
+        install(JsonFeature) {
+            serializer = KotlinxSerializer(Json.nonstrict)
+        }
+    }
     override val coroutineContext: CoroutineContext
         get() = dispatchers.main + job
 
@@ -28,65 +34,41 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         launch { populateStationCRS() }
     }
 
-    override fun onDoneButtonPressed() {
-        val arriveDepart = view?.getArrivalDepartureStations()
-        if (arriveDepart != null) {
-            onStationsSubmitted(arriveDepart.second, arriveDepart.first)
-        }
-    }
-
     override fun onStationsSubmitted(departure: String, arrival: String) {
         val arriveCRS = stationToCRS(arrival)
         val departCRS = stationToCRS(departure)
         launch { callOnTrainPage(departCRS, arriveCRS) }
     }
 
-    @Serializable
-    data class StationList(
-        val stations: List<Station>
-    )
 
-    @Serializable
-    data class Station(
-        val name: String,
-        val crs: String?
-    )
+    private suspend fun fetchStations(): StationList {
+        val response = client.get<StationList>("https://mobile-api-dev.lner.co.uk/v1/stations")
+        return response
+    }
 
     private suspend fun populateStationCRS() {
         if (stationCRS.isEmpty()) {
-            val client = HttpClient() {
-                install(JsonFeature) {
-                    serializer = KotlinxSerializer(Json.nonstrict)
+            try {
+                fetchStations().stations.forEach {
+                    if (it.crs != null) {
+                        stationCRS[it.name] = it.crs
+                    }
                 }
-            }
-            val job = client.get<StationList>("https://mobile-api-dev.lner.co.uk/v1/stations")
-            job.stations.forEach {
-                if (it.crs != null) {
-                    stationCRS[it.name] = it.crs
-                }
+            }catch (e:ClientRequestException){
+                view?.showAPIError("Bad API call")
             }
         }
         view?.updateStations(stationCRS.keys.toList())
     }
 
     private fun stationToCRS(station: String): String {
-        return stationCRS[station] ?: "KGX" //the world is king's cross
+        val crs=stationCRS[station]
+        if (crs==null){
+            println("CRS lookup failed!")
+            throw RuntimeException("LOOKUP FAILURE - STATION - $station")
+        }
+        return crs
     }
-
-    @Serializable
-    data class trainData(val outboundJourneys: List<JourneyOption>)
-
-    @Serializable
-    data class JourneyOption(
-        val departureTime: String,
-        val arrivalTime: String,
-        val tickets: List<ticketOptions>
-    )
-
-    @Serializable
-    data class ticketOptions(
-        val priceInPennies: Int
-    )
 
 
     fun readableTime(horrificTime: String): String {
@@ -94,12 +76,21 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         return dateTime.format(niceFormat)
     }
 
+    suspend fun fetchJourneyData(
+        originCRS: String,
+        destinationCRS: String,
+        outboundTime: DateTimeTz
+    ): trainData {
+        val outboundStr = outboundTime.format(dateFormat)
+        val adults = "2"
+        val children = "0"
+        val trainInfo = client.get<trainData>(
+            "https://mobile-api-dev.lner.co.uk/v1/fares?originStation=$originCRS&destinationStation=$destinationCRS&outboundDateTime=$outboundStr&numberOfChildren=$children&numberOfAdults=$adults&doSplitTicketing=false"
+        )
+        return trainInfo
+    }
+
     suspend fun callOnTrainPage(originCRS: String, destinationCRS: String) {
-        val client = HttpClient() {
-            install(JsonFeature) {
-                serializer = KotlinxSerializer(Json.nonstrict)
-            }
-        }
         val now = DateTimeTz.nowLocal().addOffset(TimeSpan(10000.0))
         val journeys: List<ApplicationContract.TrainJourney>
         if (originCRS == destinationCRS) {
@@ -112,16 +103,13 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
                 )
             )
         } else {
-            val outboundTime = now.format(dateFormat)
-            val adults = "2"
-            val children = "1"
-
-            val trainInfo = client.get<trainData>(
-                "https://mobile-api-dev.lner.co.uk/v1/fares?originStation=$originCRS&destinationStation=$destinationCRS&outboundDateTime=$outboundTime&numberOfChildren=$children&numberOfAdults=$adults&doSplitTicketing=false"
-            )
-
-
-            client.close()
+            val trainInfo:trainData
+            try {
+                trainInfo = fetchJourneyData(originCRS, destinationCRS, now)
+            }catch (e:ClientRequestException){
+                view?.showAPIError("bad API call")
+                return
+            }
             journeys = mutableListOf<ApplicationContract.TrainJourney>()
             trainInfo.outboundJourneys.forEach {
                 val minPrice = it.tickets.minBy { it.priceInPennies }?.priceInPennies ?: 0
