@@ -10,8 +10,9 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.jetbrains.handson.mpp.mobile.api.FaresResponse
+import com.jetbrains.handson.mpp.mobile.api.JourneyOption
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.journeys_list_layout.*
 import java.time.LocalDateTime
 
 class MainActivity : AppCompatActivity(), ApplicationContract.View,
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setUpTable()
         val presenter = ApplicationPresenter()
         presenter.onViewTaken(this)
 
@@ -50,71 +52,24 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
             val origin = outboundSpinner.selectedItem.toString()
             val destination = inboundSpinner.selectedItem.toString()
             val time = LocalDateTime.now().plusMinutes(5).toString()
-            presenter.onButtonPressed(origin, destination, time)
+            val allJourneys = presenter.onButtonPressed(origin, destination, time)
         }
+    }
 
-        val journeysRecyclerView = findViewById<RecyclerView>(R.id.journeys_recycler_view)
+    val journeysRecyclerView = findViewById<RecyclerView>(R.id.journeys_recycler_view)
 
-        journeysRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+    val journeys = ArrayList<Journey>()
 
-        val journeys = ArrayList<Journey>()
 
-        //adding some dummy data to the list
-        journeys.add(
-            Journey(
-                "17:00",
-                "17:15",
-                "15 min"
-            )
-        )
-        journeys.add(
-            Journey(
-                "17:30",
-                "17:45",
-                "15 min"
-            )
-        )
-        journeys.add(
-            Journey(
-                "18:00",
-                "18:15",
-                "15 min"
-            )
-        )
-        journeys.add(
-            Journey(
-                "18:30",
-                "18:45",
-                "15 min"
-            )
-        )
-        journeys.add(
-            Journey(
-                "19:00",
-                "19:15",
-                "15 min"
-            )
-        )
-        journeys.add(
-            Journey(
-                "19:30",
-                "19:45",
-                "15 min"
-            )
-        )
-        journeys.add(
-            Journey(
-                "20:00",
-                "20:15",
-                "15 min"
-            )
-        )
+    private fun setUpTable() {
+        val layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        val adapter = JourneyAdapter()
+        adapter.updateData(journeys)
 
-        //creating our adapter
-        val adapter = JourneyAdapter(journeys)
-
-        //now adding the adapter to recyclerview
-        journeysRecyclerView.adapter = adapter
+        journeys_recycler_view.apply {
+            this.layoutManager = layoutManager
+            this.adapter = adapter
+        }
     }
 
     override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -129,7 +84,7 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
         findViewById<TextView>(R.id.main_text).text = text
     }
 
-    override fun showData(text: FaresResponse) {
+    override fun showData(text: List<JourneyOption>) {
     }
 
     override fun showAlert(text: String) {

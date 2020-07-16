@@ -79,7 +79,7 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         launch {
             try {
                 val response = client.getFares(originCode, destinationCode, time)
-                if (response != null) view?.showData(response)
+                if (response != null) view?.showData(response.outboundJourneys)
             } catch (cause: Throwable) {
                 view?.showAlert("An error occurred:$cause")
             }
