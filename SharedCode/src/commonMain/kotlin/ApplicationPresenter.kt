@@ -52,15 +52,20 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         val crs: String?
     )
 
+    private suspend fun fetchStations(): StationList {
+        val client = HttpClient() {
+            install(JsonFeature) {
+                serializer = KotlinxSerializer(Json.nonstrict)
+            }
+        }
+        val response = client.get<StationList>("https://mobile-api-dev.lner.co.uk/v1/stations")
+        client.close()
+        return response
+    }
+
     private suspend fun populateStationCRS() {
         if (stationCRS.isEmpty()) {
-            val client = HttpClient() {
-                install(JsonFeature) {
-                    serializer = KotlinxSerializer(Json.nonstrict)
-                }
-            }
-            val job = client.get<StationList>("https://mobile-api-dev.lner.co.uk/v1/stations")
-            job.stations.forEach {
+            fetchStations().stations.forEach {
                 if (it.crs != null) {
                     stationCRS[it.name] = it.crs
                 }
@@ -94,12 +99,27 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         return dateTime.format(niceFormat)
     }
 
-    suspend fun callOnTrainPage(originCRS: String, destinationCRS: String) {
+    suspend fun fetchJourneyData(
+        originCRS: String,
+        destinationCRS: String,
+        outboundTime: DateTimeTz
+    ): trainData {
         val client = HttpClient() {
             install(JsonFeature) {
                 serializer = KotlinxSerializer(Json.nonstrict)
             }
         }
+        val outboundStr = outboundTime.format(dateFormat)
+        val adults = "2"
+        val children = "0"
+        val trainInfo = client.get<trainData>(
+            "https://mobile-api-dev.lner.co.uk/v1/fares?originStation=$originCRS&destinationStation=$destinationCRS&outboundDateTime=$outboundStr&numberOfChildren=$children&numberOfAdults=$adults&doSplitTicketing=false"
+        )
+        client.close()
+        return trainInfo
+    }
+
+    suspend fun callOnTrainPage(originCRS: String, destinationCRS: String) {
         val now = DateTimeTz.nowLocal().addOffset(TimeSpan(10000.0))
         val journeys: List<ApplicationContract.TrainJourney>
         if (originCRS == destinationCRS) {
@@ -112,16 +132,7 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
                 )
             )
         } else {
-            val outboundTime = now.format(dateFormat)
-            val adults = "2"
-            val children = "1"
-
-            val trainInfo = client.get<trainData>(
-                "https://mobile-api-dev.lner.co.uk/v1/fares?originStation=$originCRS&destinationStation=$destinationCRS&outboundDateTime=$outboundTime&numberOfChildren=$children&numberOfAdults=$adults&doSplitTicketing=false"
-            )
-
-
-            client.close()
+            val trainInfo = fetchJourneyData(originCRS, destinationCRS, now)
             journeys = mutableListOf<ApplicationContract.TrainJourney>()
             trainInfo.outboundJourneys.forEach {
                 val minPrice = it.tickets.minBy { it.priceInPennies }?.priceInPennies ?: 0
