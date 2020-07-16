@@ -1,5 +1,7 @@
 package com.jetbrains.handson.mpp.mobile
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.*
@@ -65,5 +67,10 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
         Toast.makeText(this, text, Toast.LENGTH_LONG).show()
     }
 
+    override fun openWebpage(url: String) {
+        val openURL = Intent(Intent.ACTION_VIEW)
+        openURL.data = Uri.parse(url)
+        startActivity(openURL)
+    }
 
 }
