@@ -19,6 +19,11 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
     private val dateFormat = DateFormat("yyyy-MM-ddTHH%3Amm%3Ass.000%2B01%3A00")
     private val returnedFormat = DateFormat("yyyy-MM-ddTHH:mm:ss.000")
     private val niceFormat = DateFormat("HH:mm")
+    private val client = HttpClient() {
+        install(JsonFeature) {
+            serializer = KotlinxSerializer(Json.nonstrict)
+        }
+    }
     override val coroutineContext: CoroutineContext
         get() = dispatchers.main + job
 
@@ -41,25 +46,9 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         launch { callOnTrainPage(departCRS, arriveCRS) }
     }
 
-    @Serializable
-    data class StationList(
-        val stations: List<Station>
-    )
-
-    @Serializable
-    data class Station(
-        val name: String,
-        val crs: String?
-    )
 
     private suspend fun fetchStations(): StationList {
-        val client = HttpClient() {
-            install(JsonFeature) {
-                serializer = KotlinxSerializer(Json.nonstrict)
-            }
-        }
         val response = client.get<StationList>("https://mobile-api-dev.lner.co.uk/v1/stations")
-        client.close()
         return response
     }
 
@@ -78,21 +67,6 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         return stationCRS[station] ?: "KGX" //the world is king's cross
     }
 
-    @Serializable
-    data class trainData(val outboundJourneys: List<JourneyOption>)
-
-    @Serializable
-    data class JourneyOption(
-        val departureTime: String,
-        val arrivalTime: String,
-        val tickets: List<ticketOptions>
-    )
-
-    @Serializable
-    data class ticketOptions(
-        val priceInPennies: Int
-    )
-
 
     fun readableTime(horrificTime: String): String {
         val dateTime = returnedFormat.parse(horrificTime.substringBeforeLast('+'))
@@ -104,18 +78,12 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         destinationCRS: String,
         outboundTime: DateTimeTz
     ): trainData {
-        val client = HttpClient() {
-            install(JsonFeature) {
-                serializer = KotlinxSerializer(Json.nonstrict)
-            }
-        }
         val outboundStr = outboundTime.format(dateFormat)
         val adults = "2"
         val children = "0"
         val trainInfo = client.get<trainData>(
             "https://mobile-api-dev.lner.co.uk/v1/fares?originStation=$originCRS&destinationStation=$destinationCRS&outboundDateTime=$outboundStr&numberOfChildren=$children&numberOfAdults=$adults&doSplitTicketing=false"
         )
-        client.close()
         return trainInfo
     }
 
