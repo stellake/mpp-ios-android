@@ -29,8 +29,14 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
     let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
     let cancelButtonDeparture = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelClick))
     let cancelButtonArrival = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelClick))
+    
+    var departureStations = [String]()
+    var departureSearchInput = ""
+    var arrivalStations = [String]()
+    var arrivalSearchInput = ""
 
     //Table variables
+
     
     private var tableContents:Array<String>=[]
     private let tableID="potato"
@@ -45,6 +51,7 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: tableID)
         
         createpickers()
+        
     }
     
     @IBAction func button_press(_ sender: Any) {
@@ -139,21 +146,33 @@ extension ViewController {
     
     // The number of rows of data
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return stations.count
+        switch pickerView {
+        case departure_picker:
+            return departureStations.count
+        case arrival_picker:
+            return arrivalStations.count
+        default: return 0
+        }
     }
     
     // The data to return for the row and component (column) that's being passed in
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return stations[row]
+        switch pickerView {
+        case departure_picker:
+            return departureStations[row]
+        case arrival_picker:
+            return arrivalStations[row]
+        default: return ""
+        }
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
         switch pickerView {
         case departure_picker:
-            currentDeparture = stations[departure_picker.selectedRow(inComponent: 0)]
+            currentDeparture = departureStations[departure_picker.selectedRow(inComponent: 0)]
         case arrival_picker:
-            currentArrival = stations[arrival_picker.selectedRow(inComponent: 0)]
+            currentArrival = arrivalStations[arrival_picker.selectedRow(inComponent: 0)]
         default:
             departure_field.resignFirstResponder()
             arrival_field.resignFirstResponder()
@@ -173,6 +192,50 @@ extension ViewController {
     @objc func doneClickArrival() {
         arrival_field.text = currentArrival
         arrival_field.resignFirstResponder()
+    }
+    
+    //Search function
+    
+    @IBAction func departureStationValueBeginsEditing(_ sender: Any) {
+        departureFilter()
+    }
+    
+    @IBAction func departureStationValueChanges(_ sender: Any) {
+        departureFilter()
+        createpickers()
+    }
+    
+    @IBAction func arrivalStationValueBeginsEditing(_ sender: Any) {
+        arrivalFilter()
+    }
+    
+    
+    
+    @IBAction func arrivalStationValueChanges(_ sender: Any) {
+        arrivalFilter()
+        createpickers()
+    }
+    
+    //Filters out stations
+    
+    func departureFilter() {
+        if departure_field.text == "" {
+
+            departureStations = stations
+        } else {
+            departureSearchInput = departure_field.text!
+            departureStations = stations.filter({ $0.lowercased().prefix(departureSearchInput.count) == departureSearchInput.lowercased()})
+        }
+    }
+    
+    func arrivalFilter() {
+        if arrival_field.text == "" {
+
+            arrivalStations = stations
+        } else {
+            arrivalSearchInput = arrival_field.text!
+            arrivalStations = stations.filter({ $0.lowercased().prefix(arrivalSearchInput.count) == arrivalSearchInput.lowercased()})
+        }
     }
 }
 
