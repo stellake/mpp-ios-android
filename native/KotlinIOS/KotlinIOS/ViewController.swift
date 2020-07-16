@@ -26,7 +26,7 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
     var currentText = ""
     let commonToolBar = UIToolbar()
     let commonDoneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneClick))
-    let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+    let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
     let commonCancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelClick))
     
     var departureStations = [String]()
@@ -128,7 +128,7 @@ extension ViewController {
         commonPicker.dataSource=self
         commonToolBar.barStyle = .default
         commonToolBar.isTranslucent = true
-        commonToolBar.setItems([commonCancelButton, spaceButton, commonDoneButton], animated: false)
+        commonToolBar.setItems([commonCancelButton, flexSpace, commonDoneButton], animated: false)
         commonToolBar.sizeToFit()
     }
     func updatePickers(){
