@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.journey_view.*
 import kotlinx.android.synthetic.main.recycler_view.view.*
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.journey_view.view.*
 
 class JourneyActivity : AppCompatActivity() {
 
@@ -21,6 +22,7 @@ class JourneyActivity : AppCompatActivity() {
         setContentView(R.layout.journey_view)
         setUpTable()
         fares = Gson().fromJson(intent.getSerializableExtra("fareList") as String, Fares::class.java)
+        FromTo.text = fares.outboundJourneys[0].originStation.displayName + " - " + fares.outboundJourneys[0].destinationStation.displayName
         tableAdapter.updateData(fares)
     }
 
@@ -51,7 +53,8 @@ class MyRecyclerViewAdapter: RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHo
 
             // TODO: assign text to table cell text or something
             // Just assigned the time for testing
-            itemView.priceView.text = time
+            itemView.departureTimeView.text = time
+            itemView.priceView.text = price
         }
     }
 
@@ -66,7 +69,15 @@ class MyRecyclerViewAdapter: RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHo
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val time = fares.outboundJourneys[position].departureTime
+        val string = fares.outboundJourneys[position].departureTime
+        val year = string.slice(0..3)
+        val month = string.slice(5..6)
+        val day = string.slice(8..9)
+        val hour = string.slice(11..12)
+        val minute = string.slice(14..15)
+
+        val time = "On ${day}-${month} \n   at ${hour}:${minute}"
+
         val price = fares.outboundJourneys[position].tickets.map { it.priceInPennies }.min().toString()
         val pounds = price.substring(0,price.length-2)
         val pennies = price.substring(price.length-2,price.length)

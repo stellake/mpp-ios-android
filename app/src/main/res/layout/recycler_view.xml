@@ -1,28 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="50dp"
+    android:layout_height="wrap_content"
     android:layout_width = "match_parent"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:layout_marginEnd="0dp"
+    android:background="@drawable/back1">
     <TextView
         android:id="@+id/departureTimeView"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:background="@color/colorPrimaryDark"
-        android:text="2020-10-09 12:12:12"/>
+
+        android:paddingLeft="0dp"
+        android:paddingVertical="10dp"
+        android:paddingRight="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="100px"
+        android:text="DD-MM \n    at HH:MM"
+        android:layout_marginLeft="0dp"
+        android:textColor="@color/colorAccent"
+        android:background="@drawable/backtime"
+        />
 
     <TextView
         android:id="@+id/priceView"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:background="@color/colorPrimaryDark"
-        android:text="From: £10.00"/>
+        android:layout_height="match_parent"
+        android:text="From: £10.00"
+        android:textSize="60px"
+        android:gravity="end"
+        android:textAlignment="gravity"
+        android:textColor="#A9A9A9"
+        android:textStyle="bold"/>
 
-    <Button
+
+    <!--<Button
         android:layout_height="30dp"
         android:id="@+id/myButton"
         android:layout_width="match_parent"
         android:text="Click me!!"
         android:layout_marginTop="10dp"/>
-
+-->
 </LinearLayout>

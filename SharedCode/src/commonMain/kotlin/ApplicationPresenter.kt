@@ -74,7 +74,9 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
 
             var fares: Fares
 
+
             try {
+                if(getStationCode(departure)==getStationCode(destination)){throw Exception("Stations are the same.")}
                 fares = client.get(RequestURL(
                     originStation = getStationCode(departure),
                     destinationStation = getStationCode(destination),

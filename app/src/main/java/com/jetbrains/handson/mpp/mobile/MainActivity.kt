@@ -47,14 +47,13 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
     }
 
     override fun showAlert(message: String) {
+
         val builder = AlertDialog.Builder(this)
+        builder.setTitle("No journeys found")
         builder.setMessage(message)
+
         builder.setPositiveButton("OK",null)
-
-
         builder.show()
-
-
     }
 
     fun getJourneyButtonClick(view: View) {

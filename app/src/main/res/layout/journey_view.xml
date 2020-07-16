@@ -7,12 +7,24 @@
     android:layout_height="match_parent"
     tools:context=".JourneyActivity">
 
+    <TextView
+        android:id="@+id/FromTo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="100px"
+        android:background="@color/colorPrimaryDark"
+        android:text="From - To"
+        android:textAlignment="center"
+        android:layout_marginTop="0dp"
+        android:textStyle="bold"
+        android:textColor="@color/colorAccent"
+        android:paddingBottom="30dp"
+        android:paddingTop="10dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewTable"
-        android:layout_width = "match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/FromTo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
