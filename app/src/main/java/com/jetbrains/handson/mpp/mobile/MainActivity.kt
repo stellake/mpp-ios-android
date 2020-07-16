@@ -1,21 +1,12 @@
 package com.jetbrains.handson.mpp.mobile
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Parcelable
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.parcel.Parcelize
-import kotlinx.android.parcel.RawValue
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.journey_view.*
-import kotlinx.android.synthetic.main.recycler_view.view.*
 import java.io.Serializable
 
 
@@ -60,7 +51,14 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
     }
 
     override fun showAlert(message: String) {
-        Log.e("msg", message)
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage(message)
+        builder.setPositiveButton("OK",null)
+
+
+        builder.show()
+
+
     }
 
     fun getJourneyButtonClick(view: View) {
