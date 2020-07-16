@@ -7,6 +7,7 @@ interface ApplicationContract {
         fun setLabel(text: String)
         fun showAlert(text: String)
         fun showData(text: FaresResponse)
+        fun openWebpage(url: String)
     }
 
     abstract class Presenter : CoroutineScope {

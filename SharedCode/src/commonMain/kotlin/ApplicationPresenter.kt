@@ -69,4 +69,14 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         val parsedResponse = json.parseJson(response.readText())
         return json.fromJson<FaresResponse>(parsedResponse)
     }
+
+
+        fun onBuyButton(outBound: String, inBound: String, month: Int, day: Int, hour: Int, min: Int, ret: Boolean = true) {
+            val returnBool = if (ret) {
+                "y"
+            } else {
+                "n"
+            }
+            view?.openWebpage("https://www.lner.co.uk/buy-tickets/booking-engine/?ocrs=$outBound&dcrs=$inBound&outm=$month&outd=$day&outh=$hour&outmi=$min&ret=$returnBool")
+        }
 }
