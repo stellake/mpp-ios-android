@@ -92,7 +92,7 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         month: Int,
         day: Int,
         hour: Int,
-        minimum: Int,
+        minutes: Int,
         returnBool: Boolean = true
     ) {
         val returnSymbol = if (returnBool) {
@@ -100,6 +100,6 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         } else {
             "n"
         }
-        view?.openWebpage("https://www.lner.co.uk/buy-tickets/booking-engine/?ocrs=$outbound&dcrs=$inbound&outm=$month&outd=$day&outh=$hour&outmi=$minimum&ret=$returnSymbol")
+        view?.openWebpage("https://www.lner.co.uk/buy-tickets/booking-engine/?ocrs=$outbound&dcrs=$inbound&outm=$month&outd=$day&outh=$hour&outmi=$minutes&ret=$returnSymbol")
     }
 }
