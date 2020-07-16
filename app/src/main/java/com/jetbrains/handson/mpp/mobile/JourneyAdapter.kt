@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.journeys_list_layout.view.*
 
-
 class JourneyAdapter(private val journeyList: ArrayList<Journey>) : RecyclerView.Adapter<JourneyAdapter.MyViewHolder>() {
 
     //this method is returning the view for each item in the list

@@ -13,6 +13,6 @@ interface ApplicationContract {
 
     abstract class Presenter : CoroutineScope {
         abstract fun onViewTaken(view: View)
-        abstract fun onButtonPressed(origin: String, destination: String, time: String)
+        abstract fun onButtonPressed(origin: String, destination: String)
     }
 }
