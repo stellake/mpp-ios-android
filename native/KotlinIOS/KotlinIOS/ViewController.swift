@@ -118,6 +118,7 @@ extension ViewController {
         toolBarDeparture.sizeToFit()
         toolBarDeparture.isUserInteractionEnabled = true
         departure_field.inputAccessoryView = toolBarDeparture
+        currentDeparture = stations[0] //initial value should be the first value of stations
         
         //New Arrival Picker
         arrival_field.inputView = arrival_picker
@@ -129,6 +130,7 @@ extension ViewController {
         toolBarArrival.sizeToFit()
         toolBarArrival.isUserInteractionEnabled = true
         arrival_field.inputAccessoryView = toolBarArrival
+        currentArrival = stations[0]
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
