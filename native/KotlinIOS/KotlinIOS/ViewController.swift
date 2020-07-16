@@ -93,8 +93,12 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CUSTOM_CELL") as! journeyCell
         let thisCellRow = indexPath.row
-        cell.setData(outboundCode: data?[thisCellRow].originStation.crs ?? "" , inboundCode: data?[thisCellRow].destinationStation.crs ?? "", outMonth: , outDay: <#T##String#>, outHour: <#T##String#>, outMinute: <#T##String#>, arrivalTime: <#T##String#>, duration: <#T##String#>, delegate: <#T##CustomTableCellDelegate#>)
+        cell.setData(outboundCode: data?[thisCellRow].originStation.crs ?? "" , inboundCode: data?[thisCellRow].destinationStation.crs ?? "", outMonth: data?[thisCellRow].outboundMonth, outDay: <#T##String#>, outHour: <#T##String#>, outMinute: <#T##String#>, arrivalTime: <#T##String#>, duration: <#T##String#>, delegate: <#T##CustomTableCellDelegate#>)
     }
-    
-    
+}
+
+extension ViewController: CustomTableCellDelegate {
+    func onBuyButtonTapped(outboundCode: String, inboundCode: String, outMonth: String, outDay: String, outHour: String, outMinute: String, returnSymbol: String) {
+        presenter.onBuyButton(outboundCode,inboundCode, outMonth, outDay, outHour, outMinute, "y")
+    }
 }
