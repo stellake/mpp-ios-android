@@ -6,7 +6,7 @@ interface ApplicationContract {
     interface View {
         fun updateDropDowns(stationNames: List<String>)
         fun setButtonAvailability(state: Boolean)
-        fun displayFares(fareList: List<List<String>>)
+        fun displayFares(fares: Fares)
         fun showAlert(message: String)
     }
 

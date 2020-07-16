@@ -7,7 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.serialization.json.Json
+import com.google.gson.Gson
 
 class MainActivity : AppCompatActivity(), ApplicationContract.View {
 
@@ -37,9 +37,9 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         get_journey_button.isClickable = state
     }
 
-    override fun displayFares(fareList: List<List<String>>) {
+    override fun displayFares(fares: Fares) {
         val intent = Intent(this, JourneyActivity::class.java).apply{
-            putExtra("fareList",  fareList as Serializable)
+            putExtra("fareList",  Gson().toJson(fares))
         }
         startActivity(intent)
     }
