@@ -30,9 +30,7 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
     let commonCancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelClick))
     
     var departureStations = [String]()
-    var departureSearchInput = ""
     var arrivalStations = [String]()
-    var arrivalSearchInput = ""
 
     //Table variables
 
@@ -117,11 +115,7 @@ extension ViewController {
     }
     @IBAction func stationValueBeginsEditing(_ sender: Any) {
         updateState(sender)
-        if (pickerState==pickerType.departure){
-            departureFilter()
-        }else{
-            arrivalFilter()
-        }
+        stationFilter()
         updatePickers()
     }
     
@@ -136,7 +130,6 @@ extension ViewController {
         commonToolBar.isTranslucent = true
         commonToolBar.setItems([commonCancelButton, spaceButton, commonDoneButton], animated: false)
         commonToolBar.sizeToFit()
-         //initial value should be the first value of stations
     }
     func updatePickers(){
         //Do some amount of createPickers...
@@ -198,35 +191,25 @@ extension ViewController {
     
     //Filters out stations
     
-    func departureFilter() {
-        if departure_field.text == "" {
-
-            departureStations = stations
+    func stationFilter() {
+        let field=currentField()
+        var currentStations = [String]()
+        if field.text == "" {
+            currentStations=stations
         } else {
-            departureSearchInput = departure_field.text!
-            departureStations = stations.filter({ $0.lowercased().prefix(departureSearchInput.count) == departureSearchInput.lowercased()})
+            let searchInput = field.text!
+            currentStations=stations.filter({ $0.lowercased().prefix(searchInput.count) == searchInput.lowercased()})
         }
         
-        if departureStations.count > 0 {
-        currentText = departureStations[0]
+        if currentStations.count > 0 {
+            currentText = currentStations[0]
         } else {
             currentText = ""
         }
-    }
-    
-    func arrivalFilter() {
-        if arrival_field.text == "" {
-
-            arrivalStations = stations
-        } else {
-            arrivalSearchInput = arrival_field.text!
-            arrivalStations = stations.filter({ $0.lowercased().prefix(arrivalSearchInput.count) == arrivalSearchInput.lowercased()})
-        }
-        
-        if arrivalStations.count > 0 {
-        currentText = arrivalStations[0]
-        } else {
-            currentText = ""
+        if (pickerState==pickerType.arrival){
+            arrivalStations=currentStations
+        }else{
+            departureStations=currentStations
         }
     }
 }
