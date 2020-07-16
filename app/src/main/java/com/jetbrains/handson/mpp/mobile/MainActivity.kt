@@ -130,6 +130,7 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
     }
 
     override fun showData(text: FaresResponse) {
+        println(text)
     }
 
     override fun showAlert(text: String) {
