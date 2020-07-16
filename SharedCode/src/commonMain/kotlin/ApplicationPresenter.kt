@@ -49,16 +49,17 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
         return stationMap[name] ?: throw Exception("Station cannot be found in system.")
     }
 
-    private fun convertToLight(journey: JourneyOption): String {
-
-        val time = journey.departureTime
-        val price = journey.tickets[0].priceInPennies.toString()
-        val priceAsString = "£" + price.substring(0,price.length-2) + "." + price.substring(price.length-2,price.length)
-        return "$time - $priceAsString"
+    private fun getPrice(journey: JourneyOption): String {
+        val price = journey.tickets.map { it.priceInPennies }.min().toString()
+        val priceAsString = "from £" + price.substring(0,price.length-2) + "." + price.substring(price.length-2,price.length)
+        return priceAsString
     }
 
     private fun getJourneyDetailsLight(fares: Fares): List<List<String>> {
-        return fares.outboundJourneys.map { listOf(it.journeyOptionToken, convertToLight(it)) }
+        return fares.outboundJourneys.map { listOf(
+            it.journeyOptionToken,
+            it.departureTime,
+            getPrice(it)) }
     }
 
     override val coroutineContext: CoroutineContext
