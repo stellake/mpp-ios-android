@@ -34,6 +34,10 @@
                                 <rect key="frame" x="117.5" y="100" width="286.5" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="stationValueBeginsEditing:" destination="BYZ-38-t0r" eventType="editingDidBegin" id="dlY-Wr-Krl"/>
+                                    <action selector="stationValueChanges:" destination="BYZ-38-t0r" eventType="editingChanged" id="YpX-x0-wvo"/>
+                                </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Depart from:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="73T-Bv-e1D">
                                 <rect key="frame" x="10" y="100" width="97.5" height="34"/>
@@ -45,6 +49,10 @@
                                 <rect key="frame" x="117.5" y="139" width="286.5" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="stationValueBeginsEditing:" destination="BYZ-38-t0r" eventType="editingDidBegin" id="fr6-j1-T9d"/>
+                                    <action selector="stationValueChanges:" destination="BYZ-38-t0r" eventType="editingChanged" id="5CN-oE-91I"/>
+                                </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Arrive at:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hkc-4l-ueG">
                                 <rect key="frame" x="10" y="139" width="97.5" height="34"/>
@@ -69,12 +77,12 @@
                         <constraints>
                             <constraint firstItem="Hkc-4l-ueG" firstAttribute="width" secondItem="73T-Bv-e1D" secondAttribute="width" id="08q-nk-87Y"/>
                             <constraint firstItem="Bvm-TJ-sDP" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="0EO-4s-M6m"/>
+                            <constraint firstItem="Bvr-MS-zYN" firstAttribute="top" secondItem="Hkc-4l-ueG" secondAttribute="top" id="3VH-LG-i8E"/>
                             <constraint firstItem="Bvr-MS-zYN" firstAttribute="width" secondItem="cAS-1l-TMf" secondAttribute="width" id="4eJ-F2-8R3"/>
-                            <constraint firstItem="73T-Bv-e1D" firstAttribute="top" secondItem="Bvm-TJ-sDP" secondAttribute="bottom" constant="10" id="5aU-o2-ZCN"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="PaJ-Ar-jam" secondAttribute="trailing" constant="20" id="5zP-dD-T3E"/>
                             <constraint firstItem="PaJ-Ar-jam" firstAttribute="top" secondItem="Bvr-MS-zYN" secondAttribute="bottom" constant="15" id="BL9-Sa-h2k"/>
+                            <constraint firstItem="cAS-1l-TMf" firstAttribute="top" secondItem="73T-Bv-e1D" secondAttribute="top" id="D2f-9z-4HQ"/>
                             <constraint firstItem="PaJ-Ar-jam" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Eyt-cF-7qr"/>
-                            <constraint firstItem="Hkc-4l-ueG" firstAttribute="top" secondItem="73T-Bv-e1D" secondAttribute="bottom" constant="5" id="JSD-PV-N35"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="cAS-1l-TMf" secondAttribute="trailing" constant="10" id="Llk-2x-L2w"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Zi7-hc-41D" secondAttribute="trailing" id="N0B-Ot-GOL"/>
                             <constraint firstItem="cAS-1l-TMf" firstAttribute="top" secondItem="Bvm-TJ-sDP" secondAttribute="bottom" constant="10" id="Nul-hD-hUF"/>

@@ -1,7 +1,10 @@
 import UIKit
 import SharedCode
 
-
+enum pickerType{
+    case arrival
+    case departure
+}
 class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate {
 
     @IBOutlet private var label: UILabel!
@@ -12,62 +15,39 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
     
     var stations=["Edinburgh Waverly","King's Cross","York","Durham","Cambridge"]
     
-    
     //Creating new picker
     
     @IBOutlet private var departure_field: UITextField!
     
     @IBOutlet private var arrival_field: UITextField!
     
-    var departure_picker2 = UIPickerView()
-    var arrival_picker2 = UIPickerView()
+    var pickerState=pickerType.arrival
+    var commonPicker = UIPickerView()
+    var currentText = ""
+    let commonToolBar = UIToolbar()
+    let commonDoneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneClick))
+    let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+    let commonCancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelClick))
     
+    var departureStations = [String]()
+    var arrivalStations = [String]()
+
+    //Table variables
 
     
     private var tableContents:Array<String>=[]
     private let tableID="potato"
     private let presenter: ApplicationContractPresenter = ApplicationPresenter()
+    
+    //On load
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter.onViewTaken(view: self)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: tableID)
-        //New Departure Picker
-        departure_field.inputView = departure_picker2
-        departure_picker2.delegate=self
-        departure_picker2.dataSource=self
         
-        //New Arrival Picker
-        arrival_field.inputView = arrival_picker2
-        arrival_picker2.delegate=self
-        arrival_picker2.dataSource=self
-    }
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    
-    //Picker Section
-    
-    // The number of rows of data
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return stations.count
-    }
-    
-    // The data to return for the row and component (column) that's being passed in
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return stations[row]
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        createPickers()
         
-        if pickerView == departure_picker2 {
-        departure_field.text = stations[departure_picker2.selectedRow(inComponent: 0)]
-            departure_field.resignFirstResponder()
-        } else {
-        arrival_field.text = stations[arrival_picker2.selectedRow(inComponent: 0)]
-        arrival_field.resignFirstResponder()
-        }
     }
     
     @IBAction func button_press(_ sender: Any) {
@@ -125,3 +105,112 @@ extension ViewController: UITableViewDataSource,UITableViewDelegate{
     }
     
 }
+
+
+//Picker Stuff
+
+extension ViewController {
+    func updateState(_ sender:Any){
+        pickerState = (sender as AnyObject===departure_field) ? pickerType.departure : pickerType.arrival
+    }
+    @IBAction func stationValueBeginsEditing(_ sender: Any) {
+        updateState(sender)
+        stationFilter()
+        updatePickers()
+    }
+    
+    @IBAction func stationValueChanges(_ sender: Any) {
+        stationValueBeginsEditing(sender)
+    }
+    func createPickers(){
+        //New Common Picker
+        commonPicker.delegate=self
+        commonPicker.dataSource=self
+        commonToolBar.barStyle = .default
+        commonToolBar.isTranslucent = true
+        commonToolBar.setItems([commonCancelButton, flexSpace, commonDoneButton], animated: false)
+        commonToolBar.sizeToFit()
+    }
+    func updatePickers(){
+        //Do some amount of createPickers...
+        let field=currentField()
+        field.inputView = commonPicker
+        commonToolBar.isUserInteractionEnabled = true
+        field.inputAccessoryView = commonToolBar
+        commonPicker.reloadAllComponents()
+    }
+    private func currentField()->UITextField{
+        return pickerState==pickerType.arrival ? arrival_field : departure_field
+    }
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    // The number of rows of data
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        switch pickerState {
+        case pickerType.departure:
+            return departureStations.count
+        case pickerType.arrival:
+            return arrivalStations.count
+        }
+    }
+    
+    // The data to return for the row and component (column) that's being passed in
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        switch pickerState {
+        case pickerType.departure:
+            return departureStations[row]
+        case pickerType.arrival:
+            return arrivalStations[row]
+        }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        
+        switch pickerState {
+        case pickerType.departure:
+            currentText = departureStations[commonPicker.selectedRow(inComponent: 0)]
+        case pickerType.arrival:
+            currentText = arrivalStations[commonPicker.selectedRow(inComponent: 0)]
+        }
+    }
+    
+    @objc func cancelClick() {
+        currentField().resignFirstResponder()
+    }
+    @objc func doneClick(){
+        let field = currentField()
+        field.text=currentText
+        field.resignFirstResponder()
+    }
+    
+    //Search function
+    
+    
+    
+    //Filters out stations
+    
+    func stationFilter() {
+        let field=currentField()
+        var currentStations = [String]()
+        if field.text == "" {
+            currentStations=stations
+        } else {
+            let searchInput = field.text!
+            currentStations=stations.filter({ $0.lowercased().prefix(searchInput.count) == searchInput.lowercased()})
+        }
+        
+        if currentStations.count > 0 {
+            currentText = currentStations[0]
+        } else {
+            currentText = ""
+        }
+        if (pickerState==pickerType.arrival){
+            arrivalStations=currentStations
+        }else{
+            departureStations=currentStations
+        }
+    }
+}
+
