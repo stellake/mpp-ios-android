@@ -64,7 +64,7 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
     @ImplicitReflectionSerializer
     @OptIn(UnstableDefault::class)
 
-    override fun onButtonPressed(origin: String, destination: String, time: String) {
+    override fun onButtonPressed(origin: String, destination: String) {
         val originCode = codeMap[origin]
         val destinationCode = codeMap[destination]
         if (originCode == null || destinationCode == null) {
@@ -75,41 +75,9 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
             view?.showAlert("Stations must be different")
             return
         }
-
         launch {
-            val response = sequentialRequests(originCode, destinationCode, time)
+            val response = client.getFares(originCode, destinationCode)
             if (response != null) view?.showData(response)
-        }
-    }
-
-    @ImplicitReflectionSerializer
-    @OptIn(UnstableDefault::class)
-    private suspend fun sequentialRequests(
-        originCode: String, destinationCode: String, time: String
-    ): FaresResponse? {
-        val client = HttpClient {
-            install(JsonFeature) {
-                serializer = KotlinxSerializer()
-            }
-        }
-
-        val json = Json(JsonConfiguration(ignoreUnknownKeys = true, isLenient = true))
-        var jsonResponse: FaresResponse? = null
-        // Get the content of an URL.
-        try {
-            val response: HttpResponse =
-                client.get<HttpResponse>("https://mobile-api-dev.lner.co.uk/v1/fares?originStation=$originCode&destinationStation=$destinationCode&outboundDateTime=$time%2B00%3A00&inboundDateTime=$time%2B00%3A00&numberOfChildren=1&numberOfAdults=0&doSplitTicketing=false")
-            val parsedResponse = json.parseJson(response.readText())
-            jsonResponse = json.fromJson<FaresResponse>(parsedResponse)
-        } catch (cause: Throwable) {
-            view?.showAlert("An error occurred:$cause")
-
-        }
-        client.close()
-
-        val response = client.getFares(originCode, destinationCode)
-        if (response != null) view?.showData(response)
-        return jsonResponse
         }
     }
 
