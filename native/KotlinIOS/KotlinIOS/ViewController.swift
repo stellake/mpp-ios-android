@@ -75,13 +75,12 @@ extension ViewController: ApplicationContractView {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    func displayFares(fareList: [[String]]) {
+    func displayFares(fares: Fares) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let newViewController = storyboard.instantiateViewController(withIdentifier: "DISPLAY_JOUNEYS_VIEW_CONTROLLER") as! DisplayJourneysViewController
         self.navigationController?.isNavigationBarHidden = false
         self.show(newViewController, sender: self)
-        newViewController.setPresenter(presenter)
-        newViewController.setTableData(fareList)
+        newViewController.setTableData(fares)
     }
     
     func setButtonAvailability(state: Bool) {
