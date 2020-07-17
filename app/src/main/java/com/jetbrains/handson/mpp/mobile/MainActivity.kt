@@ -55,8 +55,8 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
 
         val button: Button = findViewById(station_button.id)
         button.setOnClickListener {
-            val origin = outboundSpinner.selectedItem.toString()
-            val destination = inboundSpinner.selectedItem.toString()
+            val origin = outboundAutocomplete.text.toString()
+            val destination = inboundAutocomplete.text.toString()
             val time = LocalDateTime.now().plusMinutes(5).toString()
             presenter.onButtonPressed(origin, destination, time)
             adapter.updateData(journeysForRecyclerView)
