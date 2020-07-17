@@ -41,13 +41,13 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
 
     private fun setupButton(presenter: ApplicationPresenter) {
         val button: Button = findViewById(R.id.done_button)
+        val headers=listOf(resultsTableArrivalHeader,resultsTableDepartureHeader,
+            resultsTableChangesHeader,resultsTableCostHeader,resultsTableButtonHeader)
         button.setOnClickListener {
             table_footer.visibility = View.VISIBLE
-            resultsTableDepartureHeader.visibility = View.VISIBLE
-            resultsTableArrivalHeader.visibility = View.VISIBLE
-            resultsTableChangesHeader.visibility = View.VISIBLE
-            resultsTableCostHeader.visibility = View.VISIBLE
-            resultsTableButtonHeader.visibility = View.VISIBLE
+            headers.forEach {
+                it.visibility=View.VISIBLE
+            }
 
             presenter.onDoneButtonPressed()
         }
@@ -134,10 +134,10 @@ class  ResultsTableAdapter: RecyclerView.Adapter<ResultsTableAdapter.MyViewHolde
 
     inner class MyViewHolder(view: View): RecyclerView.ViewHolder(view) {
         fun bindData(departTime: String,arriveTime: String, trainChanges: String, price: String, onButtonClick:() -> Unit) {
-            itemView.resultsTableCellText1.text = departTime
-            itemView.resultsTableCellText2.text = arriveTime
-            itemView.resultsTableCellText3.text = trainChanges
-            itemView.resultsTableCellText4.text = price
+            itemView.resultsTableCellDepart.text = departTime
+            itemView.resultsTableCellArrive.text = arriveTime
+            itemView.resultsTableCellChanges.text = trainChanges
+            itemView.resultsTableCellCost.text = price
             itemView.myButton.setOnClickListener {
                 onButtonClick()
             }
