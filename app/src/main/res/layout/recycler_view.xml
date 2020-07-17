@@ -7,7 +7,7 @@
     android:orientation="horizontal"
     android:layout_marginEnd="0dp"
     android:background="@drawable/back1"
-    android:onClick="OnClick"
+    android:onClick="journeyClicked"
     tools:context=".JourneyActivity">
     <TextView
         android:id="@+id/departureTimeView"

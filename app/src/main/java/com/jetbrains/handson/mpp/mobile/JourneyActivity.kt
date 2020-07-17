@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.journey_view.*
 import kotlinx.android.synthetic.main.recycler_view.view.*
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.journey_view.view.*
 
 class JourneyActivity : AppCompatActivity() {
 
@@ -42,7 +41,7 @@ class JourneyActivity : AppCompatActivity() {
         }
     }
 
-    fun OnClick(view: View) {
+    fun journeyClicked(view: View) {
         val position = view.getTag() as Int
 
         val intent = Intent(this, TicketActivity::class.java).apply {
@@ -59,15 +58,9 @@ class MyRecyclerViewAdapter: RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHo
     inner class MyViewHolder(view: View): RecyclerView.ViewHolder(view){
 
         fun bindData(time: String, price: String, position: Int){
-//            itemView.recyclerView.text = text
-//            itemView.myButton.text = "Button"
-//            itemView.myButton.setOnClickListener{
-//                //Do something when button pressed
-//            }
-
             itemView.departureTimeView.text = time
             itemView.priceView.text = price
-            itemView.setTag(position)
+            itemView.tag = position
         }
 
     }
