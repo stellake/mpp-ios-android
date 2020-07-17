@@ -4,4 +4,5 @@
     <string name="arrival_station">Arrival Station</string>
     <string name="done_button">FIND JOURNEY</string>
     <string name="click_me">See More</string>
+    <string name="train_board">Train Board</string>
 </resources>
