@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jetbrains.handson.mpp.mobile.api.JourneyOption
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.journeys_list_layout.*
 import java.time.LocalDateTime
 
 class MainActivity : AppCompatActivity(), ApplicationContract.View,
