@@ -16,7 +16,7 @@
         android:paddingRight="40dp"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:textSize="28sp"
+        android:textSize="22sp"
         android:text="Anytime"
         android:layout_marginStart="0dp"
         android:textColor="@color/colorAccent"
@@ -39,7 +39,7 @@
         android:text="£100.00"
         android:textAlignment="gravity"
         android:textColor="#A9A9A9"
-        android:textSize="22sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:layout_gravity="end"
         />
@@ -52,7 +52,7 @@
         android:text="1 passenger"
         android:textAlignment="gravity"
         android:textColor="#A9A9A9"
-        android:textSize="22sp"
+        android:textSize="18sp"
         android:textStyle="bold" />
 </LinearLayout>
 
