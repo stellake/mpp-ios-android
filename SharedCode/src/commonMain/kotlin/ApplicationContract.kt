@@ -8,7 +8,7 @@ interface ApplicationContract {
     interface View {
         fun setLabel(text: String)
         fun showAlert(text: String)
-        fun showData(text: List<JourneyOption>)
+        fun showData(journeys: List<JourneyOption>)
         fun openWebpage(url: String)
     }
 

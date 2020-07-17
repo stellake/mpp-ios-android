@@ -12,12 +12,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jetbrains.handson.mpp.mobile.api.JourneyOption
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.journeys_list_layout.*
 import java.time.LocalDateTime
 
 class MainActivity : AppCompatActivity(), ApplicationContract.View,
 
     AdapterView.OnItemSelectedListener {
     val journeysForRecyclerView = ArrayList<Journey>()
+    val ticketSiteData = ArrayList<Array<String>>()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,6 +66,14 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
             presenter.onButtonPressed(origin, destination, time)
             adapter.updateData(journeysForRecyclerView)
         }
+
+        val ticketsButton: Button = findViewById(go_to_buy_button.id)
+        button.setOnClickListener {
+            val origin = outboundSpinner.selectedItem.toString()
+            val destination = inboundSpinner.selectedItem.toString()
+            val time = LocalDateTime.now().plusMinutes(5).toString()
+            presenter.onBuyButton(origin, destination, time)
+        }
     }
 
     override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -78,9 +88,9 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
         findViewById<TextView>(R.id.main_text).text = text
     }
 
-    override fun showData(text: List<JourneyOption>) {
-        text.drop(text.size)
-        for (item in text) {
+    override fun showData(journeys: List<JourneyOption>) {
+        journeys.drop(journeys.size)
+        for (item in journeys) {
             journeysForRecyclerView.add(
                 Journey(
                     item.departureTime.substring(11, 16),
@@ -88,6 +98,12 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
                     item.journeyDurationInMinutes.toString() + " min", item.departureTime.substring(8,10)+"/"+item.departureTime.substring(5,7)+"/"+item.departureTime.substring(0,4)
                 )
             )
+            ticketSiteData.add(Array(item.originStation.crs,
+                inbound: String,
+                month: Int,
+                day: Int,
+                hour: Int,
+                minutes: Int,))
         }
     }
 

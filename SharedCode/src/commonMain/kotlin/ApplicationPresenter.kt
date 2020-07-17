@@ -87,7 +87,7 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         }
     }
 
-    fun onBuyButton(
+     fun onBuyButton(
         outbound: String,
         inbound: String,
         month: Int,
@@ -103,4 +103,5 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         }
         view?.openWebpage("https://www.lner.co.uk/buy-tickets/booking-engine/?ocrs=$outbound&dcrs=$inbound&outm=$month&outd=$day&outh=$hour&outmi=$minutes&ret=$returnSymbol")
     }
+
 }
