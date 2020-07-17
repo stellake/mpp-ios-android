@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="55dp"
+    android:orientation = "horizontal"
+    android:background="#E87A9F">
+
+
+    <TextView
+        android:id="@+id/resultsTableCellDepart"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:background="#eeeeee"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:textColor="#000000"
+        />
+
+    <TextView
+        android:id="@+id/resultsTableCellArrive"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:layout_marginStart="5dp"
+        android:background="#eeeeee"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:textColor="#000000"
+        />
+
+    <TextView
+        android:id="@+id/resultsTableCellChanges"
+        android:layout_width="0dp"
+        android:layout_weight="0.8"
+        android:layout_height="40dp"
+        android:layout_marginStart="5dp"
+        android:background="#eeeeee"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:textColor="#000000"
+        />
+
+    <TextView
+        android:id="@+id/resultsTableCellCost"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_weight="1.2"
+        android:layout_marginStart="5dp"
+        android:background="#eeeeee"
+        android:textSize="20sp"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:textColor="#000000"
+        />
+
+    <Button
+        android:id="@+id/myButton"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/curved_table_button"
+        android:textColor="#FFFFFF"
+        android:text="@string/click_me"/>
+
+
+</LinearLayout>
+
