@@ -99,7 +99,8 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
                 ApplicationContract.TrainJourney(
                     now.format(niceFormat),
                     now.format(niceFormat),
-                    0
+                    0,
+                    1
                 )
             )
         } else {
@@ -117,7 +118,8 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
                     ApplicationContract.TrainJourney(
                         readableTime(it.departureTime),
                         readableTime(it.arrivalTime),
-                        minPrice
+                        minPrice,
+                        it.legs.size
                     )
                 )
             }

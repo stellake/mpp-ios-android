@@ -1,5 +1,6 @@
 package com.jetbrains.handson.mpp.mobile
 
+import android.content.Context
 import android.content.Intent
 import android.content.Intent.ACTION_VIEW
 import android.net.Uri
@@ -7,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -40,16 +42,27 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
             it.validator = autoValidator
         }
     }
-
-    private fun setupButton(presenter: ApplicationPresenter) {
-        val button: Button = findViewById(R.id.done_button)
+    private fun hideKeyboard(){
+        val view = this.currentFocus
+        view?.let { v ->
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            imm?.hideSoftInputFromWindow(v.windowToken, 0)
+        }
+    }
+    private fun showTable(){
         val headers=listOf(resultsTableArrivalHeader,resultsTableDepartureHeader,
             resultsTableChangesHeader,resultsTableCostHeader,resultsTableButtonHeader)
+        table_footer.visibility = View.VISIBLE
+        headers.forEach {
+            it.visibility=View.VISIBLE
+        }
+    }
+    private fun setupButton(presenter: ApplicationPresenter) {
+        val button: Button = findViewById(R.id.done_button)
+
         button.setOnClickListener {
-            table_footer.visibility = View.VISIBLE
-            headers.forEach {
-                it.visibility=View.VISIBLE
-            }
+            hideKeyboard()
+            showTable()
             val departureArrival=getDepartureArrivalStations()
             if (departureArrival.first!="" && departureArrival.second!="") {
                 presenter.onStationsSubmitted(departureArrival.first, departureArrival.second)
@@ -74,21 +87,19 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
     }
 
     override fun showData(data: List<ApplicationContract.TrainJourney>) {
-        val numberOfJourneys = data.size
         val departureTimes = mutableListOf<String>()
         val arrivalTimes = mutableListOf<String>()
         val stationChanges = mutableListOf<String>()
         val pricesList = mutableListOf<String>()
 
-        for (i in 0 until (numberOfJourneys-1)){
-            departureTimes.add(data[i].departureTime)
-            arrivalTimes.add(data[i].arrivalTime)
-            val legs = 1 //TODO: Obtain Number of Legs in Journey
-            stationChanges.add((legs - 1).toString())
-            if (data[i].cost%100 == 0) {
-                pricesList.add("£" + (data[i].cost/100).toString() + ".00")
+        data.forEach{
+            departureTimes.add(it.departureTime)
+            arrivalTimes.add(it.arrivalTime)
+            stationChanges.add((it.legs- 1).toString())
+            if (it.cost%100 == 0) {
+                pricesList.add("£" + (it.cost/100).toString() + ".00")
             } else {
-                pricesList.add("£" + (data[i].cost/100).toString() + "." + (data[i].cost%100).toString())
+                pricesList.add("£" + (it.cost/100).toString() + "." + (it.cost%100).toString())
             }
 
         }
