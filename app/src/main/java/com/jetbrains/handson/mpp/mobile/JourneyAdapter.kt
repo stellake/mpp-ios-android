@@ -32,7 +32,7 @@ class JourneyAdapter(private var journeyList: List<Journey>) : RecyclerView.Adap
             itemView.arrivalTime.text = outbound
             itemView.duration.text = duration
             itemView.date.text = date
-            itemView.go_to_buy.setOnClickListener {
+            itemView.go_to_buy_button.setOnClickListener {
                 onBuyButton()
             }
         }
