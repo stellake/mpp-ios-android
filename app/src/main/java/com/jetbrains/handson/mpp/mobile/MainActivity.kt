@@ -98,12 +98,6 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
                     item.journeyDurationInMinutes.toString() + " min", item.departureTime.substring(8,10)+"/"+item.departureTime.substring(5,7)+"/"+item.departureTime.substring(0,4)
                 )
             )
-            ticketSiteData.add(Array(item.originStation.crs,
-                inbound: String,
-                month: Int,
-                day: Int,
-                hour: Int,
-                minutes: Int,))
         }
     }
 
