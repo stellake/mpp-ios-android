@@ -2,5 +2,11 @@
     <string name="app_name">KotlinMPP</string>
     <string name="departure_station">Departure Station</string>
     <string name="arrival_station">Arrival Station</string>
-    <string name="done_button">DONE</string>
+    <string name="done_button">FIND JOURNEY</string>
+    <string name="click_me">See More</string>
+    <string name="train_board">Train Board</string>
+    <string name="departs">Departs</string>
+    <string name="arrives">Arrives</string>
+    <string name="changes">Changes</string>
+    <string name="cost">Cost</string>
 </resources>

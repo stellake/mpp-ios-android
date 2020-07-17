@@ -4,11 +4,14 @@ import android.content.Intent
 import android.content.Intent.ACTION_VIEW
 import android.net.Uri
 import android.os.Bundle
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.Button
-import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.*
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.results_table_cell.view.*
 
 class MainActivity : AppCompatActivity(), ApplicationContract.View {
     private lateinit var autoAdapter: ArrayAdapter<String>
@@ -20,6 +23,7 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         presenter.onViewTaken(this)
         setupAutos()
         setupButton(presenter)
+        setupTable()
     }
 
     private fun setupAutos() {
@@ -38,7 +42,13 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
 
     private fun setupButton(presenter: ApplicationPresenter) {
         val button: Button = findViewById(R.id.done_button)
+        val headers=listOf(resultsTableArrivalHeader,resultsTableDepartureHeader,
+            resultsTableChangesHeader,resultsTableCostHeader,resultsTableButtonHeader)
         button.setOnClickListener {
+            table_footer.visibility = View.VISIBLE
+            headers.forEach {
+                it.visibility=View.VISIBLE
+            }
             val departureArrival=getDepartureArrivalStations()
             if (departureArrival.first!="" && departureArrival.second!="") {
                 presenter.onStationsSubmitted(departureArrival.first, departureArrival.second)
@@ -66,6 +76,8 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         println(data)
     }
 
+
+
     override fun updateStations(data: List<String>) {
         autoAdapter.clear()
         autoAdapter.addAll(data)
@@ -80,5 +92,70 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         //TODO - bring up error message
         println("API CALL FAILED")
         println(info)
+    }
+    //Results Table
+
+    private var obtainedDepartureData = listOf<String>()
+    private var obtainedArrivalData = listOf<String>()
+    private var obtainedChangesData = listOf<String>()
+    private var obtainedPricesData = listOf<String>()
+
+    private fun setupTable() {
+        val layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        val adapter = ResultsTableAdapter()
+        adapter.updateData(obtainedDepartureData,obtainedArrivalData,obtainedChangesData,obtainedPricesData)
+        resultsTable.apply {
+            this.layoutManager = layoutManager
+            this.adapter = adapter
+        }
+    }
+}
+
+//--------------------------------------------------------------------------------------------
+//Results Table
+
+class  ResultsTableAdapter: RecyclerView.Adapter<ResultsTableAdapter.MyViewHolder>() {
+    private var departureData = emptyList<String>()
+    private var arrivalData = emptyList<String>()
+    private var changesData = emptyList<String>()
+    private var pricesData = emptyList<String>()
+
+
+    inner class MyViewHolder(view: View): RecyclerView.ViewHolder(view) {
+        fun bindData(departTime: String,arriveTime: String, trainChanges: String, price: String, onButtonClick:() -> Unit) {
+            itemView.resultsTableCellDepart.text = departTime
+            itemView.resultsTableCellArrive.text = arriveTime
+            itemView.resultsTableCellChanges.text = trainChanges
+            itemView.resultsTableCellCost.text = price
+            itemView.myButton.setOnClickListener {
+                onButtonClick()
+            }
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.results_table_cell, parent, false)
+        return MyViewHolder(view)
+    }
+
+    override fun getItemCount(): Int {
+        return departureData.size
+    }
+
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        holder.bindData(
+            departureData[position],arrivalData[position],changesData[position],pricesData[position]
+        ) {
+            //TODO: Url to website
+        }
+    }
+
+    fun updateData(departData: List<String>,arriveData: List<String>,changeData: List<String>,priceData: List<String>) {
+        departureData = departData
+        arrivalData = arriveData
+        changesData = changeData
+        pricesData = priceData
+        notifyDataSetChanged()
     }
 }
