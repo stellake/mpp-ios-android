@@ -51,8 +51,6 @@ class MyRecyclerViewAdapter: RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHo
 //                //Do something when button pressed
 //            }
 
-            // TODO: assign text to table cell text or something
-            // Just assigned the time for testing
             itemView.departureTimeView.text = time
             itemView.priceView.text = price
         }
