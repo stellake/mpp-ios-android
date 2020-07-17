@@ -1,5 +1,6 @@
 package com.jetbrains.handson.mpp.mobile
 
+import android.content.Context
 import android.content.Intent
 import android.content.Intent.ACTION_VIEW
 import android.net.Uri
@@ -7,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -40,16 +42,27 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
             it.validator = autoValidator
         }
     }
-
-    private fun setupButton(presenter: ApplicationPresenter) {
-        val button: Button = findViewById(R.id.done_button)
+    private fun hideKeyboard(){
+        val view = this.currentFocus
+        view?.let { v ->
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            imm?.hideSoftInputFromWindow(v.windowToken, 0)
+        }
+    }
+    private fun showTable(){
         val headers=listOf(resultsTableArrivalHeader,resultsTableDepartureHeader,
             resultsTableChangesHeader,resultsTableCostHeader,resultsTableButtonHeader)
+        table_footer.visibility = View.VISIBLE
+        headers.forEach {
+            it.visibility=View.VISIBLE
+        }
+    }
+    private fun setupButton(presenter: ApplicationPresenter) {
+        val button: Button = findViewById(R.id.done_button)
+
         button.setOnClickListener {
-            table_footer.visibility = View.VISIBLE
-            headers.forEach {
-                it.visibility=View.VISIBLE
-            }
+            hideKeyboard()
+            showTable()
             val departureArrival=getDepartureArrivalStations()
             if (departureArrival.first!="" && departureArrival.second!="") {
                 presenter.onStationsSubmitted(departureArrival.first, departureArrival.second)
@@ -74,7 +87,6 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
     }
 
     override fun showData(data: List<ApplicationContract.TrainJourney>) {
-        val numberOfJourneys = data.size
         val departureTimes = mutableListOf<String>()
         val arrivalTimes = mutableListOf<String>()
         val stationChanges = mutableListOf<String>()
