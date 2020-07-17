@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -44,11 +43,11 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         val button: Button = findViewById(R.id.done_button)
         button.setOnClickListener {
             table_footer.visibility = View.VISIBLE
-            resultsTableFooter1.visibility = View.VISIBLE
-            resultsTableFooter2.visibility = View.VISIBLE
-            resultsTableFooter3.visibility = View.VISIBLE
-            resultsTableFooter4.visibility = View.VISIBLE
-            resultsTableFooter5.visibility = View.VISIBLE
+            resultsTableDepartureHeader.visibility = View.VISIBLE
+            resultsTableArrivalHeader.visibility = View.VISIBLE
+            resultsTableChangesHeader.visibility = View.VISIBLE
+            resultsTableCostHeader.visibility = View.VISIBLE
+            resultsTableButtonHeader.visibility = View.VISIBLE
 
             presenter.onDoneButtonPressed()
         }

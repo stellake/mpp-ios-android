@@ -107,7 +107,7 @@
         app:layout_constraintTop_toBottomOf="@id/arrival_station" />
 
     <TextView
-        android:id="@+id/resultsTableFooter1"
+        android:id="@+id/resultsTableDepartureHeader"
         android:layout_width="89dp"
         app:layout_constraintHorizontal_weight="1"
         android:layout_height="40dp"
@@ -122,12 +122,12 @@
         app:layout_constraintTop_toBottomOf="@id/done_button"
         app:layout_constraintBottom_toTopOf="@id/resultsTable"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/resultsTableFooter2"
+        app:layout_constraintRight_toLeftOf="@id/resultsTableArrivalHeader"
         android:visibility="invisible"
         />
 
     <TextView
-        android:id="@+id/resultsTableFooter2"
+        android:id="@+id/resultsTableArrivalHeader"
         android:layout_width="75dp"
         android:layout_height="40dp"
         android:layout_marginStart="0dp"
@@ -140,13 +140,13 @@
         android:text="@string/arrives"
         app:layout_constraintTop_toBottomOf="@id/done_button"
         app:layout_constraintBottom_toTopOf="@id/resultsTable"
-        app:layout_constraintLeft_toRightOf="@id/resultsTableFooter1"
-        app:layout_constraintRight_toLeftOf="@id/resultsTableFooter3"
+        app:layout_constraintLeft_toRightOf="@id/resultsTableDepartureHeader"
+        app:layout_constraintRight_toLeftOf="@id/resultsTableChangesHeader"
         android:visibility="invisible"
         />
 
     <TextView
-        android:id="@+id/resultsTableFooter3"
+        android:id="@+id/resultsTableChangesHeader"
         android:layout_width="62dp"
         android:layout_height="40dp"
         android:layout_marginStart="0dp"
@@ -159,13 +159,13 @@
         android:text="@string/changes"
         app:layout_constraintTop_toBottomOf="@id/done_button"
         app:layout_constraintBottom_toTopOf="@id/resultsTable"
-        app:layout_constraintLeft_toRightOf="@id/resultsTableFooter2"
-        app:layout_constraintRight_toLeftOf="@id/resultsTableFooter4"
+        app:layout_constraintLeft_toRightOf="@id/resultsTableArrivalHeader"
+        app:layout_constraintRight_toLeftOf="@id/resultsTableCostHeader"
         android:visibility="invisible"
         />
 
     <TextView
-        android:id="@+id/resultsTableFooter4"
+        android:id="@+id/resultsTableCostHeader"
         android:layout_width="92dp"
         android:layout_height="40dp"
         android:layout_marginStart="0dp"
@@ -178,13 +178,13 @@
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@id/done_button"
         app:layout_constraintBottom_toTopOf="@id/resultsTable"
-        app:layout_constraintLeft_toRightOf="@id/resultsTableFooter3"
-        app:layout_constraintRight_toLeftOf="@id/resultsTableFooter5"
+        app:layout_constraintLeft_toRightOf="@id/resultsTableChangesHeader"
+        app:layout_constraintRight_toLeftOf="@id/resultsTableButtonHeader"
         android:visibility="invisible"
         />
 
     <TextView
-        android:id="@+id/resultsTableFooter5"
+        android:id="@+id/resultsTableButtonHeader"
         android:layout_width="86dp"
         android:layout_height="40dp"
         android:layout_marginTop="20dp"
@@ -195,7 +195,7 @@
         android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/done_button"
         app:layout_constraintBottom_toTopOf="@id/resultsTable"
-        app:layout_constraintLeft_toRightOf="@id/resultsTableFooter4"
+        app:layout_constraintLeft_toRightOf="@id/resultsTableCostHeader"
         app:layout_constraintEnd_toEndOf="parent"
         android:visibility="invisible"/>
 
@@ -203,7 +203,7 @@
         android:id="@+id/resultsTable"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/resultsTableFooter3"
+        app:layout_constraintTop_toBottomOf="@+id/resultsTableChangesHeader"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         app:layout_constraintStart_toStartOf="parent"
