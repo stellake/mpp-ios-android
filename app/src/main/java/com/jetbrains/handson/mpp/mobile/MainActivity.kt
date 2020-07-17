@@ -12,13 +12,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jetbrains.handson.mpp.mobile.api.JourneyOption
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.journeys_list_layout.*
 import java.time.LocalDateTime
 
 class MainActivity : AppCompatActivity(), ApplicationContract.View,
 
     AdapterView.OnItemSelectedListener {
     val journeysForRecyclerView = ArrayList<Journey>()
-    val ticketSiteData = ArrayList<Array<String>>()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
 
         journeysRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
-        val adapter = JourneyAdapter(journeysForRecyclerView)
+        val adapter = JourneyAdapter(journeysForRecyclerView, presenter)
 
         journeysRecyclerView.adapter = adapter
 
@@ -84,10 +84,11 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
         for (item in journeys) {
             journeysForRecyclerView.add(
                 Journey(
-                    item.departureTime.toString().substring(34, 40),
-                    item.arrivalTime.toString().substring(34, 40),
-                    item.journeyDurationInMinutes.toString() + " min",
-                    item.departureTime.toString().substring(22, 34)
+                    item.originStation.crs,
+                    item.destinationStation.crs,
+                    item.departureTime,
+                    item.arrivalTime,
+                    item.journeyDurationInMinutes.toString() + " min", item.departureTime
                 )
             )
         }
