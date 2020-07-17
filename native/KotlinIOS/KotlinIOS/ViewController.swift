@@ -13,16 +13,18 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
     
     @IBOutlet private var tableView: UITableView!
     
-    var stations=["Edinburgh Waverly","King's Cross","York","Durham","Cambridge"]
+    var stations=["Amersham"] //blatant nepotism
     
-    //Creating new picker
     
     @IBOutlet private var departure_field: UITextField!
     
     @IBOutlet private var arrival_field: UITextField!
     
     var pickerState=pickerType.arrival
+    
+    //Creating new picker
     var commonPicker = UIPickerView()
+    
     var currentText = ""
     let commonToolBar = UIToolbar()
     let commonDoneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneClick))
@@ -45,9 +47,11 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
         super.viewDidLoad()
         presenter.onViewTaken(view: self)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: tableID)
-        
         createPickers()
         
+    }
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
     
     @IBAction func button_press(_ sender: Any) {
@@ -59,13 +63,15 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
 
 
 extension ViewController: ApplicationContractView {
+
+    func updateStations(data: [String]) {
+        stations=data
+        updatePickers()
+    }
+    
     func showAPIError(info: String) {
         //TODO - show message to user
         print(info)
-    }
-    
-    func updateStations(data: [String]) {
-        print("")
     }
     
     func openURL(url: String) {
@@ -88,13 +94,17 @@ extension ViewController: UITableViewDataSource,UITableViewDelegate{
     }
     func showData(data: [ApplicationContractTrainJourney]) {
         tableContents.removeAll()
-        for journey in data{
-            let currencyFormatter = NumberFormatter()
-            currencyFormatter.usesGroupingSeparator = true
-            currencyFormatter.numberStyle = .currency
-            currencyFormatter.locale = Locale.init(identifier: "en_GB")
-            let priceString = currencyFormatter.string(from: NSNumber(value: Double(journey.cost)/100.0))!
-            tableContents.append(journey.departureTime+", "+journey.arrivalTime+" : "+priceString)
+        if data.count==0 {
+            tableContents.append("No tickets found :(")
+        }else{
+            for journey in data{
+                let currencyFormatter = NumberFormatter()
+                currencyFormatter.usesGroupingSeparator = true
+                currencyFormatter.numberStyle = .currency
+                currencyFormatter.locale = Locale.init(identifier: "en_GB")
+                let priceString = currencyFormatter.string(from: NSNumber(value: Double(journey.cost)/100.0))!
+                tableContents.append(journey.departureTime+", "+journey.arrivalTime+" : "+priceString)
+            }
         }
         tableView.reloadData()
     }
@@ -122,6 +132,7 @@ extension ViewController {
         commonPicker.delegate=self
         commonPicker.dataSource=self
         commonToolBar.barStyle = .default
+        commonToolBar.tintColor = .red
         commonToolBar.isTranslucent = true
         commonToolBar.setItems([commonCancelButton, flexSpace, commonDoneButton], animated: false)
         commonToolBar.sizeToFit()
