@@ -1,6 +1,5 @@
 package com.jetbrains.handson.mpp.mobile
 
-import com.jetbrains.handson.mpp.mobile.api.JourneyOption
 import com.jetbrains.handson.mpp.mobile.api.getFares
 import com.jetbrains.handson.mpp.mobile.api.getStations
 import io.ktor.client.HttpClient
@@ -21,13 +20,10 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
     private var view: ApplicationContract.View? = null
     private val job: Job = SupervisorJob()
     private val codeMap =
-        mutableMapOf<String, String>(
-            "Harrow and Wealdstone" to "HRW",
-            "Canley" to "CNL",
-            "London Euston" to "EUS",
-            "Coventry" to "COV",
-            "Birmingham New Street" to "BHM"
-        )
+        mutableMapOf<String, String>()
+
+
+    val stations = mutableListOf<String>()
 
     init {
         launch {
@@ -36,6 +32,8 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
                     it.name to (it.nlc ?: it.crs ?: throw Error())
                 }.toMap()
             )
+            stations.clear()
+            stations.addAll(codeMap.keys)
         }
     }
 
@@ -100,3 +98,4 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         view?.openWebpage("https://www.lner.co.uk/buy-tickets/booking-engine/?ocrs=$outbound&dcrs=$inbound&outm=$month&outd=$day&outh=$hour&outmi=$minutes&ret=$returnSymbol")
     }
 }
+

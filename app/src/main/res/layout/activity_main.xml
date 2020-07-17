@@ -33,10 +33,17 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/main_text" />
 
-    <Spinner
-        android:id="@+id/outbound_spinner_control"
+    <AutoCompleteTextView
+        android:id="@+id/outbound_autocomplete_control"
+        android:hint="@string/outbound_station"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="16dp"
+        android:spinnerMode="dialog"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/outbound_station" />
 
     <TextView
@@ -49,25 +56,34 @@
         android:text="@string/please_select_inbound_station"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/outbound_spinner_control" />
+        app:layout_constraintTop_toBottomOf="@id/outbound_autocomplete_control" />
 
-    <Spinner
-        android:id="@+id/inbound_spinner_control"
+    <AutoCompleteTextView
+        android:id="@+id/inbound_autocomplete_control"
+        android:hint="@string/inbound_station"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/inbound_station" />
 
     <Button
         android:id="@+id/station_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="149dp"
+        android:layout_height="45dp"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="128dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
         android:text="@string/button_text"
         android:textColor="#FFFFFF"
         android:backgroundTint="#8B0000"
-        app:layout_constraintTop_toBottomOf="@id/inbound_spinner_control"
         app:layout_constrainedWidth="true"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/inbound_autocomplete_control" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/journeys_recycler_view"

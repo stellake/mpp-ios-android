@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jetbrains.handson.mpp.mobile.api.JourneyOption
 import kotlinx.android.synthetic.main.activity_main.*
 import java.time.LocalDateTime
+import kotlinx.coroutines.launch
+
 
 class MainActivity : AppCompatActivity(), ApplicationContract.View,
 
@@ -27,26 +29,20 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
         val presenter = ApplicationPresenter()
         presenter.onViewTaken(this)
 
-        val outboundSpinner: Spinner = findViewById(outbound_spinner_control.id)
-        ArrayAdapter.createFromResource(
-            this,
-            R.array.stations_array,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            outboundSpinner.adapter = adapter
-        }
 
-        val inboundSpinner: Spinner = findViewById(inbound_spinner_control.id)
-        ArrayAdapter.createFromResource(
-            this,
-            R.array.stations_array,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            inboundSpinner.adapter = adapter
-        }
+        val outboundAutocomplete: AutoCompleteTextView = findViewById(outbound_autocomplete_control.id)
+        ArrayAdapter(this, android.R.layout.simple_spinner_item, presenter.stations)
+            .also { adapter ->
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                outboundAutocomplete.setAdapter(adapter)
+            }
 
+        val inboundAutocomplete: AutoCompleteTextView = findViewById(inbound_autocomplete_control.id)
+        ArrayAdapter(this, android.R.layout.simple_spinner_item, presenter.stations)
+            .also { adapter ->
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                inboundAutocomplete.setAdapter(adapter)
+            }
 
         val journeysRecyclerView = findViewById<RecyclerView>(R.id.journeys_recycler_view)
 
@@ -59,8 +55,8 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
 
         val button: Button = findViewById(station_button.id)
         button.setOnClickListener {
-            val origin = outboundSpinner.selectedItem.toString()
-            val destination = inboundSpinner.selectedItem.toString()
+            val origin = outboundAutocomplete.text.toString()
+            val destination = inboundAutocomplete.text.toString()
             val time = LocalDateTime.now().plusMinutes(5).toString()
             presenter.onButtonPressed(origin, destination, time)
             adapter.updateData(journeysForRecyclerView)
@@ -102,5 +98,4 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
         openURL.data = Uri.parse(url)
         startActivity(openURL)
     }
-
 }

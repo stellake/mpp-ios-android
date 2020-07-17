@@ -3,6 +3,7 @@ package com.jetbrains.handson.mpp.mobile
 import com.jetbrains.handson.mpp.mobile.api.FaresResponse
 import com.jetbrains.handson.mpp.mobile.api.JourneyOption
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.channels.Channel
 
 interface ApplicationContract {
     interface View {
