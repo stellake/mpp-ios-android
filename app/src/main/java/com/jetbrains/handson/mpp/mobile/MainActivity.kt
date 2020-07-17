@@ -11,9 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jetbrains.handson.mpp.mobile.api.JourneyOption
-import com.jetbrains.handson.mpp.mobile.api.FaresResponse
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.journeys_list_layout.*
 import java.time.LocalDateTime
 
 class MainActivity : AppCompatActivity(), ApplicationContract.View,
@@ -67,14 +65,6 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
             presenter.onButtonPressed(origin, destination, time)
             adapter.updateData(journeysForRecyclerView)
         }
-
-        val ticketsButton: Button = findViewById(go_to_buy_button.id)
-        button.setOnClickListener {
-            val origin = outboundSpinner.selectedItem.toString()
-            val destination = inboundSpinner.selectedItem.toString()
-            val time = LocalDateTime.now().plusMinutes(5).toString()
-            presenter.onBuyButton(origin, destination, time)
-        }
     }
 
     override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -94,9 +84,10 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
         for (item in journeys) {
             journeysForRecyclerView.add(
                 Journey(
-                    item.departureTime.substring(11, 16),
-                    item.arrivalTime.substring(11, 16),
-                    item.journeyDurationInMinutes.toString() + " min", item.departureTime.substring(8,10)+"/"+item.departureTime.substring(5,7)+"/"+item.departureTime.substring(0,4)
+                    item.departureTime.toString().substring(34, 40),
+                    item.arrivalTime.toString().substring(34, 40),
+                    item.journeyDurationInMinutes.toString() + " min",
+                    item.departureTime.toString().substring(22, 34)
                 )
             )
         }
