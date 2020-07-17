@@ -5,7 +5,7 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_margin="8dp"
         android:orientation="horizontal">
 
@@ -33,11 +33,21 @@
             android:text="@string/_15_minutes"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/_17_00_00"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+
         <Button
-            android:id="@+id/go_to_buy"
+            android:id="@+id/go_to_buy_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/buy_tickets"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#8B0000"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
     </LinearLayout>

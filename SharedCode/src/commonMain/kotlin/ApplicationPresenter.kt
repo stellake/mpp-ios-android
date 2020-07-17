@@ -1,5 +1,6 @@
 package com.jetbrains.handson.mpp.mobile
 
+import com.jetbrains.handson.mpp.mobile.api.JourneyOption
 import com.jetbrains.handson.mpp.mobile.api.getFares
 import com.jetbrains.handson.mpp.mobile.api.getStations
 import io.ktor.client.HttpClient
@@ -75,14 +76,14 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         launch {
             try {
                 val response = client.getFares(originCode, destinationCode, time)
-                if (response != null) view?.showData(response)
+                if (response != null) view?.showData(response.outboundJourneys)
             } catch (cause: Throwable) {
                 view?.showAlert("An error occurred:$cause")
             }
         }
     }
 
-    fun onBuyButton(
+     fun onBuyButton(
         outbound: String,
         inbound: String,
         month: Int,
@@ -98,4 +99,5 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
         }
         view?.openWebpage("https://www.lner.co.uk/buy-tickets/booking-engine/?ocrs=$outbound&dcrs=$inbound&outm=$month&outd=$day&outh=$hour&outmi=$minutes&ret=$returnSymbol")
     }
+
 }

@@ -10,13 +10,16 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.jetbrains.handson.mpp.mobile.api.FaresResponse
+import com.jetbrains.handson.mpp.mobile.api.JourneyOption
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.journeys_list_layout.*
 import java.time.LocalDateTime
 
 class MainActivity : AppCompatActivity(), ApplicationContract.View,
 
     AdapterView.OnItemSelectedListener {
+    val journeysForRecyclerView = ArrayList<Journey>()
+    val ticketSiteData = ArrayList<Array<String>>()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,76 +48,32 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
             inboundSpinner.adapter = adapter
         }
 
+
+        val journeysRecyclerView = findViewById<RecyclerView>(R.id.journeys_recycler_view)
+
+        journeysRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+
+        val adapter = JourneyAdapter(journeysForRecyclerView)
+
+        journeysRecyclerView.adapter = adapter
+
+
         val button: Button = findViewById(station_button.id)
         button.setOnClickListener {
             val origin = outboundSpinner.selectedItem.toString()
             val destination = inboundSpinner.selectedItem.toString()
             val time = LocalDateTime.now().plusMinutes(5).toString()
             presenter.onButtonPressed(origin, destination, time)
+            adapter.updateData(journeysForRecyclerView)
         }
 
-        val journeysRecyclerView = findViewById<RecyclerView>(R.id.journeys_recycler_view)
-
-        journeysRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-
-        val journeys = ArrayList<Journey>()
-
-        //adding some dummy data to the list
-        journeys.add(
-            Journey(
-                "17:00",
-                "17:15",
-                "15 min"
-            )
-        )
-        journeys.add(
-            Journey(
-                "17:30",
-                "17:45",
-                "15 min"
-            )
-        )
-        journeys.add(
-            Journey(
-                "18:00",
-                "18:15",
-                "15 min"
-            )
-        )
-        journeys.add(
-            Journey(
-                "18:30",
-                "18:45",
-                "15 min"
-            )
-        )
-        journeys.add(
-            Journey(
-                "19:00",
-                "19:15",
-                "15 min"
-            )
-        )
-        journeys.add(
-            Journey(
-                "19:30",
-                "19:45",
-                "15 min"
-            )
-        )
-        journeys.add(
-            Journey(
-                "20:00",
-                "20:15",
-                "15 min"
-            )
-        )
-
-        //creating our adapter
-        val adapter = JourneyAdapter(journeys)
-
-        //now adding the adapter to recyclerview
-        journeysRecyclerView.adapter = adapter
+        val ticketsButton: Button = findViewById(go_to_buy_button.id)
+        button.setOnClickListener {
+            val origin = outboundSpinner.selectedItem.toString()
+            val destination = inboundSpinner.selectedItem.toString()
+            val time = LocalDateTime.now().plusMinutes(5).toString()
+            presenter.onBuyButton(origin, destination, time)
+        }
     }
 
     override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -129,8 +88,23 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
         findViewById<TextView>(R.id.main_text).text = text
     }
 
-    override fun showData(text: FaresResponse) {
-        println(text)
+    override fun showData(journeys: List<JourneyOption>) {
+        journeys.drop(journeys.size)
+        for (item in journeys) {
+            journeysForRecyclerView.add(
+                Journey(
+                    item.departureTime.substring(11, 16),
+                    item.arrivalTime.substring(11, 16),
+                    item.journeyDurationInMinutes.toString() + " min", item.departureTime.substring(8,10)+"/"+item.departureTime.substring(5,7)+"/"+item.departureTime.substring(0,4)
+                )
+            )
+            ticketSiteData.add(Array(item.originStation.crs,
+                inbound: String,
+                month: Int,
+                day: Int,
+                hour: Int,
+                minutes: Int,))
+        }
     }
 
     override fun showAlert(text: String) {
@@ -142,5 +116,6 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
         openURL.data = Uri.parse(url)
         startActivity(openURL)
     }
+
 
 }
