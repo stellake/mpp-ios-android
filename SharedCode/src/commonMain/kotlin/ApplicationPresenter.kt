@@ -35,7 +35,7 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
     )
 
 
-    val codeMapChannel: Channel<MutableMap<String,String>> = Channel()
+    val stations = mutableListOf<String>()
 
     init {
         launch {
@@ -44,6 +44,8 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
                     it.name to (it.nlc ?: it.crs ?: throw Error())
                 }.toMap()
             )
+            stations.clear()
+            stations.addAll(codeMap.keys)
         }
     }
 

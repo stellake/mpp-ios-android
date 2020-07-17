@@ -14,7 +14,6 @@ import com.jetbrains.handson.mpp.mobile.api.JourneyOption
 import kotlinx.android.synthetic.main.activity_main.*
 import java.time.LocalDateTime
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.channels.Channel
 
 
 class MainActivity : AppCompatActivity(), ApplicationContract.View,
@@ -30,23 +29,16 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View,
         val presenter = ApplicationPresenter()
         presenter.onViewTaken(this)
 
-        val stations = mutableListOf<String>()
-        presenter.launch {
-            val codeMap = presenter.codeMapChannel.receive()
-            stations.clear()
-            stations.addAll(codeMap.keys)
-        }
-
 
         val outboundAutocomplete: AutoCompleteTextView = findViewById(outbound_autocomplete_control.id)
-        ArrayAdapter(this, android.R.layout.simple_spinner_item, stations)
+        ArrayAdapter(this, android.R.layout.simple_spinner_item, presenter.stations)
             .also { adapter ->
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 outboundAutocomplete.setAdapter(adapter)
             }
 
         val inboundAutocomplete: AutoCompleteTextView = findViewById(inbound_autocomplete_control.id)
-        ArrayAdapter(this, android.R.layout.simple_spinner_item, stations)
+        ArrayAdapter(this, android.R.layout.simple_spinner_item, presenter.stations)
             .also { adapter ->
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 inboundAutocomplete.setAdapter(adapter)
