@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".JourneyActivity">
+    tools:context=".JourneyActivity"
+    android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
 
     <TextView
         android:id="@+id/FromTo"
@@ -25,6 +26,7 @@
         android:id="@+id/recyclerViewTable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/FromTo" />
+        app:layout_constraintTop_toBottomOf="@+id/FromTo"
+        android:onClick="OnClick"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

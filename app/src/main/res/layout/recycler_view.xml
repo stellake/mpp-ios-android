@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/Cell"
     android:layout_height="wrap_content"
-    android:layout_width = "match_parent"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_marginEnd="0dp"
-    android:background="@drawable/back1">
+    android:background="@drawable/back1"
+    android:onClick="OnClick"
+    tools:context=".JourneyActivity">
     <TextView
         android:id="@+id/departureTimeView"
 
@@ -13,31 +16,32 @@
         android:paddingVertical="10dp"
         android:paddingRight="40dp"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:textSize="100px"
         android:text="DD-MM \n    at HH:MM"
-        android:layout_marginLeft="0dp"
+        android:layout_marginStart="0dp"
         android:textColor="@color/colorAccent"
         android:background="@drawable/backtime"
         />
 
+
+
     <TextView
         android:id="@+id/priceView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="From: £10.00"
-        android:textSize="60px"
+        android:layout_height="wrap_content"
         android:gravity="end"
+        android:text="From: £10.00"
         android:textAlignment="gravity"
         android:textColor="#A9A9A9"
-        android:textStyle="bold"/>
+        android:textSize="60px"
+        android:textStyle="bold" />
 
+<!--    <Button-->
+<!--        android:id="@+id/myButton"-->
+<!--        android:layout_width="35dp"-->
+<!--        android:layout_height="70dp"-->
+<!--        android:layout_gravity="left"-->
+<!--        android:text="Click me!!" />-->
 
-    <!--<Button
-        android:layout_height="30dp"
-        android:id="@+id/myButton"
-        android:layout_width="match_parent"
-        android:text="Click me!!"
-        android:layout_marginTop="10dp"/>
--->
 </LinearLayout>

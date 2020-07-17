@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TicketActivity">
+    tools:context=".TicketActivity"
+    android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
 
     <TextView
         android:id="@+id/FromTo"
@@ -22,7 +23,7 @@
         android:paddingTop="10dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewTable"
+        android:id="@+id/ticketViewTable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/FromTo" />

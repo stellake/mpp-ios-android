@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_marginEnd="0dp"
+    android:background="@drawable/back1"
+    tools:context=".TicketActivity"
+
+    >
+    <TextView
+        android:id="@+id/nameView"
+        android:paddingLeft="0dp"
+        android:paddingVertical="10dp"
+        android:paddingRight="40dp"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:textSize="70px"
+        android:text="Anytime"
+        android:layout_marginStart="0dp"
+        android:textColor="@color/colorAccent"
+        android:background="@drawable/backtime"
+        android:minHeight="70dp"
+        />
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginRight="10dp"
+    >
+    <TextView
+        android:id="@+id/priceView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:text="£100.00"
+        android:textAlignment="gravity"
+        android:textColor="#A9A9A9"
+        android:textSize="60px"
+        android:textStyle="bold"
+        android:layout_gravity="end"
+        />
+
+    <TextView
+        android:id="@+id/numberView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:text="1 passenger"
+        android:textAlignment="gravity"
+        android:textColor="#A9A9A9"
+        android:textSize="60px"
+        android:textStyle="bold" />
+</LinearLayout>
+
+    <!--    <Button-->
+    <!--        android:id="@+id/myButton"-->
+    <!--        android:layout_width="35dp"-->
+    <!--        android:layout_height="70dp"-->
+    <!--        android:layout_gravity="left"-->
+    <!--        android:text="Click me!!" />-->
+
+</LinearLayout>

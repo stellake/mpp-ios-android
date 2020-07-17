@@ -1,6 +1,8 @@
 package com.jetbrains.handson.mpp.mobile
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,32 +21,44 @@ class JourneyActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.journey_view)
         setUpTable()
-        fares = Gson().fromJson(intent.getSerializableExtra("fareList") as String, Fares::class.java)
-        FromTo.text = fares.outboundJourneys[0].originStation.displayName + " - " + fares.outboundJourneys[0].destinationStation.displayName
+        fares =
+            Gson().fromJson(intent.getSerializableExtra("fareList") as String, Fares::class.java)
+        FromTo.text =
+            fares.outboundJourneys[0].originStation.displayName + " - " + fares.outboundJourneys[0].destinationStation.displayName
         tableAdapter.updateData(fares)
     }
 
-    private fun setUpTable(){
+    private fun setUpTable() {
 
-        val layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL,false)
+        val layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         tableAdapter.updateData(fares)
 
-        recyclerViewTable.apply{
+        recyclerViewTable.apply {
             this.layoutManager = layoutManager
             this.adapter = tableAdapter
         }
     }
+
+    fun OnClick(view: View) {
+        val position = view.getTag() as Int
+
+        val intent = Intent(this, TicketActivity::class.java).apply {
+            putExtra("journey", Gson().toJson(fares.outboundJourneys[position]))
+        }
+        startActivity(intent)
+    }
 }
 
-class MyRecyclerViewAdapter: RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder>(){ //TODO: Move to another file
+class MyRecyclerViewAdapter: RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder>(){
 
     private var fares = Fares()
 
     inner class MyViewHolder(view: View): RecyclerView.ViewHolder(view){
 
-        fun bindData(time: String, price: String){
+        fun bindData(time: String, price: String, position: Int){
 //            itemView.recyclerView.text = text
 //            itemView.myButton.text = "Button"
 //            itemView.myButton.setOnClickListener{
@@ -53,7 +67,9 @@ class MyRecyclerViewAdapter: RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHo
 
             itemView.departureTimeView.text = time
             itemView.priceView.text = price
+            itemView.setTag(position)
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -80,11 +96,12 @@ class MyRecyclerViewAdapter: RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHo
         val pounds = price.substring(0,price.length-2)
         val pennies = price.substring(price.length-2,price.length)
         val priceAsString = "from £$pounds.$pennies"
-        holder.bindData(time, priceAsString)
+        holder.bindData(time, priceAsString, position)
     }
 
     fun updateData(fares: Fares){
         this.fares = fares
         notifyDataSetChanged() //updates the recycler
     }
+
 }
