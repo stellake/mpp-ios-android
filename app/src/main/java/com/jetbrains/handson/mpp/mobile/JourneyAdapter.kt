@@ -42,7 +42,7 @@ class JourneyAdapter(private var journeyList: List<Journey>, val presenter: Appl
             itemView.duration.text = duration
             itemView.date.text = date.dateTime.format("dd:MM:yyyy")
             itemView.go_to_buy_button.setOnClickListener {
-                presenter.onBuyButton(originStation, destinationStation, date.dateTime.month1, date.dateTime.dayOfMonth, depTime.dateTime.format("HH"), depTime.dateTime.format("mm"), true)
+                presenter.onBuyButton(originStation, destinationStation, date.dateTime.month1, date.dateTime.dayOfMonth, depTime.dateTime.format("HH").toInt(), depTime.dateTime.format("mm").toInt(), true)
             }
         }
     }

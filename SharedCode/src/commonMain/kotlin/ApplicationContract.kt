@@ -20,8 +20,8 @@ interface ApplicationContract {
             inbound: String,
             month: Int,
             day: Int,
-            hour: String,
-            minutes: String,
+            hour: Int,
+            minutes: Int,
             returnBool: Boolean
         )
     }
