@@ -80,15 +80,14 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         val stationChanges = mutableListOf<String>()
         val pricesList = mutableListOf<String>()
 
-        for (i in 0 until (numberOfJourneys-1)){
-            departureTimes.add(data[i].departureTime)
-            arrivalTimes.add(data[i].arrivalTime)
-            val legs = 1 //TODO: Obtain Number of Legs in Journey
-            stationChanges.add((legs - 1).toString())
-            if (data[i].cost%100 == 0) {
-                pricesList.add("£" + (data[i].cost/100).toString() + ".00")
+        data.forEach{
+            departureTimes.add(it.departureTime)
+            arrivalTimes.add(it.arrivalTime)
+            stationChanges.add((it.legs- 1).toString())
+            if (it.cost%100 == 0) {
+                pricesList.add("£" + (it.cost/100).toString() + ".00")
             } else {
-                pricesList.add("£" + (data[i].cost/100).toString() + "." + (data[i].cost%100).toString())
+                pricesList.add("£" + (it.cost/100).toString() + "." + (it.cost%100).toString())
             }
 
         }

@@ -9,7 +9,8 @@ data class trainData(val outboundJourneys: List<JourneyOption>)
 data class JourneyOption(
     val departureTime: String,
     val arrivalTime: String,
-    val tickets: List<ticketOptions>
+    val tickets: List<ticketOptions>,
+    val legs:List<Leg>
 )
 
 @Serializable
@@ -26,4 +27,8 @@ data class StationList(
 data class Station(
     val name: String,
     val crs: String?
+)
+@Serializable
+data class Leg(
+    val type:String
 )

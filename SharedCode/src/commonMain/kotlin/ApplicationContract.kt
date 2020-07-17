@@ -3,7 +3,7 @@ package com.jetbrains.handson.mpp.mobile
 import kotlinx.coroutines.CoroutineScope
 
 interface ApplicationContract {
-    data class TrainJourney(val departureTime:String,val arrivalTime:String,val cost:Int)
+    data class TrainJourney(val departureTime:String,val arrivalTime:String,val cost:Int,val legs:Int)
     interface View {
         fun setLabel(text: String)
         fun openURL(url:String)
