@@ -1,10 +1,10 @@
 package com.jetbrains.handson.mpp.mobile.api
 
+import com.soywiz.klock.DateFormat
+import com.soywiz.klock.parse
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
-import kotlinx.serialization.ImplicitReflectionSerializer
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.UnstableDefault
+import kotlinx.serialization.*
 
 @Serializable
 data class FaresResponse(
@@ -12,13 +12,32 @@ data class FaresResponse(
 )
 
 @Serializable
+data class DateTime(val dateTime: com.soywiz.klock.DateTimeTz){
+    @Serializer(forClass = DateTime::class)
+    companion object : KSerializer<DateTime> {
+        val dateFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+
+        override fun deserialize(decoder: Decoder): DateTime {
+            val dateTimeString = decoder.decodeString()
+            return DateTime(dateFormat.parse(dateTimeString))
+        }
+        override fun serialize(encoder: Encoder, value: DateTime) {
+            val dateTimeString = dateFormat.format(value.dateTime)
+            encoder.encodeString(dateTimeString)
+        }
+    }
+}
+
+@Serializable
 data class JourneyOption(
     val journeyOptionToken: String,
     val journeyId: String,
     val originStation: JourneyOptionStation,
     val destinationStation: JourneyOptionStation,
-    val departureTime: String,
-    val arrivalTime: String,
+    val departureTime: DateTime,
+    val arrivalTime: DateTime,
+    val departureRealTime: DateTime,
+    val arrivalRealTime: DateTime,
     val journeyDurationInMinutes: Int
 )
 

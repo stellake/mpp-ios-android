@@ -36,10 +36,6 @@ class ApplicationPresenter : ApplicationContract.Presenter() {
                     it.name to (it.nlc ?: it.crs ?: throw Error())
                 }.toMap()
             )
-            val stations = client.getStations().stations
-            for (i in stations) {
-                println(i)
-            }
         }
     }
 
