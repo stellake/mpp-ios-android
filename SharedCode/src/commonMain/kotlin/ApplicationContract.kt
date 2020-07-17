@@ -23,8 +23,7 @@ interface ApplicationContract {
             day: Int,
             hour: Int,
             minutes: Int,
-            returnBool: Boolean = true
+            returnBool: Boolean
         )
-
     }
 }
