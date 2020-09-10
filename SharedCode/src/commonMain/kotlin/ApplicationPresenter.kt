@@ -8,6 +8,13 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
     private val dispatchers = AppDispatchersImpl()
     private var view: ApplicationContract.View? = null
     private val job: Job = SupervisorJob()
+    private val stations: Array<Station> = arrayOf(
+        Station("Kings cross", "KGX"),
+        Station("York", "YRK"),
+        Station("Edinburgh Waverley", "EDB"),
+        Station("Leeds", "LDS"),
+        Station("Cattal", "CTL")
+    )
 
     override val coroutineContext: CoroutineContext
         get() = dispatchers.main + job
@@ -15,5 +22,10 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
     override fun onViewTaken(view: ApplicationContract.View) {
         this.view = view
         view.setLabel(createApplicationScreenMessage())
+        view.setStations(stations);
+    }
+
+    override fun onTimesRequested() {
+        view?.showAlert("Button was tapped");
     }
 }
