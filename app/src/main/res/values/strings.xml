@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">KotlinMPP</string>
+
+    <string-array name="stations_array">
+        <item>Edinburgh Wayverley</item>
+        <item>Newcastle</item>
+        <item>York</item>
+        <item>Kings Cross St. Pancras</item>
+        <item>Leeds</item>
+    </string-array>
 </resources>
