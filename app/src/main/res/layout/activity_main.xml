@@ -30,6 +30,7 @@
         android:layout_marginTop="148dp"
         android:layout_marginEnd="323dp"
         android:entries="@array/stations_array"
+        android:onClick="onSubmitButtonTapped"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,15 +49,16 @@
         app:layout_constraintTop_toBottomOf="@+id/station_names_spinner_departure" />
 
     <Button
+        android:id="@+id/submit_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Submit"
         android:layout_marginStart="88dp"
         android:layout_marginTop="120dp"
         android:layout_marginEnd="89dp"
+        android:text="Submit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/station_names_spinner_departure"/>
+        app:layout_constraintTop_toBottomOf="@+id/station_names_spinner_departure" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

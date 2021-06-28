@@ -16,4 +16,6 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
         this.view = view
         view.setLabel(createApplicationScreenMessage())
     }
+
+
 }
