@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">KotlinMPP</string>
+
+    <string name="station_button_text">Show stations</string>
+    <string name="departure_text">Departure</string>
+    <string name="arrival_text">Arrival</string>
+
+    <string-array name="departure_spinner">
+        <item>York</item>
+        <item>Kings Cross</item>
+        <item>Doncaster</item>
+        <item>Peterborough</item>
+        <item>Grantham</item>
+    </string-array>
+
+    <string-array name="arrival_spinner">
+        <item>York</item>
+        <item>Kings Cross</item>
+        <item>Doncaster</item>
+        <item>Peterborough</item>
+        <item>Grantham</item>
+    </string-array>
 </resources>
