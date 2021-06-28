@@ -16,67 +16,17 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
     lateinit var departureStationSelected: Spinner
     lateinit var arrivalStationSelected: Spinner
 
-    lateinit var selectedDeparture: String
-    lateinit var selectedArrival: String
-
-    lateinit var departureCode: String
-    lateinit var arrivalCode: String
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         val presenter = ApplicationPresenter()
         presenter.onViewTaken(this)
 
         departureStationSelected = findViewById<Spinner>(R.id.station_names_spinner_departure) as Spinner
         arrivalStationSelected = findViewById<Spinner>(R.id.station_names_spinner_arrival) as Spinner
+        departureStationSelected.setSelection(0)
+        arrivalStationSelected.setSelection(1)
 
-        if (departureStationSelected != null) {
-            val adapter = ArrayAdapter(
-                requireContext(),
-                android.R.layout.simple_spinner_item,
-                station_names_spinner_departure
-            )
-            departureStationSelected.adapter = adapter
-
-            departureStationSelected.onItemSelectedListener =
-                object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                        parent: AdapterView<*>,
-                        view: View,
-                        position: Int,
-                        id: Long
-                    ) {
-                        departureCode =
-                            station_names_spinner_departure.split(" ")[-1].replace("[", "")
-                                .replace("]", "")
-                    }
-                }
-        }
-
-        if (arrivalStationSelected != null) {
-            val adapter = ArrayAdapter(
-                requireContext(),
-                android.R.layout.simple_spinner_item,
-                station_names_spinner_arrival
-            )
-            arrivalStationSelected.adapter = adapter
-
-            arrivalStationSelected.onItemSelectedListener =
-                object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                        parent: AdapterView<*>,
-                        view: View,
-                        position: Int,
-                        id: Long
-                    ) {
-                        arrivalCode =
-                            station_names_spinner_departure.split(" ")[-1].replace("[", "")
-                                .replace("]", "")
-                    }
-                }
-        }
     }
 
     override fun setLabel(text: String) {
@@ -84,17 +34,13 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
     }
 
     fun onSubmitButtonTapped(view: View) {
-//        departureStationSelected = station_names_spinner_departure.selectedItem.toString()
-//        arrivalStationSelected  = station_names_spinner_arrival.selectedItem.toString()
-//
-//        departureCode = departureStationSelected.split(" ")[-1].replace("[", "").replace("]", "")
-//        arrivalCode = arrivalStationSelected.split(" ")[-1].replace("[", "").replace("]", "")
+        val departureCode : String = departureStationSelected.selectedItem.toString().split(" ").last().replace("[", "").replace("]", "");
+        val arrivalCode : String = arrivalStationSelected.selectedItem.toString().split(" ").last().replace("[", "").replace("]", "");
+
 
         val url = "https://www.lner.co.uk/travel-information/travelling-now/live-train-times/depart/$departureCode/$arrivalCode/#LiveDepResults"
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = Uri.parse(url)
         startActivity(intent)
     }
-
-
 }
