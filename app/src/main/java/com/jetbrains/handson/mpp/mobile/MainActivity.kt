@@ -2,6 +2,7 @@ package com.jetbrains.handson.mpp.mobile
 
 import android.content.Intent
 import android.net.Uri
+import android.net.http.HttpResponseCache.install
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -11,6 +12,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.core.content.ContentProviderCompat.requireContext
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : AppCompatActivity(), ApplicationContract.View {
     lateinit var departureStationSelected: Spinner
@@ -26,6 +28,7 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         arrivalStationSelected = findViewById<Spinner>(R.id.station_names_spinner_arrival) as Spinner
         departureStationSelected.setSelection(0)
         arrivalStationSelected.setSelection(1)
+
 
     }
 
