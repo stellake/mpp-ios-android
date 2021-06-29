@@ -1,5 +1,6 @@
 package com.jetbrains.handson.mpp.mobile
 
+
 import android.content.Intent
 import android.net.Uri
 import android.net.http.HttpResponseCache.install
@@ -13,15 +14,14 @@ import android.widget.TextView
 import androidx.core.content.ContentProviderCompat.requireContext
 import kotlinx.android.synthetic.main.activity_main.*
 
-
 class MainActivity : AppCompatActivity(), ApplicationContract.View {
     lateinit var departureStationSelected: Spinner
     lateinit var arrivalStationSelected: Spinner
+    private val presenter = ApplicationPresenter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val presenter = ApplicationPresenter()
         presenter.onViewTaken(this)
 
         departureStationSelected = findViewById<Spinner>(R.id.station_names_spinner_departure) as Spinner
@@ -40,10 +40,11 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         val departureCode : String = departureStationSelected.selectedItem.toString().split(" ").last().replace("[", "").replace("]", "");
         val arrivalCode : String = arrivalStationSelected.selectedItem.toString().split(" ").last().replace("[", "").replace("]", "");
 
+        presenter.requestFromAPI(departureCode, arrivalCode)
 
-        val url = "https://www.lner.co.uk/travel-information/travelling-now/live-train-times/depart/$departureCode/$arrivalCode/#LiveDepResults"
-        val intent = Intent(Intent.ACTION_VIEW)
-        intent.data = Uri.parse(url)
-        startActivity(intent)
+//        val url = "https://www.lner.co.uk/travel-information/travelling-now/live-train-times/depart/$departureCode/$arrivalCode/#LiveDepResults"
+//        val intent = Intent(Intent.ACTION_VIEW)
+//        intent.data = Uri.parse(url)
+//        startActivity(intent)
     }
 }
