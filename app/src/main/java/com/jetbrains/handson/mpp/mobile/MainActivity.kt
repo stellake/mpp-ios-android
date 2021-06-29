@@ -28,8 +28,6 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         arrivalStationSelected = findViewById<Spinner>(R.id.station_names_spinner_arrival) as Spinner
         departureStationSelected.setSelection(0)
         arrivalStationSelected.setSelection(1)
-
-
     }
 
     override fun setLabel(text: String) {
