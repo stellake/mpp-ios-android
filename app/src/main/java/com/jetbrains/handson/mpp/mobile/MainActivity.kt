@@ -38,7 +38,10 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         val departureCode : String = departureStationSelected.selectedItem.toString().split(" ").last().replace("[", "").replace("]", "");
         val arrivalCode : String = arrivalStationSelected.selectedItem.toString().split(" ").last().replace("[", "").replace("]", "");
 
-        presenter.requestFromAPI(departureCode, arrivalCode)
+        val outboundJourneys = presenter.requestFromAPI(departureCode, arrivalCode)
+        print(outboundJourneys)
+        print(outboundJourneys)
+
 
 //        val url = "https://www.lner.co.uk/travel-information/travelling-now/live-train-times/depart/$departureCode/$arrivalCode/#LiveDepResults"
 //        val intent = Intent(Intent.ACTION_VIEW)

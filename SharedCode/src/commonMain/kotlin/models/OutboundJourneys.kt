@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 data class OutboundJourneys (
     val originStation : OriginStation,
     val destinationStation: DestinationStation,
-    val tickets: Tickets
+    val tickets: List<Tickets>
 )
