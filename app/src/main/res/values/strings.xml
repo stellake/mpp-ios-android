@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">KotlinMPP</string>
+    <string name="app_name">Trainboard</string>
+    <string-array name="stations_array">
+        <item>Colchester [COL]</item>
+        <item>Ipswich [IPS]</item>
+        <item>Birmingham New Street [BHM]</item>
+        <item>Kings Cross [KGX]</item>
+        <item>Cambridge [CBG]</item>
+    </string-array>
 </resources>
