@@ -19,7 +19,7 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
         view.setToSpinnerContent(createStationList())
     }
 
-    override fun runSearch() {
-        TODO()
+    override fun runSearch(from: String, to: String) {
+        view.openUrl("https://mobile-api-softwire2.lner.co.uk/v1/fares?originStation=$from&destinationStation=$to&noChanges=false&numberOfAdults=2&numberOfChildren=0&journeyType=single&outboundDateTime=2021-07-24T14%3A30%3A00.000%2B01%3A00&outboundIsArriveBy=false")
     }
 }

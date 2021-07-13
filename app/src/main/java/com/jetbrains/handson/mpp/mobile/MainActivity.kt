@@ -1,5 +1,7 @@
 package com.jetbrains.handson.mpp.mobile
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -36,7 +38,17 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         spinner.adapter = adapter
     }
 
+    override fun openUrl(url: String) {
+        val page = Uri.parse(url)
+        val intent = Intent(Intent.ACTION_VIEW, page)
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+        }
+    }
+
     fun onSearchBtnClick(view: View) {
-        presenter.runSearch()
+        val fromSpinner: Spinner = findViewById(R.id.from_spinner)
+        val toSpinner: Spinner = findViewById(R.id.to_spinner)
+        val url = presenter.runSearch(fromSpinner.selectedItem as String, toSpinner.selectedItem as String)
     }
 }
