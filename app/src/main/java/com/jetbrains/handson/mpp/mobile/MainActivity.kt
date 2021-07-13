@@ -9,6 +9,9 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
 
+/**
+ * The main view for the Android app
+ */
 class MainActivity : AppCompatActivity(), ApplicationContract.View {
 
     private lateinit var presenter: ApplicationContract.Presenter
@@ -46,9 +49,13 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         }
     }
 
+    /**
+     * Event handler for search button.
+     */
     fun onSearchBtnClick(view: View) {
         val fromSpinner: Spinner = findViewById(R.id.from_spinner)
         val toSpinner: Spinner = findViewById(R.id.to_spinner)
-        val url = presenter.runSearch(fromSpinner.selectedItem as String, toSpinner.selectedItem as String)
+        presenter.runSearch(fromSpinner.selectedItem as String, toSpinner.selectedItem as String)
     }
+
 }
