@@ -6,3 +6,7 @@ fun createApplicationScreenMessage(): String {
     return "Kotlin Rocks on ${platformName()}"
 }
 
+fun createStationList(): List<String> {
+    return listOf("ELS", "KTN", "STP", "CBG", "KGX")
+}
+

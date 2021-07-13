@@ -15,5 +15,6 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
     override fun onViewTaken(view: ApplicationContract.View) {
         this.view = view
         view.setLabel(createApplicationScreenMessage())
+        view.setFromSpinnerContent(listOf("ABC", "DEA"))
     }
 }
