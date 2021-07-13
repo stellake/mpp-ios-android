@@ -60,4 +60,13 @@
         android:background="@android:drawable/btn_dropdown"
         android:spinnerMode="dialog" />
 
+    <Button
+        android:id="@+id/search_btn"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:layout_margin="10sp"
+        android:text="Search"
+        android:onClick="onSearchBtnClick"/>
+
 </LinearLayout>

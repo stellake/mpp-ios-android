@@ -18,4 +18,8 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
         view.setFromSpinnerContent(createStationList())
         view.setToSpinnerContent(createStationList())
     }
+
+    override fun runSearch(view: ApplicationContract.View){
+        TODO()
+    }
 }

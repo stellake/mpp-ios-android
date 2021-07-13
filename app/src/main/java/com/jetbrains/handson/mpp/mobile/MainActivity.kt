@@ -2,17 +2,20 @@ package com.jetbrains.handson.mpp.mobile
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
 
 class MainActivity : AppCompatActivity(), ApplicationContract.View {
 
+    private lateinit var presenter: ApplicationContract.Presenter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val presenter = ApplicationPresenter()
+        presenter = ApplicationPresenter()
         presenter.onViewTaken(this)
     }
 
@@ -31,5 +34,9 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         val spinner: Spinner = findViewById(R.id.to_spinner)
         val adapter = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, list)
         spinner.adapter = adapter
+    }
+
+    fun onSearchBtnClick(view: View) {
+        presenter.runSearch(this)
     }
 }
