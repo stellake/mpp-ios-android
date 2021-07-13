@@ -1,9 +1,8 @@
-[![official JetBrains project](https://jb.gg/badges/official.svg)](https://confluence.jetbrains.com/display/ALL/JetBrains+on+GitHub)
 [![GitHub license](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0)
 
-# Kotlin Multiplatform projects: Sharing code between iOS and Android
+# LNER Trainboard App
 
-The initial work is forked from the GitHub repo of [this tutorial](https://play.kotlinlang.org/hands-on/Targeting%20iOS%20and%20Android%20with%20Kotlin%20Multiplatform/01_Introduction). This repo includes changes to the app structure and gradle build.
+This app displays basic information about train fares using the LNER-Softwire api. It forks the Kotlin Multiplatform template repo as a base. This project was created during the Softwire Internship bootcamp.
 
 
 ## Running
