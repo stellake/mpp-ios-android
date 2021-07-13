@@ -6,7 +6,7 @@ import kotlin.coroutines.CoroutineContext
 class ApplicationPresenter: ApplicationContract.Presenter() {
 
     private val dispatchers = AppDispatchersImpl()
-    private var view: ApplicationContract.View? = null
+    private lateinit var view: ApplicationContract.View
     private val job: Job = SupervisorJob()
 
     override val coroutineContext: CoroutineContext
@@ -19,7 +19,7 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
         view.setToSpinnerContent(createStationList())
     }
 
-    override fun runSearch(view: ApplicationContract.View){
+    override fun runSearch() {
         TODO()
     }
 }

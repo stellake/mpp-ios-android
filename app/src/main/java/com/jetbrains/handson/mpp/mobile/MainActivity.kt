@@ -37,6 +37,6 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
     }
 
     fun onSearchBtnClick(view: View) {
-        presenter.runSearch(this)
+        presenter.runSearch()
     }
 }
