@@ -4,8 +4,9 @@ import kotlinx.coroutines.CoroutineScope
 
 interface ApplicationContract {
     interface View {
-        fun setLabel(text: String)
+        fun setLabel(main_text: String, sub_header: String)
         fun setFromSpinnerContent(list: List<String>)
+        fun setToSpinnerContent(list: List<String>)
     }
 
     abstract class Presenter: CoroutineScope {
