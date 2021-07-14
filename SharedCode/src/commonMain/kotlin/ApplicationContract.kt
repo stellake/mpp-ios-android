@@ -22,6 +22,13 @@ interface ApplicationContract {
          * Opens a URL in the browser.
          */
         fun openUrl(url: String)
+
+        /**
+         * Displays an error message to the user
+         */
+        fun displayErrorMessage(message: String)
+
+        fun displayJourneys(journeyCollection: JourneyCollection)
     }
 
     abstract class Presenter: CoroutineScope {
