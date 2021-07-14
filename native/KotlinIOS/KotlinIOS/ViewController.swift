@@ -30,20 +30,16 @@ extension ViewController: ApplicationContractView {
             UIApplication.shared.open(page)
         }
     }
-    
-    func setFromSpinnerContent(list: [String]) {
         
+    func setTitle(title: String, subtitle: String) {
+        mainText.text = title
+        subHeader.text = subtitle
     }
     
-    func setLabel(main_text: String, sub_header: String) {
-        mainText.text = main_text
-        subHeader.text = sub_header
-    }
-    
-    func setToSpinnerContent(list: [String]) {
-        pickerData = list
-        fromSelected = list[0]
-        toSelected = list[0]
+    func setStations(stations: [String]) {
+        pickerData = stations
+        fromSelected = stations[0]
+        toSelected = stations[0]
         picker.dataSource = self
         picker.delegate = self
     }
