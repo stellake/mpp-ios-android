@@ -17,13 +17,12 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
         get() = dispatchers.main + job
 
     /**
-     * Called when a new view is loaded.
+     * Views should call this when loaded.
      */
     override fun onViewTaken(view: ApplicationContract.View) {
         this.view = view
-        view.setLabel(createApplicationScreenMessage(), createSubHeaderMessage())
-        view.setFromSpinnerContent(createStationList())
-        view.setToSpinnerContent(createStationList())
+        view.setTitle(createAppTitle(), createAppSubtitle())
+        view.setStations(createStations())
     }
 
     /**

@@ -11,17 +11,12 @@ interface ApplicationContract {
         /**
          * Sets the heading and subheading for the window.
          */
-        fun setLabel(main_text: String, sub_header: String)
+        fun setTitle(title: String, subtitle: String)
 
         /**
-         * Sets the content of the spinner containing the possible 'from' destinations.
+         * Sets the contents of the spinners/pickers to a list of station codes
          */
-        fun setFromSpinnerContent(list: List<String>)
-
-        /**
-         * Sets the content of the spinner containing the possible 'to' destinations.
-         */
-        fun setToSpinnerContent(list: List<String>)
+        fun setStations(stations: List<String>)
 
         /**
          * Opens a URL in the browser.
