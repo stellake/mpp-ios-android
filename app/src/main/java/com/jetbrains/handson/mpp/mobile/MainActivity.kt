@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.Spinner
 import android.widget.TextView
 
@@ -16,29 +17,41 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
 
     private lateinit var presenter: ApplicationContract.Presenter
 
+    private lateinit var fromSpinner: Spinner
+    private lateinit var toSpinner: Spinner
+    private lateinit var searchButton: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // get references to views
+        fromSpinner = findViewById(R.id.from_spinner)
+        toSpinner = findViewById(R.id.to_spinner)
+        searchButton = findViewById(R.id.search_btn)
+
+        // add event listeners
+        searchButton.setOnClickListener {
+            presenter.runSearch(
+                    fromSpinner.selectedItem as String,
+                    toSpinner.selectedItem as String
+            )
+        }
+
+        // get reference to presenter and tell it we're done
         presenter = ApplicationPresenter()
         presenter.onViewTaken(this)
     }
 
-    override fun setLabel(main_text: String, sub_header: String) {
-        findViewById<TextView>(R.id.main_text).text = main_text
-        findViewById<TextView>(R.id.sub_header).text = sub_header
+    override fun setTitle(title: String, subtitle: String) {
+        findViewById<TextView>(R.id.main_text).text = title
+        findViewById<TextView>(R.id.sub_header).text = subtitle
     }
 
-    override fun setFromSpinnerContent(list: List<String>) {
-        val spinner: Spinner = findViewById(R.id.from_spinner)
-        val adapter = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, list)
-        spinner.adapter = adapter
-    }
-
-    override fun setToSpinnerContent(list: List<String>) {
-        val spinner: Spinner = findViewById(R.id.to_spinner)
-        val adapter = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, list)
-        spinner.adapter = adapter
+    override fun setStations(stations: List<String>) {
+        val adapter = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, stations)
+        fromSpinner.adapter = adapter
+        toSpinner.adapter = adapter
     }
 
     override fun openUrl(url: String) {
@@ -47,15 +60,6 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         if (intent.resolveActivity(packageManager) != null) {
             startActivity(intent)
         }
-    }
-
-    /**
-     * Event handler for search button.
-     */
-    fun onSearchBtnClick(view: View) {
-        val fromSpinner: Spinner = findViewById(R.id.from_spinner)
-        val toSpinner: Spinner = findViewById(R.id.to_spinner)
-        presenter.runSearch(fromSpinner.selectedItem as String, toSpinner.selectedItem as String)
     }
 
 }

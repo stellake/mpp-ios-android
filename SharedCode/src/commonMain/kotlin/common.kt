@@ -2,12 +2,12 @@ package com.jetbrains.handson.mpp.mobile
 
 expect fun platformName(): String
 
-fun createApplicationScreenMessage(): String {
-    return "Kotlin Rocks on ${platformName()}"
+fun createAppTitle(): String {
+    return "Journey Planner"
 }
 
-fun createSubHeaderMessage(): String {
-    return "Live Train Times"
+fun createAppSubtitle(): String {
+    return ""
 }
 
 /**
@@ -16,7 +16,7 @@ fun createSubHeaderMessage(): String {
  * Currently these are represented as simple strings, since no other properties are associated
  * with them.
  */
-fun createStationList(): List<String> {
+fun createStations(): List<String> {
     return listOf("ELS", "KTN", "STP", "CBG", "KGX")
 }
 
