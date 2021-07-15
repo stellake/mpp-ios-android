@@ -68,4 +68,11 @@
         android:layout_margin="10sp"
         android:text="Search" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:layout_margin="15sp" />
+
 </LinearLayout>
