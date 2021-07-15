@@ -36,7 +36,7 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
     @ImplicitReflectionSerializer
     override fun runSearch(from: String, to: String) {
         coroutineScope.launch {
-            withContext(Dispatchers.IO) {
+            withContext(Dispatchers.Default) {
                 val apiResponse = queryApi(from, to)
                 withContext(Dispatchers.Main) {
                     if (apiResponse.apiError == null) {
