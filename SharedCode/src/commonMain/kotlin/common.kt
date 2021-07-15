@@ -20,10 +20,6 @@ fun createAppTitle(): String {
     return "Journey Planner"
 }
 
-fun createAppSubtitle(): String {
-    return ""
-}
-
 /**
  * Creates the list of stations that the app has available.
  *

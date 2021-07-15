@@ -11,7 +11,7 @@ interface ApplicationContract {
         /**
          * Sets the heading and subheading for the window.
          */
-        fun setTitle(title: String, subtitle: String)
+        fun setTitle(title: String)
 
         /**
          * Sets the contents of the spinners/pickers to a list of station codes

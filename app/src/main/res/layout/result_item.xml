@@ -2,21 +2,89 @@
 
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="?android:attr/listPreferredItemHeight"
     android:gravity="center_vertical"
     android:background="@drawable/frame_border"
-    android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
-    android:paddingStart="?android:attr/listPreferredItemPaddingStart"
-    android:paddingLeft="?android:attr/listPreferredItemPaddingLeft"
-    android:paddingRight="?android:attr/listPreferredItemPaddingRight">
+    android:paddingTop="?android:attr/listPreferredItemPaddingStart"
+    android:paddingBottom="?android:attr/listPreferredItemPaddingEnd"
+    android:paddingStart="?android:attr/listPreferredItemPaddingLeft"
+    android:paddingEnd="?android:attr/listPreferredItemPaddingRight">
 
-    <TextView
-        android:id="@+id/resultText"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Result Text"
-        android:textSize="20sp"/>
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/departureTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="00:00"
+            android:textAlignment="center"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="30sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/arrivalTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:text="00:00"
+            android:textAlignment="center"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="30sp"
+            app:layout_constraintEnd_toStartOf="@+id/statusText"
+            app:layout_constraintStart_toEndOf="@+id/departureTime"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/departureStation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:maxWidth="150dp"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textColor="@color/textColorSecondary"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@+id/departureTime"
+            app:layout_constraintStart_toStartOf="@+id/departureTime"
+            app:layout_constraintTop_toBottomOf="@+id/departureTime" />
+
+        <TextView
+            android:id="@+id/arrivalStation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:maxWidth="150dp"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textColor="@color/textColorSecondary"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@+id/arrivalTime"
+            app:layout_constraintStart_toStartOf="@+id/arrivalTime"
+            app:layout_constraintTop_toBottomOf="@+id/arrivalTime" />
+
+        <TextView
+            android:id="@+id/statusText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </FrameLayout>
