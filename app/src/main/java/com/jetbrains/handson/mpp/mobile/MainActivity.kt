@@ -5,10 +5,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.Spinner
-import android.widget.TextView
+import android.widget.*
 
 /**
  * The main view for the Android app
@@ -60,6 +57,15 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         if (intent.resolveActivity(packageManager) != null) {
             startActivity(intent)
         }
+    }
+
+    override fun displayErrorMessage(message: String) {
+       Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun displayJourneys(journeyCollection: JourneyCollection) {
+        setTitle(journeyCollection.outboundJourneys.first().destinationStation.displayName, "")
+        TODO("Display journeys in UI")
     }
 
 }
