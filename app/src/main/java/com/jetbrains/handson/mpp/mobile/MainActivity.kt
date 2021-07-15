@@ -93,7 +93,7 @@ class RecyclerViewAdapter(private val dataSet: JourneyCollection) : RecyclerView
     }
 
     override fun onBindViewHolder(viewHolder: RecyclerViewHolder, position: Int) {
-        viewHolder.textView.text = dataSet.outboundJourneys[position].departureTime
+        viewHolder.textView.text = createDisplayTimeString(dataSet.outboundJourneys[position].departureTime)
     }
 
     override fun getItemCount() = dataSet.outboundJourneys.size
