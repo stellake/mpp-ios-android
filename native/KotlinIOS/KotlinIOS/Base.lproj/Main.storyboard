@@ -66,6 +66,10 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </pickerView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="5P0-KD-2Sv">
+                                <rect key="frame" x="40" y="562" width="334" height="260"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -74,14 +78,17 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="k6s-Y7-usQ" secondAttribute="trailing" constant="60" id="6hJ-zP-F7t"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="gmA-lf-vmp" secondAttribute="trailing" constant="20" id="AIf-No-s52"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Bvm-TJ-sDP" secondAttribute="trailing" constant="20" id="HQI-2O-Bko"/>
-                            <constraint firstItem="k6s-Y7-usQ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="JXB-KN-6hq"/>
                             <constraint firstItem="euw-ZC-rWD" firstAttribute="top" secondItem="Bvm-TJ-sDP" secondAttribute="bottom" constant="8" symbolic="YES" id="MEF-xb-FUt"/>
                             <constraint firstItem="1xu-3e-uB8" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Mg2-10-Q2x"/>
                             <constraint firstItem="euw-ZC-rWD" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="MqN-JT-5cH"/>
+                            <constraint firstItem="5P0-KD-2Sv" firstAttribute="top" secondItem="k6s-Y7-usQ" secondAttribute="bottom" constant="30" id="RXS-1X-Mbe"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="5P0-KD-2Sv" secondAttribute="bottom" constant="40" id="TVh-4I-m9W"/>
                             <constraint firstItem="gmA-lf-vmp" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="XD2-Hv-WR0"/>
                             <constraint firstItem="k6s-Y7-usQ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="60" id="ckl-7V-5r6"/>
                             <constraint firstItem="1xu-3e-uB8" firstAttribute="top" secondItem="euw-ZC-rWD" secondAttribute="bottom" constant="40" id="fO5-Yh-UiT"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="5P0-KD-2Sv" secondAttribute="trailing" constant="40" id="h2N-Nm-IeN"/>
                             <constraint firstItem="Bvm-TJ-sDP" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="hR7-zZ-QRi"/>
+                            <constraint firstItem="5P0-KD-2Sv" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="hoJ-OW-HHb"/>
                             <constraint firstItem="Bvm-TJ-sDP" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="40" id="pPU-3m-Yf2"/>
                             <constraint firstItem="k6s-Y7-usQ" firstAttribute="top" secondItem="gmA-lf-vmp" secondAttribute="bottom" constant="30" id="r6y-aa-7dt"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="j9h-pq-68B" secondAttribute="trailing" constant="20" id="rFz-D5-t2d"/>

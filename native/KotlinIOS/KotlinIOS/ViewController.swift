@@ -25,6 +25,14 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: ApplicationContractView {
+    func displayErrorMessage(message: String) {
+        
+    }
+    
+    func displayJourneys(journeyCollection: JourneyCollection) {
+        
+    }
+    
     func openUrl(url: String) {
         if let page = URL(string: url) {
             UIApplication.shared.open(page)
@@ -39,7 +47,7 @@ extension ViewController: ApplicationContractView {
     func setStations(stations: [String]) {
         pickerData = stations
         fromSelected = stations[0]
-        toSelected = stations[0]
+        toSelected = stations[1]
         picker.dataSource = self
         picker.delegate = self
     }
