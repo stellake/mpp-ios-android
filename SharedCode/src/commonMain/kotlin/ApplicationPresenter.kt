@@ -40,7 +40,11 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
                 val apiResponse = queryApi(from, to)
                 withContext(Dispatchers.Main) {
                     if (apiResponse.apiError == null) {
-                        view.displayJourneys(apiResponse.journeyCollection!!)
+                        if (apiResponse.journeyCollection != null && apiResponse.journeyCollection.outboundJourneys.count() > 0) {
+                            view.displayJourneys(apiResponse.journeyCollection)
+                        } else {
+                            view.displayErrorMessage("No suitable trains found.")
+                        }
                     } else {
                         view.displayErrorMessage(apiResponse.apiError.error_description)
                     }
