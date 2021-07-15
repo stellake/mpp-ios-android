@@ -1,17 +1,14 @@
 package com.jetbrains.handson.mpp.mobile
 
+import com.soywiz.klock.*
 import io.ktor.client.HttpClient
 import io.ktor.client.features.ClientRequestException
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
-import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
-import io.ktor.client.statement.readBytes
 import io.ktor.client.statement.readText
 import io.ktor.utils.io.core.use
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import kotlinx.serialization.ImplicitReflectionSerializer
 import kotlinx.serialization.UnstableDefault
 import kotlinx.serialization.json.Json
@@ -21,10 +18,6 @@ expect fun platformName(): String
 
 fun createAppTitle(): String {
     return "Journey Planner"
-}
-
-fun createAppSubtitle(): String {
-    return ""
 }
 
 /**
@@ -40,6 +33,7 @@ fun createStations(): List<String> {
 @ImplicitReflectionSerializer
 @UnstableDefault
 suspend fun queryApi(from: String, to: String) : ApiResponse {
+    val currentTime = DateTime.now() + TimeSpan(60000.0)
     try {
         val response: JourneyCollection = HttpClient {
             install(JsonFeature) {
@@ -55,7 +49,7 @@ suspend fun queryApi(from: String, to: String) : ApiResponse {
                 parameter("numberOfAdults", 2)
                 parameter("numberOfChildren", 0)
                 parameter("journeyType", "single")
-                parameter("outboundDateTime", "2021-07-24T15:15:00.000+01:00")
+                parameter("outboundDateTime", currentTime.format("YYYY-MM-ddTHH:mm:ssXXX"))
                 parameter("outboundIsArriveBy", "false")
             }
         }
@@ -64,5 +58,23 @@ suspend fun queryApi(from: String, to: String) : ApiResponse {
         val apiError = Json.parse<ApiError>(e.response.readText())
         return ApiResponse(null, apiError)
     }
+}
+
+fun dateTimeTzToString(dateTimeTz: DateTimeTz) : String {
+    val time = dateTimeTz.format("HH:mm")
+    val targetDate = dateTimeTz.dayOfYear
+    val nowDate = DateTimeTz.nowLocal().dayOfYear
+    if (targetDate != nowDate){
+        return "(${targetDate - nowDate}) $time"
+    }
+    return time
+}
+
+fun stringToDateTimeTz(dateTimeTz: String) : DateTimeTz {
+    return DateFormat("YYYY-MM-ddTHH:mm:ss.000XXX").parse(dateTimeTz)
+}
+
+fun createDisplayTimeString(dateTimeTz: String): String {
+    return dateTimeTzToString(stringToDateTimeTz(dateTimeTz))
 }
 
