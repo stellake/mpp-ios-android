@@ -35,6 +35,8 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
 
         // add event listeners
         searchButton.setOnClickListener {
+            println("**************")
+            disableSearchButton()
             presenter.runSearch(
                     fromSpinner.selectedItem as String,
                     toSpinner.selectedItem as String
@@ -83,6 +85,15 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         recyclerView.addItemDecoration(dividerItemDecoration)
     }
 
+    override fun enableSearchButton() {
+        searchButton.isEnabled = true
+        searchButton.text = "Search"
+    }
+
+    override fun disableSearchButton() {
+        searchButton.isEnabled = false
+        searchButton.text = "Loading..."
+    }
 }
 
 

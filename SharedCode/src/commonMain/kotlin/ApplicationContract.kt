@@ -29,6 +29,9 @@ interface ApplicationContract {
         fun displayErrorMessage(message: String)
 
         fun displayJourneys(journeyCollection: JourneyCollection)
+
+        fun enableSearchButton()
+        fun disableSearchButton()
     }
 
     abstract class Presenter: CoroutineScope {
