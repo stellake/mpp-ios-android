@@ -87,7 +87,7 @@ extension ViewController: UIPickerViewDelegate {
 extension ViewController : UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "results_item", for: indexPath) as! resultsTableCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "results_item", for: indexPath) as! ResultsTableCell
         let journey = journeyCollection.outboundJourneys[indexPath.item]
         
         cell.departureTime.text = journey.departureTimeFormatted
@@ -104,7 +104,7 @@ extension ViewController : UITableViewDataSource {
     }
 }
 
-class resultsTableCell : UITableViewCell {
+class ResultsTableCell : UITableViewCell {
     @IBOutlet weak var departureTime: UILabel!
     @IBOutlet weak var arrivalTime: UILabel!
     @IBOutlet weak var departureStation: UILabel!
