@@ -7,16 +7,19 @@ class ViewController: UIViewController {
     @IBOutlet private var subHeader: UILabel!
     @IBOutlet private var picker: UIPickerView!
     @IBOutlet private var button: UIButton!
+    @IBOutlet private var resultsTable: UITableView!
     
     private var pickerData: [String] = [String]()
     private var fromSelected: String!
     private var toSelected: String!
+    private var journeyCollection: JourneyCollection!
     
     private let presenter: ApplicationContractPresenter = ApplicationPresenter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter.onViewTaken(view: self)
+        
     }
     
     @IBAction func sendSelection() {
@@ -25,23 +28,35 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: ApplicationContractView {
+    func setTitle(title: String) {
+        mainText.text = title
+    }
+    
+    func displayErrorMessage(message: String) {
+        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func displayJourneys(journeyCollection: JourneyCollection) {
+        self.journeyCollection = journeyCollection
+        resultsTable.dataSource = self
+        resultsTable.reloadData()
+    }
+    
     func openUrl(url: String) {
         if let page = URL(string: url) {
             UIApplication.shared.open(page)
         }
     }
-        
-    func setTitle(title: String, subtitle: String) {
-        mainText.text = title
-        subHeader.text = subtitle
-    }
     
     func setStations(stations: [String]) {
         pickerData = stations
         fromSelected = stations[0]
-        toSelected = stations[0]
+        toSelected = stations[1]
         picker.dataSource = self
         picker.delegate = self
+        picker.selectRow(1, inComponent: 1, animated: false)
     }
 }
 
@@ -51,7 +66,7 @@ extension ViewController: UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 5
+        return pickerData.count
     }
 }
 
@@ -68,3 +83,33 @@ extension ViewController: UIPickerViewDelegate {
         }
     }
 }
+
+extension ViewController : UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "results_item", for: indexPath) as! ResultsTableCell
+        let journey = journeyCollection.outboundJourneys[indexPath.item]
+        
+        cell.departureTime.text = journey.departureTimeFormatted
+        cell.arrivalTime.text = journey.arrivalTimeFormatted
+        cell.departureStation.text = journey.originStation.displayName
+        cell.arrivalStation.text = journey.destinationStation.displayName
+        cell.status.text = journey.status
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return journeyCollection.outboundJourneys.count
+    }
+}
+
+class ResultsTableCell : UITableViewCell {
+    @IBOutlet weak var departureTime: UILabel!
+    @IBOutlet weak var arrivalTime: UILabel!
+    @IBOutlet weak var departureStation: UILabel!
+    @IBOutlet weak var arrivalStation: UILabel!
+    @IBOutlet weak var status: UILabel!
+}
+
+

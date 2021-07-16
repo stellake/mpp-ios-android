@@ -52,14 +52,13 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
             }
         }
     }
-
 }
 
 @Serializable
 data class JourneyCollection(val outboundJourneys: List<Journey>)
 
 @Serializable
-data class Journey(
+class Journey(
         val journeyId: String,
         val departureTime: String,
         val arrivalTime: String,
@@ -69,7 +68,12 @@ data class Journey(
         val journeyDurationInMinutes: Int,
         val primaryTrainOperator: Map<String, String>,
         val status: String
-)
+) {
+    val departureTimeFormatted: String
+        get() = dateTimeTzToString(stringToDateTimeTz(departureTime))
+    val arrivalTimeFormatted: String
+        get() = dateTimeTzToString(stringToDateTimeTz(arrivalTime))
+}
 
 @Serializable
 data class Station(val displayName: String, val crs: String, val nlc: String)
@@ -77,6 +81,5 @@ data class Station(val displayName: String, val crs: String, val nlc: String)
 @Serializable
 data class ApiError(val error: String, val error_description: String)
 
-@Serializable
 data class ApiResponse(val journeyCollection: JourneyCollection?, val apiError: ApiError?)
 
