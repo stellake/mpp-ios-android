@@ -48,6 +48,7 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
                     } else {
                         view.displayErrorMessage(apiResponse.apiError.error_description)
                     }
+                    view.enableSearchButton()
                 }
             }
         }
