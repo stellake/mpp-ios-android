@@ -16,7 +16,7 @@ interface ApplicationContract {
         /**
          * Sets the contents of the spinners/pickers to a list of station codes
          */
-        fun setStations(stations: List<String>)
+        fun setStations(stations: List<Station>)
 
         /**
          * Opens a URL in the browser.
@@ -36,6 +36,6 @@ interface ApplicationContract {
 
     abstract class Presenter: CoroutineScope {
         abstract fun onViewTaken(view: View)
-        abstract fun runSearch(from: String, to: String)
+        abstract fun runSearch(from: Station, to: Station)
     }
 }
