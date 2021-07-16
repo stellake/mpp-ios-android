@@ -83,6 +83,15 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         recyclerView.addItemDecoration(dividerItemDecoration)
     }
 
+    override fun enableSearchButton() {
+        searchButton.isEnabled = true
+        searchButton.text = "Search"
+    }
+
+    override fun disableSearchButton() {
+        searchButton.isEnabled = false
+        searchButton.text = "Loading..."
+    }
 }
 
 
