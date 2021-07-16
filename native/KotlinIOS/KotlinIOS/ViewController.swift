@@ -20,6 +20,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         presenter.onViewTaken(view: self)
         
+        button.setTitle("Loading...", for: .disabled)
+        
     }
     
     @IBAction func sendSelection() {
@@ -28,6 +30,14 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: ApplicationContractView {
+    func disableSearchButton() {
+        button.isEnabled = false
+    }
+    
+    func enableSearchButton() {
+        button.isEnabled = true
+    }
+    
     func setTitle(title: String) {
         mainText.text = title
     }

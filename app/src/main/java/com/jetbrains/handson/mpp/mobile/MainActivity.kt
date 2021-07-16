@@ -35,8 +35,6 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
 
         // add event listeners
         searchButton.setOnClickListener {
-            println("**************")
-            disableSearchButton()
             presenter.runSearch(
                     fromSpinner.selectedItem as String,
                     toSpinner.selectedItem as String
