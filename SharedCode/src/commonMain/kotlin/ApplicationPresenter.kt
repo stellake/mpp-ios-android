@@ -31,7 +31,7 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
             withContext(dispatchers.io) {
                 val stations = getStationsFromApi()
                 withContext(dispatchers.main) {
-                    view.setStations(stations.filter { it.crs != null }.map { it.crs!! })
+                    view.setStations(stations.filter { it.crs != null })
                 }
             }
         }
@@ -41,11 +41,11 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
      * Runs an API call which returns information about the fares between two stations.
      */
     @ImplicitReflectionSerializer
-    override fun runSearch(from: String, to: String) {
+    override fun runSearch(from: Station, to: Station) {
         view.disableSearchButton()
         coroutineScope.launch {
             withContext(dispatchers.io) {
-                val apiResponse = queryApi(from, to)
+                val apiResponse = queryApi(from.crs!!, to.crs!!)
                 withContext(dispatchers.main) {
                     if (apiResponse.apiError == null) {
                         if (apiResponse.journeyCollection != null && apiResponse.journeyCollection.outboundJourneys.count() > 0) {
@@ -88,6 +88,10 @@ class Journey(
 class Station(val displayName: String = "", val name: String = "", val crs: String?, val nlc: String) {
     val stationName: String
         get() = if (displayName == "") name else displayName
+
+    override fun toString(): String {
+        return stationName
+    }
 }
 
 @Serializable

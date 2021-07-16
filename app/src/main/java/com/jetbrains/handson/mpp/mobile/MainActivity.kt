@@ -1,6 +1,8 @@
 package com.jetbrains.handson.mpp.mobile
 
+import android.content.Context
 import android.content.Intent
+import android.database.DataSetObserver
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -36,8 +38,8 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         // add event listeners
         searchButton.setOnClickListener {
             presenter.runSearch(
-                    fromSpinner.selectedItem as String,
-                    toSpinner.selectedItem as String
+                    fromSpinner.selectedItem as Station,
+                    toSpinner.selectedItem as Station
             )
         }
 
@@ -50,7 +52,7 @@ class MainActivity : AppCompatActivity(), ApplicationContract.View {
         findViewById<TextView>(R.id.main_text).text = title
     }
 
-    override fun setStations(stations: List<String>) {
+    override fun setStations(stations: List<Station>) {
         val adapter = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, stations)
         fromSpinner.adapter = adapter
         toSpinner.adapter = adapter
