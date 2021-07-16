@@ -115,8 +115,8 @@ class RecyclerViewAdapter(private val dataSet: JourneyCollection) : RecyclerView
 
     override fun onBindViewHolder(viewHolder: RecyclerViewHolder, position: Int) {
         val journey = dataSet.outboundJourneys[position]
-        viewHolder.departureTimeView.text = createDisplayTimeString(journey.departureTime)
-        viewHolder.arrivalTimeView.text = createDisplayTimeString(journey.arrivalTime)
+        viewHolder.departureTimeView.text = journey.departureTimeFormatted
+        viewHolder.arrivalTimeView.text = journey.arrivalTimeFormatted
         viewHolder.departureStationView.text = journey.originStation.displayName
         viewHolder.arrivalStationView.text = journey.destinationStation.displayName
         viewHolder.statusView.text = journey.status

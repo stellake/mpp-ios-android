@@ -74,7 +74,4 @@ fun stringToDateTimeTz(dateTimeTz: String) : DateTimeTz {
     return DateFormat("YYYY-MM-ddTHH:mm:ss.000XXX").parse(dateTimeTz)
 }
 
-fun createDisplayTimeString(dateTimeTz: String): String {
-    return dateTimeTzToString(stringToDateTimeTz(dateTimeTz))
-}
 
