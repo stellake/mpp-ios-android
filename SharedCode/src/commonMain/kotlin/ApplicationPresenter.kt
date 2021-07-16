@@ -27,7 +27,14 @@ class ApplicationPresenter: ApplicationContract.Presenter() {
     override fun onViewTaken(view: ApplicationContract.View) {
         this.view = view
         view.setTitle(createAppTitle())
-        view.setStations(createStations())
+        coroutineScope.launch {
+            withContext(dispatchers.io) {
+                val stations = getStationsFromApi()
+                withContext(dispatchers.main) {
+                    view.setStations(stations.filter { it.crs != null }.map { it.crs!! })
+                }
+            }
+        }
     }
 
     /**
@@ -78,7 +85,13 @@ class Journey(
 }
 
 @Serializable
-data class Station(val displayName: String, val crs: String, val nlc: String)
+class Station(val displayName: String = "", val name: String = "", val crs: String?, val nlc: String) {
+    val stationName: String
+        get() = if (displayName == "") name else displayName
+}
+
+@Serializable
+data class StationCollection(val stations: List<Station>)
 
 @Serializable
 data class ApiError(val error: String, val error_description: String)

@@ -26,8 +26,18 @@ fun createAppTitle(): String {
  * Currently these are represented as simple strings, since no other properties are associated
  * with them.
  */
-fun createStations(): List<String> {
-    return listOf("MAN", "LST", "STP", "CBG", "KGX")
+suspend fun getStationsFromApi(): List<Station> {
+    val response: StationCollection = HttpClient {
+        install(JsonFeature) {
+            serializer = KotlinxSerializer(Json {
+                ignoreUnknownKeys = true
+                isLenient = true
+            })
+        }
+    }.use { client ->
+        client.get("https://mobile-api-softwire2.lner.co.uk/v1/stations")
+    }
+    return response.stations
 }
 
 @ImplicitReflectionSerializer
